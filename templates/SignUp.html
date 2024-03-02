@@ -57,18 +57,10 @@
 
 <div class="container">
     <h2>Sign Up</h2>
-    <form action="/signup" method="post">
+    <form action="/signup/" method="post">
         <input type="text" id="name" name="name" placeholder="First Name" required>
         <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
         <input type="email" id="email" name="email" placeholder="Email" required>
-        <select id="securityQuestion" name="securityQuestion" required>
-            <option value="">Select Security Question</option>
-            <option value="favorite_pet">What is your favorite pet?</option>
-            <option value="school_learned_in">What is the name of the school you learned in?</option>
-            <option value="mother_maiden_name">What is your mother's maiden name?</option>
-            <option value="favorite_movie">What is your favorite movie?</option>
-        </select>
-        <input type="text" id="securityAnswer" name="securityAnswer" placeholder="Security Answer" required>
         <input type="password" id="password" name="password" placeholder="Password" required>
         <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
         <input type="submit" value="Sign Up">
