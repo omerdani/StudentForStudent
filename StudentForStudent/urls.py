@@ -19,8 +19,9 @@ from django.urls import path
 from S4S import views
 
 urlpatterns = [
-    path('login/', views.login, name='login'),
+    path('login/', views.home, name='login'),
     path('signup/', views.signup, name='signup'),
-    path('forgotpass/', views.forgotpassword, name='forgotpassword'),
+    path('data/', views.display_data, name='data'),
+    path('forgotpass/', views.forgotpassword, name='forgotpass'),
     path('admin/', admin.site.urls),
 ]

@@ -51,6 +51,10 @@
             color: #007bff;
             text-decoration: none;
         }
+        .year-select,
+        .workplace-input {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -60,6 +64,24 @@
     <form action="/signup/" method="post">
         <input type="text" id="name" name="name" placeholder="First Name" required>
         <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+        <select id="status" name="status" onchange="showAdditionalFields(this.value)" required>
+            <option value="" disabled selected>Select Status</option>
+            <option value="Candidate">Candidate</option>
+            <option value="Student">Student</option>
+            <option value="Graduate">Graduate</option>
+        </select>
+        <div class="year-select" id="yearSelect">
+            <select id="year" name="year">
+                <option value="" disabled selected>Select Year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+            </select>
+        </div>
+        <div class="workplace-input" id="workplaceInput">
+            <input type="text" id="workplace" name="workplace" placeholder="Workplace">
+        </div>
         <input type="email" id="email" name="email" placeholder="Email" required>
         <input type="password" id="password" name="password" placeholder="Password" required>
         <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
@@ -70,7 +92,23 @@
     </div>
 </div>
 
-</body>
-</html>
+<script>
+    function showAdditionalFields(status) {
+        var yearSelect = document.getElementById('yearSelect');
+        var workplaceInput = document.getElementById('workplaceInput');
 
+        if (status === 'Student') {
+            yearSelect.style.display = 'block';
+            workplaceInput.style.display = 'none';
+        } else if (status === 'Graduate') {
+            yearSelect.style.display = 'none';
+            workplaceInput.style.display = 'block';
+        } else {
+            yearSelect.style.display = 'none';
+            workplaceInput.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
 </html>

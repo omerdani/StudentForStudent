@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data from Database</title>
+</head>
+<body>
+    <h1>Candidates</h1>
+    <ul>
+        {% for candidate in candidates %}
+        <li>{{ candidate.first_name }} {{ candidate.last_name }} - {{ candidate.email }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Students</h1>
+    <ul>
+        {% for student in students %}
+        <li>{{ student.first_name }} {{ student.last_name }} - Year: {{ student.select_year }} - {{ student.email }}</li>
+        {% endfor %}
+    </ul>
+
+    <h1>Graduates</h1>
+    <ul>
+        {% for graduate in graduates %}
+        <li>{{ graduate.first_name }} {{ graduate.last_name }} - Workplace: {{ graduate.work_place }} - {{ graduate.email }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
