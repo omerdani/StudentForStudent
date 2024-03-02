@@ -4,26 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data from Database</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>Candidates</h1>
     <ul>
         {% for candidate in candidates %}
-        <li>{{ candidate.first_name }} {{ candidate.last_name }} - {{ candidate.email }}</li>
+        <li>{{ candidate.first_name }} {{ candidate.last_name }} - Email: {{ candidate.email }} - Password: {{ candidate.password }}</li>
         {% endfor %}
     </ul>
 
     <h1>Students</h1>
     <ul>
         {% for student in students %}
-        <li>{{ student.first_name }} {{ student.last_name }} - Year: {{ student.select_year }} - {{ student.email }}</li>
+        <li>{{ student.first_name }} {{ student.last_name }} - Year: {{ student.select_year }} - Email: {{ student.email }} - Password: {{ student.password }}</li>
         {% endfor %}
     </ul>
 
     <h1>Graduates</h1>
     <ul>
         {% for graduate in graduates %}
-        <li>{{ graduate.first_name }} {{ graduate.last_name }} - Workplace: {{ graduate.work_place }} - {{ graduate.email }}</li>
+        <li>{{ graduate.first_name }} {{ graduate.last_name }} - Workplace: {{ graduate.work_place }} - Email: {{ graduate.email }} - Password: {{ student.password }}</li>
         {% endfor %}
     </ul>
 </body>

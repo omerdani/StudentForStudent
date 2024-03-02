@@ -33,9 +33,10 @@ def display_data(request):
     students = Student.objects.all()
     graduates = Graduate.objects.all()
     return render(request, 'display_data.html', {'candidates': candidates, 'students': students, 'graduates': graduates})
+def login(request):
+    return render(request, 'Login.html')
 def home(request):
     return render(request, 'Home.html')
-
 
 def forgotpassword(request):
     return render(request, 'ForgotPassword.html')
