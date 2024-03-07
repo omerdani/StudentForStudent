@@ -25,4 +25,6 @@ urlpatterns = [
     path('data/', views.display_data, name='data'),
     path('forgotpass/', views.forgotpassword, name='forgotpass'),
     path('admin/', admin.site.urls),
+    path('מבוא_למדעי_המחשב/', views.mavo, name='mavo'),
+    path('mainforum/', views.mainforum, name='mainforum'),
 ]
