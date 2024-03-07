@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+</head>
+<body>
+    <h1>Forum</h1>
+
+    <!-- Plus Button to Add New Post -->
+    <button onclick="toggleForm()">+</button>
+
+    <!-- Form to Add New Post (Initially Hidden) -->
+    <div id="postForm" style="display:none;">
+        <form method="post" action="{% url 'create_post' %}">
+            {% csrf_token %}
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title" required><br>
+            <label for="user_name">Your Name:</label><br>
+            <input type="text" id="user_name" name="user_name" required><br>
+            <label for="content">Content:</label><br>
+            <textarea id="content" name="content" required></textarea><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- Display Existing Posts -->
+    <div>
+        {% for post in posts %}
+            <div>
+                <h2>{{ post.title }}</h2>
+                <p>By: {{ post.user_name }}</p>
+                <p>{{ post.content }}</p>
+                <p>Posted on: {{ post.date_posted }}</p>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+
+    <script>
+        function toggleForm() {
+            var form = document.getElementById('postForm');
+            if (form.style.display === "none") {
+                form.style.display = "block";
+            } else {
+                form.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
