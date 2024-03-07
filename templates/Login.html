@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,9 +21,8 @@
         h2 {
             text-align: center;
         }
-        input[type="email"],
-        select,
         input[type="text"],
+        input[type="password"],
         input[type="submit"] {
             width: 100%;
             padding: 10px;
@@ -34,35 +33,43 @@
             box-sizing: border-box;
         }
         input[type="submit"] {
-            background-color: #007bff;
+            background-color: #4caf50;
             color: white;
             border: none;
             cursor: pointer;
         }
         input[type="submit"]:hover {
-            background-color: #0056b3;
+            background-color: #45a049;
         }
-
-        .login-link {
+        .signup-link {
             text-align: center;
             margin-top: 10px;
         }
-        .login-link a {
+        .signup-link a {
             color: #007bff;
             text-decoration: none;
+            background-color: #f4f4f4;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .signup-link a:hover {
+            background-color: #ddd;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Forgot Password</h2>
-    <form action="/forgotPassword/" method="post">
-        <input type="email" id="email" name="email" placeholder="Email" required>
-    <input type="submit" value="Reset Password">
+    <h2>Login</h2>
+    <form action="/login/" method="post">
+        {% csrf_token %}
+        <input type="text" id="username" name="username" placeholder="Username" required>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <input type="submit" value="Login">
     </form>
-    <div class="login-link">
-        <p>Remembered your password? <a href="/login">Login</a></p>
+    <div class="signup-link">
+        <p><a href="/forgotpass">Forgot password?</a></p>
+        <p>Don't have an account? <a href="/signup">Sign up</a></p>
     </div>
 </div>
 

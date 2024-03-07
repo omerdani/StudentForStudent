@@ -8,13 +8,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #b4beac; /* Light gray background for the entire page */
+            background-color: #b4beac;
         }
         .container {
             max-width: 400px;
             margin: 50px auto;
             padding: 20px;
-            background-color: #ffffff; /* Slightly darker background for the signup container */
+            background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -51,24 +51,39 @@
             color: #007bff;
             text-decoration: none;
         }
+        .year-select,
+        .workplace-input {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h2>Sign Up</h2>
-    <form action="/signup" method="post">
+    <form action="/signup/" method="post">
+        {% csrf_token %}
         <input type="text" id="name" name="name" placeholder="First Name" required>
         <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
-        <input type="email" id="email" name="email" placeholder="Email" required>
-        <select id="securityQuestion" name="securityQuestion" required>
-            <option value="">Select Security Question</option>
-            <option value="favorite_pet">What is your favorite pet?</option>
-            <option value="school_learned_in">What is the name of the school you learned in?</option>
-            <option value="mother_maiden_name">What is your mother's maiden name?</option>
-            <option value="favorite_movie">What is your favorite movie?</option>
+        <select id="status" name="status" onchange="showAdditionalFields(this.value)" required>
+            <option value="" disabled selected>Select Status</option>
+            <option value="Candidate">Candidate</option>
+            <option value="Student">Student</option>
+            <option value="Graduate">Graduate</option>
         </select>
-        <input type="text" id="securityAnswer" name="securityAnswer" placeholder="Security Answer" required>
+        <div class="year-select" id="yearSelect">
+            <select id="year" name="year">
+                <option value="" disabled selected>Select Year</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+            </select>
+        </div>
+        <div class="workplace-input" id="workplaceInput">
+            <input type="text" id="workplace" name="workplace" placeholder="Workplace">
+        </div>
+        <input type="email" id="email" name="email" placeholder="Email" required>
         <input type="password" id="password" name="password" placeholder="Password" required>
         <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
         <input type="submit" value="Sign Up">
@@ -78,7 +93,23 @@
     </div>
 </div>
 
-</body>
-</html>
+<script>
+    function showAdditionalFields(status) {
+        var yearSelect = document.getElementById('yearSelect');
+        var workplaceInput = document.getElementById('workplaceInput');
 
+        if (status === 'Student') {
+            yearSelect.style.display = 'block';
+            workplaceInput.style.display = 'none';
+        } else if (status === 'Graduate') {
+            yearSelect.style.display = 'none';
+            workplaceInput.style.display = 'block';
+        } else {
+            yearSelect.style.display = 'none';
+            workplaceInput.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
 </html>
