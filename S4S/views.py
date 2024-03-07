@@ -3,6 +3,7 @@ import datetime
 
 from django.shortcuts import render, redirect
 from .models import Candidate, Student, Graduate, Post, Post2
+from .models import post_id
 def signup(request):
     if request.method == 'POST':
         status = request.POST.get('status')
@@ -64,10 +65,19 @@ def create_post(request):
         user_name = request.POST.get('user_name')
         content = request.POST.get('content')
         Post2.objects.create(title=title, content=content,user_name=user_name)
-        return redirect('post_success')
+        posts = Post2.objects.all()
+        return render(request, 'after_login_forum.html',{'posts': posts})
     else:
         posts = Post2.objects.all()
         return render(request, 'after_login_forum.html',{'posts': posts})
+
+def delete_post_Admin(request, post_id):           #the admin can delete every post
+    if request.method == 'POST':
+        post = Post2.objects.get(pk=post_id)
+        post.delete()
+        posts = Post2.objects.all()
+    return render(request, 'after_login_forum.html',{'posts': posts})
+
 def home(request):
     return render(request, 'Home.html')
 

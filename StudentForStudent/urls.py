@@ -28,4 +28,5 @@ urlpatterns = [
     path('מבוא_למדעי_המחשב/', views.mavo, name='mavo'),
     path('create_post/', views.create_post, name='create_post'),
     path('mainforum/', views.mainforum, name='mainforum'),
+    path('create_post/<int:post_id>/', views.delete_post_Admin, name='delete_post'),
 ]

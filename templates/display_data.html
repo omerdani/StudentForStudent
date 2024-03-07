@@ -53,7 +53,8 @@
     <h1>Posts</h1>
     <ul>
         {% for post in posts %}
-        <li> {{ post.user_name }} - {{ post.title }} - {{ post.content }} - {{ post.date_posted }} </li>
+        <li> {{ post.user_name }} - {{ post.title }} - {{ post.content }} - {{ post.date_posted }} -
+            {{ post.id }} </li>
         {% endfor %}
     </ul>
 

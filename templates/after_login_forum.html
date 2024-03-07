@@ -1,53 +1,51 @@
+<!-- after_login_forum.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Forum</title>
-</head>
-<body>
-    <h1>Forum</h1>
-
-    <!-- Plus Button to Add New Post -->
-    <button onclick="toggleForm()">+</button>
-
-    <!-- Form to Add New Post (Initially Hidden) -->
-    <div id="postForm" style="display:none;">
-        <form method="post" action="{% url 'create_post' %}">
-            {% csrf_token %}
-            <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title" required><br>
-            <label for="user_name">Your Name:</label><br>
-            <input type="text" id="user_name" name="user_name" required><br>
-            <label for="content">Content:</label><br>
-            <textarea id="content" name="content" required></textarea><br>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-
-    <!-- Display Existing Posts -->
-    <div>
-        {% for post in posts %}
-            <div>
-                <h2>{{ post.title }}</h2>
-                <p>By: {{ post.user_name }}</p>
-                <p>{{ post.content }}</p>
-                <p>Posted on: {{ post.date_posted }}</p>
-            </div>
-            <hr>
-        {% endfor %}
-    </div>
-
+    <style>
+        #create-post-form {
+            display: none;
+        }
+    </style>
     <script>
-        function toggleForm() {
-            var form = document.getElementById('postForm');
-            if (form.style.display === "none") {
-                form.style.display = "block";
-            } else {
-                form.style.display = "none";
-            }
+        function toggleCreatePostForm() {
+            var form = document.getElementById("create-post-form");
+            form.style.display = form.style.display === "none" ? "block" : "none";
         }
     </script>
+</head>
+<body>
+    <h1>Welcome to the Forum</h1>
+
+    <!-- Plus button to toggle create post form -->
+    <button onclick="toggleCreatePostForm()">+</button>
+
+    <!-- Form for creating new post (Initially hidden) -->
+    <form id="create-post-form" method="post" action="{% url 'create_post' %}" style="display: none;">
+        {% csrf_token %}
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title"><br>
+        <label for="user_name">Your Name:</label><br>
+        <input type="text" id="user_name" name="user_name" value="none"><br>
+        <label for="content">Content:</label><br>
+        <textarea id="content" name="content"></textarea><br>
+        <button type="submit">Create Post</button>
+    </form>
+
+    <!-- Display existing posts -->
+    <h2>Existing Posts</h2>
+    {% for post in posts %}
+        <div>
+            <h3>{{ post.title }}</h3>
+             <p>{{ post.date_posted }}</p>
+            <p>By: {{ post.user_name }}</p>
+            <p>{{ post.content }}</p>
+            <form method="post" action="{% url 'delete_post' post.id %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    {% endfor %}
 </body>
 </html>
