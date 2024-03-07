@@ -57,3 +57,7 @@ def home(request):
 
 def forgotpassword(request):
     return render(request, 'ForgotPassword.html')
+def mavo(request):
+    return render(request, 'Mavo.html')
+def mainforum(request):
+    return render(request, 'MainForum.html')
