@@ -1,0 +1,51 @@
+<!-- after_login_forum.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Forum</title>
+    <style>
+        #create-post-form {
+            display: none;
+        }
+    </style>
+    <script>
+        function toggleCreatePostForm() {
+            var form = document.getElementById("create-post-form");
+            form.style.display = form.style.display === "none" ? "block" : "none";
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome to the Forum</h1>
+
+    <!-- Plus button to toggle create post form -->
+    <button onclick="toggleCreatePostForm()">+</button>
+
+    <!-- Form for creating new post (Initially hidden) -->
+    <form id="create-post-form" method="post" action="{% url 'create_post' %}" style="display: none;">
+        {% csrf_token %}
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title"><br>
+        <label for="user_name">Your Name:</label><br>
+        <input type="text" id="user_name" name="user_name" value="none"><br>
+        <label for="content">Content:</label><br>
+        <textarea id="content" name="content"></textarea><br>
+        <button type="submit">Create Post</button>
+    </form>
+
+    <!-- Display existing posts -->
+    <h2>Existing Posts</h2>
+    {% for post in posts %}
+        <div>
+            <h3>{{ post.title }}</h3>
+             <p>{{ post.date_posted }}</p>
+            <p>By: {{ post.user_name }}</p>
+            <p>{{ post.content }}</p>
+            <form method="post" action="{% url 'delete_post' post.id %}">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+    {% endfor %}
+</body>
+</html>

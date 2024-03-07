@@ -50,5 +50,13 @@
         <li>{{ graduate.first_name }} {{ graduate.last_name }} - Workplace: {{ graduate.work_place }} - Email: {{ graduate.email }} - Password: {{ student.password }}</li>
         {% endfor %}
     </ul>
+    <h1>Posts</h1>
+    <ul>
+        {% for post in posts %}
+        <li> {{ post.user_name }} - {{ post.title }} - {{ post.content }} - {{ post.date_posted }} -
+            {{ post.id }} </li>
+        {% endfor %}
+    </ul>
+
 </body>
 </html>
