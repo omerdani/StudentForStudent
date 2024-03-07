@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from .models import Candidate, Student, Graduate
 
 
-# Similarly, define views for signup and forgot password forms
 def signup(request):
     if request.method == 'POST':
         status = request.POST.get('status')
