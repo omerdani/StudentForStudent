@@ -1,6 +1,7 @@
+
 from django.test import TestCase
 from django.urls import reverse
-#add by israel yakubov
+# added by israel yakubov
 class LoginTestCase(TestCase):
     def setUp(self):
         # Assuming these are example valid and invalid credentials
@@ -14,8 +15,8 @@ class LoginTestCase(TestCase):
             {'username': self.valid_email, 'password': self.valid_password}
         )
 
-        # Assert successful login based on your redirect logic (replace as needed)
-        self.assertRedirects(response, reverse('success_url'))
+        # Assert redirect to the appropriate URL upon successful login
+        self.assertRedirects(response, '/success/')
 
     def test_login_with_invalid_credentials(self):
         response = self.client.post(
@@ -23,8 +24,9 @@ class LoginTestCase(TestCase):
             {'username': self.valid_email, 'password': self.invalid_password}
         )
 
+        # Assert that the error message matches the one returned by the view
         self.assertContains(response, 'Invalid email or password.')
-        self.assertEqual(response.status_code, 200)  # Assert expected error code
+        self.assertEqual(response.status_code, 200)
 
     def test_login_with_valid_candidate_credentials_redirects(self):
         response = self.client.post(
@@ -32,5 +34,5 @@ class LoginTestCase(TestCase):
             {'username': self.valid_email, 'password': self.valid_password}
         )
 
-        # Assert successful login based on your redirect logic (replace as needed)
-        self.assertRedirects(response, reverse('success_url'))
+        # Assert redirect to the appropriate URL upon successful login
+        self.assertRedirects(response, '/success/')

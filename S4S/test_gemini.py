@@ -30,36 +30,37 @@ class SignupTest(TestCase):
         self.assertTemplateUsed(response, 'SignUp.html')
         self.assertContains(response, 'User with this email already exists.')
 
-        def test_successful_signup_candidate(self):
-            data = {
-                'status': 'Candidate',
-                'name': 'Jane',
-                'lastName': 'Smith',
-                'email': 'jane.smith@example.com',
-                'password': 'securepassword',
-            }
 
-            client = Client()
-            response = client.post(reverse('signup'), data)
+    def test_successful_signup_candidate(self):
+        data = {
+            'status': 'Candidate',
+            'name': 'Jane',
+            'lastName': 'Smith',
+            'email': 'jane.smith@example.com',
+            'password': 'securepassword',
+        }
 
-            self.assertEqual(response.status_code, 302)  # Redirect (302 status code)
-            self.assertRedirects(response, reverse('login'))  # Redirect to Login.html
+        client = Client()
+        response = client.post(reverse('signup'), data)
 
-        def test_object_creation_student(self):
-            data = {
-                'status': 'Student',
-                'name': 'Mike',
-                'lastName': 'Lee',
-                'email': 'mike.lee@example.com',
-                'password': 'strongpass',
-                'year': 2024,  # Assuming year is required for Student model
-            }
+        self.assertEqual(response.status_code, 302)  # Redirect (302 status code)
+        self.assertRedirects(response, reverse('login'))  # Redirect to Login.html
 
-            client = Client()
-            client.post(reverse('signup'), data)
+    def test_object_creation_student(self):
+        data = {
+            'status': 'Student',
+            'name': 'Mike',
+            'lastName': 'Lee',
+            'email': 'mike.lee@example.com',
+            'password': 'strongpass',
+            'year': 2024,  # Assuming year is required for Student model
+        }
 
-            # Check if Student object is created
-            student = Student.objects.get(email=data['email'])
-            self.assertEqual(student.first_name, data['name'])
-            self.assertEqual(student.last_name, data['lastName'])
-            self.assertEqual(student.select_year, data['year'])  # Assuming year is a field
+        client = Client()
+        client.post(reverse('signup'), data)
+
+        # Check if Student object is created
+        student = Student.objects.get(email=data['email'])
+        self.assertEqual(student.first_name, data['name'])
+        self.assertEqual(student.last_name, data['lastName'])
+        self.assertEqual(student.select_year, data['year'])  # Assuming year is a field
