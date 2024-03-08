@@ -147,7 +147,6 @@
         <div class="course-select" id="course-select">
             <select id="course-year-semester-select" style="display: none;">
                 <option value="">Select Course</option>
-                <!-- Options will be dynamically added based on selected year and semester -->
             </select>
         </div>
         <div class="logout-link">
@@ -158,7 +157,7 @@
 
 <script>
     function toggleSidebar(event) {
-        event.stopPropagation(); // Stop event propagation
+        event.stopPropagation();
         const sidebar = document.getElementById('sidebar');
         sidebar.style.left = (sidebar.style.left === "0px") ? "-250px" : "0px";
     }

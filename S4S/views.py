@@ -28,7 +28,7 @@ def signup(request):
             work_place = request.POST.get('workplace')
             Graduate.objects.create(first_name=first_name, last_name=last_name, work_place=work_place, email=email, password=password)
 
-        return redirect('signup_success')
+        return render(request,'Login.html')
 
     return render(request, 'SignUp.html')
 
@@ -66,6 +66,8 @@ def create_post(request):
         content = request.POST.get('content')
         Post2.objects.create(title=title, content=content,user_name=user_name)
         posts = Post2.objects.all()
+        global post_id
+        post_id+=1
         return render(request, 'after_login_forum.html',{'posts': posts})
     else:
         posts = Post2.objects.all()
