@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.test import RequestFactory
 from S4S.models import Post2
 from S4S.views import delete_post_Admin
-
+#  added by omer daniel
 class DeletePostAdminTestCase(TestCase):
     def setUp(self):
         self.factory = RequestFactory()

@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
-
+#add by israel yakubov
 class LoginTestCase(TestCase):
     def setUp(self):
         # Assuming these are example valid and invalid credentials

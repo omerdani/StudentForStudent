@@ -5,6 +5,7 @@ from .models import Candidate, Student, Graduate, Post2
 from .views import signup, display_data, login, create_post, delete_post_Admin
 from django.test import TestCase, Client
 from django.urls import reverse  # Import for URL resolution
+# added by yarin ivgy
 class SignupTest(TestCase):
     def test_existing_email(self):
         # Create existing users (Candidate and Student)
