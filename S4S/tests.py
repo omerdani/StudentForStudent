@@ -2,7 +2,7 @@ from django.test import RequestFactory
 from django.contrib.auth.models import User
 import unittest
 from .models import Candidate, Student, Graduate, Post2
-from .views import signup, display_data, login, create_post, delete_post_Admin
+from .views import signup, login, create_post, delete_post_Admin
 from django.test import TestCase, Client
 from django.urls import reverse  # Import for URL resolution
 

@@ -7,6 +7,77 @@
         #create-post-form {
             display: none;
         }
+
+        /* Plus button styles */
+        .plus-button {
+            background-color: #f44336;
+            border: none;
+            color: white;
+            padding: 30px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 10px auto 20px 100px;
+            cursor: pointer;
+            border-radius: 14px;
+            display: block;
+        }
+
+        /* Plus button hover effect */
+        .plus-button:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Your CSS code for posts */
+        .post-container {
+            width: 80%;
+            margin: auto;
+        }
+
+        .post {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .post-header {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        .post-header h3 {
+            margin: 0;
+        }
+
+        .post-date, .post-author {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .post-content {
+            margin-bottom: 10px;
+        }
+
+        .delete-form {
+            display: inline;
+        }
+
+        .delete-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #d32f2f;
+        }
     </style>
     <script>
         function toggleCreatePostForm() {
@@ -16,10 +87,13 @@
     </script>
 </head>
 <body>
-    <h1>Welcome to the Forum</h1>
+    <h1>Welcome to the General S4S Forum</h1>
+
+    <!-- Title for create post section -->
+    <h2>Create Your Post:</h2>
 
     <!-- Plus button to toggle create post form -->
-    <button onclick="toggleCreatePostForm()">+</button>
+    <button class="plus-button" onclick="toggleCreatePostForm()">+</button>
 
     <!-- Form for creating new post (Initially hidden) -->
     <form id="create-post-form" method="post" action="{% url 'create_post' %}" style="display: none;">
@@ -34,18 +108,24 @@
     </form>
 
     <!-- Display existing posts -->
-    <h2>Existing Posts</h2>
-    {% for post in posts %}
-        <div>
-            <h3>{{ post.title }}</h3>
-             <p>{{ post.date_posted }}</p>
-            <p>By: {{ post.user_name }}</p>
-            <p>{{ post.content }}</p>
-            <form method="post" action="{% url 'delete_post' post.id %}">
-                {% csrf_token %}
-                <button type="submit">Delete</button>
-            </form>
-        </div>
-    {% endfor %}
+    <div class="post-container">
+        <h2>Existing Posts</h2>
+        {% for post in posts %}
+            <div class="post">
+                <div class="post-header">
+                    <h3>{{ post.title }}</h3>
+                    <p class="post-date">{{ post.date_posted }}</p>
+                    <p class="post-author">By: {{ post.user_name }}</p>
+                </div>
+                <div class="post-content">
+                    <p>{{ post.content }}</p>
+                </div>
+                <form method="post" action="{% url 'delete_post' post.id %}" class="delete-form">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>

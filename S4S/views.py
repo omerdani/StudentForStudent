@@ -3,7 +3,7 @@ import datetime
 
 from django.shortcuts import render, redirect
 from .models import Candidate, Student, Graduate, Post, Post2
-from .models import post_id
+#from .models import post_id
 def signup(request):
     if request.method == 'POST':
         status = request.POST.get('status')
@@ -32,13 +32,6 @@ def signup(request):
 
     return render(request, 'SignUp.html')
 
-def display_data(request):
-    candidates = Candidate.objects.all()
-    students = Student.objects.all()
-    graduates = Graduate.objects.all()
-    posts = Post2.objects.all()
-    return render(request, 'display_data.html', {'candidates': candidates, 'students': students,
-                                                 'graduates': graduates, 'posts': posts})
 
 def login(request):
     if request.method == 'POST':
@@ -48,14 +41,18 @@ def login(request):
         candidate = Candidate.objects.filter(email=email).first()
         student = Student.objects.filter(email=email).first()
         graduate = Graduate.objects.filter(email=email).first()
+
         if candidate and candidate.password == password:
-            return redirect('')
+            request.session['candidate_id'] = candidate.id
+            return render(request, 'MainForum.html',{'candidate': candidate} )
         elif student and student.password == password:
-            return redirect('')
+            request.session['student_id'] = student.id
+            return render(request, 'MainForum.html',{'student': student} )
         elif graduate and graduate.password == password:
-            return redirect('')
+            request.session['graduate_id'] = graduate.id
+            return render(request, 'MainForum.html',{'graduate': graduate} )
         else:
-            return render(request, 'Login.html', {'error': 'Invalid email or password.'})
+            return render(request, 'Login.html')
     else:
         return render(request, 'Login.html')
 
@@ -66,8 +63,8 @@ def create_post(request):
         content = request.POST.get('content')
         Post2.objects.create(title=title, content=content,user_name=user_name)
         posts = Post2.objects.all()
-        global post_id
-        post_id+=1
+        #global post_id
+        #post_id+=1
         return render(request, 'after_login_forum.html',{'posts': posts})
     else:
         posts = Post2.objects.all()

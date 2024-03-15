@@ -16,17 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from S4S import views
+from S4S import views, DataVisuals
 
 urlpatterns = [
     path('', views.home, name=''),
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
-    path('data/', views.display_data, name='data'),
+    path('data/', DataVisuals.display_data, name='data'),
     path('forgotpass/', views.forgotpassword, name='forgotpass'),
     path('admin/', admin.site.urls),
     path('מבוא_למדעי_המחשב/', views.mavo, name='mavo'),
     path('create_post/', views.create_post, name='create_post'),
     path('mainforum/', views.mainforum, name='mainforum'),
     path('create_post/<int:post_id>/', views.delete_post_Admin, name='delete_post'),
+
 ]
