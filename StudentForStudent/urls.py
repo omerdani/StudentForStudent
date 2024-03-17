@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from S4S import views, DataVisuals
+from S4S import views, DataVisuals,blogim
 
 urlpatterns = [
     path('', views.home, name=''),
@@ -29,5 +29,6 @@ urlpatterns = [
     path('create_post/', views.create_post, name='create_post'),
     path('mainforum/', views.mainforum, name='mainforum'),
     path('create_post/<int:post_id>/', views.delete_post_Admin, name='delete_post'),
+    path('blog/<int:blog_id>/', blogim.blog_detail, name='blog_detail'),
 
 ]

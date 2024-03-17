@@ -7,6 +7,13 @@ class UserProfile(models.Model):
     username = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
 
+class Blog(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(default='No description')
+
+    def __str__(self):
+        return self.title
+
 class Candidate(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -42,7 +49,7 @@ class Post(models.Model):
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-   # forum = models.ForeignKey('Forum', on_delete=models.CASCADE, default=None, null=True)
+    blog = models.ForeignKey('Blog', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.title
@@ -52,7 +59,7 @@ class Post2(models.Model):
     user_name = models.CharField(default="none", max_length=100)
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
-    #forum = models.ForeignKey('Forum', on_delete=models.CASCADE, default=None, null=True)
+    blog = models.ForeignKey('Blog', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.title
