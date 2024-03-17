@@ -66,5 +66,13 @@
         <li>{{ post2.user_name }} - {{ post2.title }} - {{ post2.content }} - {{ post2.date_posted }} - {{ post2.id }}</li>
         {% endfor %}
     </ul>
+ <h1>Blogs</h1>
+    <ul>
+        {% for blog in blogs %}
+        <li>{{ blog.title }} - {{ blog.description }} - {{ blog.id }} - </li>
+        {% endfor %}
+    </ul>
+
+
 </body>
 </html>
