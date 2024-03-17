@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #b4beac;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .menu-icon {
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #111;
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            transition: left 0.3s ease;
+            padding-top: 60px; /* Adjust to accommodate header */
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            background-color: #555;
+        }
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .container-content {
+            margin-left: 0; /* Adjust to accommodate sidebar width */
+            transition: margin-left 0.3s ease;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        .user-details {
+            margin-top: 20px;
+        }
+        .user-details p {
+            margin-bottom: 10px;
+        }
+        .year-semester-select {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .year-semester-select select {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+        .year-semester-select select#semester-select {
+            display: none;
+        }
+        .logout-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .logout-link a {
+            color: #007bff;
+            text-decoration: none;
+            background-color: #f4f4f4;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        .logout-link a:hover {
+            background-color: #ddd;
+        }
+        .course-select {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        .course-select select {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
+        <h2>Welcome to Main Page</h2>
+    </header>
+    <div class="sidebar" id="sidebar">
+        <div class="close-icon" onclick="toggleSidebar(event)">×</div>
+        <a href="#">Menu Item 1</a>
+        <a href="#">Menu Item 2</a>
+        <a href="#">Menu Item 3</a>
+        <a href="#">Menu Item 4</a>
+    </div>
+    <div class="container-content">
+        <div class="user-details">
+           {% if candidate %}
+            <!-- Display candidate details -->
+            <p><strong>Name:</strong> {{ candidate.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ candidate.last_name }}</p>
+        {% elif student %}
+            <!-- Display student details -->
+            <p><strong>Name:</strong> {{ student.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ student.last_name }}</p>
+        {% elif graduate %}
+            <!-- Display graduate details -->
+            <p><strong>Name:</strong> {{ graduate.first_name }}</p>
+            <p><strong>Last Name:</strong> {{ graduate.last_name }}</p>
+        {% endif %}
+        </div>
+        <div class="year-semester-select">
+            <select id="year-select" onchange="showSemesterOptions()">
+                <option value="">Select Year</option>
+                <option value="1">שנה 1</option>
+                <option value="2">שנה 2</option>
+                <option value="3">שנה 3</option>
+                <option value="4">שנה 4</option>
+            </select>
+            <select id="semester-select" style="display: none;">
+                <option value="">Select Semester</option>
+                <option value="a">סמסטר א</option>
+                <option value="b">סמסטר ב</option>
+            </select>
+        </div>
+        <div class="course-select" id="course-select">
+            <select id="course-year-semester-select" style="display: none;">
+                <option value="">Select Course</option>
+            </select>
+        </div>
+        <div class="logout-link">
+            <a href="/logout/">Logout</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleSidebar(event) {
+        event.stopPropagation();
+        const sidebar = document.getElementById('sidebar');
+        sidebar.style.left = (sidebar.style.left === "0px") ? "-250px" : "0px";
+    }
+
+    function showSemesterOptions() {
+        const semesterSelect = document.getElementById("semester-select");
+        semesterSelect.style.display = "block";
+        semesterSelect.addEventListener("change", showCourseOptions);
+    }
+
+function showCourseOptions() {
+    const year = document.getElementById("year-select").value;
+    const semester = document.getElementById("semester-select").value;
+    const courseSelect = document.getElementById("course-select");
+    const courseYearSemesterSelect = document.getElementById("course-year-semester-select");
+    const courses = generateCourseNames(year, semester);
+    courseYearSemesterSelect.innerHTML = '<option value="">Select Course</option>' + courses;
+    courseSelect.style.display = "block";
+    courseYearSemesterSelect.style.display = "block";
+}
+
+
+    function generateCourseNames(year, semester) {
+        const courses = [
+            "מבוא למדעי המחשב", "ארכיטקטורת מחשבים 1","לוגיקה ונושאים דיסקרטים 1","אלגברה לינארית 1", "חדו\"א 1",
+            "תכנות מונחה עצמים","ארכיטקטורת מחשבים 2","לוגיקה ונושאים דיסקרטים 2","פיזיקה להנדסת תוכנה","חדו\"א 2",
+            "עקרונות שפות תוכנה","מבנה נתונים","אוטומטים ושפות פורמאליות","יסודות הנדסת תוכנה","מבוא לסטטיסטיקה והסתברות",
+            "תכנות מונכה עצמים מתקדם","אלגוריתמים 1","הנדסת דרישות וניתוח בהנדסת תוכנה","אנליזה נומרית", "",
+            "אלגוריתמים 2","בסיסי נתונים","בדיקות ואיכות בהנדסת תוכנה","מבוא לתקשורת מחשבים","",
+            "מבוא לקומפילציה","מערכות הפעלה","ניהול פרויקט תוכנה","הבטחת נתונים", "רשתות תקשורת מחשבים",
+            "חישוביות וסיבוכיות","בטיחות תוכנה","פרויקט גמר","","",
+            "פרויקט גמר", "", "", "", "",
+        ];
+
+        let start, end;
+
+        switch (semester) {
+            case 'a':
+                start = (year - 1) * 10;
+                end = start + 4;
+                break;
+            case 'b':
+                start = (year - 1) * 10 + 5;
+                end = start + 4;
+                break;
+            default:
+                start = 0;
+                end = 0;
+                break;
+        }
+
+        const selectedCourses = courses.slice(start, end + 1);
+        return selectedCourses.map(course => `<option value="${course.replace(/ /g, '_')}">${course}</option>`).join('');
+    }
+
+    document.getElementById("course-year-semester-select").addEventListener("change", function() {
+        const selectedCourse = this.value;
+        if (selectedCourse) {
+            window.location.href = `/${selectedCourse}/`;
+        }
+    });
+</script>
+
+</body>
+</html>

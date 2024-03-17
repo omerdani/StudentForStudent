@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
 # Create your views here.
-from django.contrib.auth import authenticate, login as auth_login
+import datetime
+
 from django.shortcuts import render, redirect
-from .models import Candidate, Student, Graduate
+from .models import Candidate, Student, Graduate, Post, Post2
+#from .models import post_id
 def signup(request):
     if request.method == 'POST':
         status = request.POST.get('status')
@@ -11,11 +12,11 @@ def signup(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        # Check if a user with the same email already exists
+
         if Candidate.objects.filter(email=email).exists() or \
                 Student.objects.filter(email=email).exists() or \
                 Graduate.objects.filter(email=email).exists():
-            # If user with the same email already exists, return to signup page with an error message
+
             return render(request, 'SignUp.html', {'error_message': 'User with this email already exists.'})
 
         if status == 'Candidate':
@@ -27,38 +28,63 @@ def signup(request):
             work_place = request.POST.get('workplace')
             Graduate.objects.create(first_name=first_name, last_name=last_name, work_place=work_place, email=email, password=password)
 
-        # Redirect to some page after successful signup
-        return redirect('signup_success')  # Replace 'signup_success' with your URL name for signup success page
+        return render(request,'Login.html')
 
-    return render(request, 'SignUp.html')  # Replace 'SignUp.html' with the actual path to your HTML template
+    return render(request, 'SignUp.html')
 
-# Similarly, define views for signup and forgot password forms
-def display_data(request):
-    candidates = Candidate.objects.all()
-    students = Student.objects.all()
-    graduates = Graduate.objects.all()
-    return render(request, 'display_data.html', {'candidates': candidates, 'students': students, 'graduates': graduates})
+
 def login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
+        email = request.POST.get('username')
         password = request.POST.get('password')
-        # Authenticate the user
-        user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            # If authentication is successful, log in the user
-            auth_login(request, user)
-            # Redirect to the home page
-            print(f"works")
-            return redirect('home')  # Assuming 'home' is the URL name for the home page
+        candidate = Candidate.objects.filter(email=email).first()
+        student = Student.objects.filter(email=email).first()
+        graduate = Graduate.objects.filter(email=email).first()
+
+        if candidate and candidate.password == password:
+            request.session['candidate_id'] = candidate.id
+            return render(request, 'MainForum.html',{'candidate': candidate} )
+        elif student and student.password == password:
+            request.session['student_id'] = student.id
+            return render(request, 'MainForum.html',{'student': student} )
+        elif graduate and graduate.password == password:
+            request.session['graduate_id'] = graduate.id
+            return render(request, 'MainForum.html',{'graduate': graduate} )
         else:
-            # If authentication fails, return an error message or render the login page again
-            return render(request, 'Login.html', {'error_message': 'Invalid username or password'})
+            return render(request, 'Login.html')
+    else:
+        return render(request, 'Login.html')
 
-    return render(request, 'Login.html')
+def create_post(request):
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        user_name = request.POST.get('user_name')
+        content = request.POST.get('content')
+        Post2.objects.create(title=title, content=content,user_name=user_name)
+        posts = Post2.objects.all()
+        #global post_id
+        #post_id+=1
+        return render(request, 'after_login_forum.html',{'posts': posts})
+    else:
+        posts = Post2.objects.all()
+        return render(request, 'after_login_forum.html',{'posts': posts})
+
+def delete_post_Admin(request, post_id):           #the admin can delete every post
+    if request.method == 'POST':
+        post = Post2.objects.get(pk=post_id)
+        post.delete()
+        posts = Post2.objects.all()
+    return render(request, 'after_login_forum.html',{'posts': posts})
 
 def home(request):
     return render(request, 'Home.html')
 
 def forgotpassword(request):
     return render(request, 'ForgotPassword.html')
+def mavo(request):
+    return render(request, 'Mavo.html')
+def mainforum2(request):
+    return render(request, 'after_login_forum.html')
+def mainforum(request):
+    return render(request, 'MainForum.html')
