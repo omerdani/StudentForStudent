@@ -33,7 +33,8 @@
     <h1>Candidates</h1>
     <ul>
         {% for candidate in candidates %}
-        <li>{{ candidate.first_name }} {{ candidate.last_name }} - Email: {{ candidate.email }} - Password: {{ candidate.password }} id: {{ candidate.id }}</li>
+        <li>{{ candidate.first_name }} {{ candidate.last_name }} - Email: {{ candidate.email }}
+            - Password: {{ candidate.password }} id: {{ candidate.id }}</li>
         {% endfor %}
     </ul>
 
@@ -63,7 +64,8 @@
     <h1>User Posts</h1>
     <ul>
         {% for post2 in posts2 %}
-        <li>{{ post2.user_name }} - {{ post2.title }} - {{ post2.content }} - {{ post2.date_posted }} - {{ post2.id }}</li>
+        <li>{{ post2.user_name }} - {{ post2.title }} - {{ post2.content }}
+            - {{ post2.date_posted }} - {{ post2.id }} - {{ post2.candidate.first_name }}</li>
         {% endfor %}
     </ul>
  <h1>Blogs</h1>
