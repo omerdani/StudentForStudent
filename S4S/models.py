@@ -60,6 +60,9 @@ class Post2(models.Model):
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     blog = models.ForeignKey('Blog', on_delete=models.CASCADE, null=True)
+    candidate = models.ForeignKey('Candidate', on_delete=models.CASCADE, null=True, blank=True)
+    student = models.ForeignKey('Student', on_delete=models.CASCADE, null=True, blank=True)
+    graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.title
