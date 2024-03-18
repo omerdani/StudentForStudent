@@ -78,8 +78,6 @@
             {% csrf_token %}
             <label for="title">Title:</label><br>
             <input type="text" id="title" name="title"><br>
-            <label for="user_name">Your Name:</label><br>
-            <input type="text" id="user_name" name="user_name" value="none"><br>
             <label for="content">Content:</label><br>
             <textarea id="content" name="content"></textarea><br>
             <button type="submit">Create Post</button>
@@ -90,6 +88,7 @@
             {% for post2 in posts2 %}
                 <div class="post">
                     <h3>{{ post2.title }}</h3>
+                    <p>Posted by: {{ post2.user_name }}</p>
                     <p class="post-content">{{ post2.content }}</p>
                 </div>
             {% endfor %}
