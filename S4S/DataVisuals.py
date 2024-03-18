@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Candidate, Student, Graduate, Post, Post2
+from .models import Candidate, Student, Graduate, Post, Post2,Blog
 #from .models import post_id
 def display_data(request):
     candidates = Candidate.objects.all()
@@ -7,5 +7,7 @@ def display_data(request):
     graduates = Graduate.objects.all()
     posts = Post.objects.all()
     posts2 = Post2.objects.all()
+    blogs = Blog.objects.all()
+
     return render(request, 'display_data.html', {'candidates': candidates, 'students': students,
-                                                 'graduates': graduates, 'posts': posts, 'posts2': posts2} )
+                                                 'graduates': graduates, 'posts': posts, 'posts2': posts2 , 'blogs': blogs } )
