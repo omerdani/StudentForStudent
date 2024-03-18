@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #e5ddd3;
+            background-color: #d0b696;
             margin: 0;
             padding: 0;
         }
@@ -43,6 +43,27 @@
             left: -250px;
             transition: left 0.3s ease;
             padding-top: 60px; /* Adjust to accommodate header */
+        }
+        .year-headers {
+            display: flex;
+            color: #414141;
+            justify-content: center;
+            padding-top: 80px; /* Adjust to accommodate header */
+            gap: 100px; /* Add space between headers */
+        }
+        .year-headers h2 {
+            text-align: center;
+            font-size: 42px;
+        }
+        .year {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+        .year h3 {
+                text-align: center;
+            font-size: 23px;
         }
         .sidebar a {
             display: block;
@@ -122,6 +143,26 @@
             color: #ffa8a8; /* Change the color of the strings */
             padding-top: 30px;
         }
+        button {
+    background-color: #5e5959; /* Green background */
+    border: none; /* Remove border */
+    color: white; /* White text */
+    padding: 10px 14px; /* Some padding */
+    text-align: center; /* Centered text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer; /* Mouse pointer on hover */
+    transition-duration: 0.4s; /* Transition effects */
+    border-radius: 12px; /* Rounded corners */
+}
+
+button:hover {
+    background-color: #45a049; /* Green background on hover */
+    color: white; /* White text on hover */
+}
+
     </style>
 </head>
 <body>
@@ -131,6 +172,63 @@
         <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
         <h2>{{ user.first_name }} {{ user.last_name }}, welcome to S4S Forum</h2>
     </header>
+    <button style="position: absolute;
+         top: 15%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         width: 200px;
+         height: 50px;
+         ">פורום הנדסת תוכנה כללי</button> <br>
+        <div class="year-headers">
+            <div class="year">
+                <h2>שנה רביעית</h2>
+                <h3> 'סמסטר א </br>
+                    <button>Button 1</button> <br>
+                    <button>Button 2</button><br>
+                    <button>Button 3</button><br>
+                     <button>Button 4</button><br>
+                    <button>Button 5</button><br>
+                    </br>סמסטר ב <br><button>Button 1</button> <br>
+                    <button>Button 2</button><br>
+                    <button>Button 3</button><br>
+                     <button>Button 4</button><br>
+                    <button>Button 5</button><br></h3>
+
+            </div>
+            <div class="year">
+                <h2>שנה שלישית</h2>
+                <h3> 'סמסטר א </br><button>Button 1</button> <br>
+                    <button>Button 2</button><br>
+                    <button>Button 3</button><br>
+                     <button>Button 4</button><br>
+                    <button>Button 5</button><br>
+                    </br>סמסטר ב <br><button>Button 1</button> <br>
+                    <button>Button 2</button><br>
+                    <button>Button 3</button><br>
+                     <button>Button 4</button><br>
+                    <br></h3>
+            </div>
+            <div class="year">
+                <h2>שנה שניה</h2>
+                <h3> 'סמסטר א </br><button>Button 1</button> <br>
+                    <button>Button 2</button><br>
+                    <button>Button 3</button><br>
+                     <button>Button 4</button><br>
+                    </br>סמסטר ב <br><button>Button 1</button> <br>
+                    <button>Button 2</button><br>
+                    <button>Button 3</button><br>
+                     <button>Button 4</button><br>
+                    <button>Button 5</button><br></h3>
+            </div>
+            <div class="year">
+                <h2>שנה ראשונה</h2>
+                <h3> 'סמסטר א <br> <button>Button 1</button> <br>
+                    <button>Button 2</button><br>
+                    <button>Button 3</button><br>
+                    </br>'סמסטר ב  <br><button>Button 1</button> <br>
+                 <br></h3>
+            </div>
+        </div>
     <div class="sidebar" id="sidebar">
         <div class="close-icon" onclick="toggleSidebar(event)">×</div>
         <a href="/My_Profile/">My Profile</a>

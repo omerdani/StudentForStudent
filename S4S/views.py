@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from .models import Candidate, Student, Graduate, Post, Post2
 from django.http import HttpResponse
 from django.contrib.sessions.models import Session
+from datetime import datetime, timezone
 #from .models import post_id
 def signup(request):
     if request.method == 'POST':
@@ -90,10 +91,17 @@ def delete_post_Admin(request, post_id):           #the admin can delete every p
     return render(request, 'after_login_forum.html',{'posts': posts})
 
 
+
 def check_session(request):
     user_id = request.session.get('user_id', 'No user logged in')
     user_type = request.session.get('user_type', 'No user type')
-    return HttpResponse(f"User ID: {user_id}, User Type: {user_type}")
+    session_key = request.session.session_key
+    try:
+        session = Session.objects.get(session_key=session_key)
+        session_length = session.expire_date - datetime.now(timezone.utc)
+    except Session.DoesNotExist:
+        session_length = 'Session does not exist'
+    return HttpResponse(f"User ID: {user_id}, User Type: {user_type}, Session Length: {session_length}")
 def active_sessions(request):
     session_key_list = []
     for session in Session.objects.all():
