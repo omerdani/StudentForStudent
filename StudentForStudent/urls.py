@@ -26,13 +26,12 @@ urlpatterns = [
     path('data/', DataVisuals.display_data, name='data'),
     path('forgotpass/', views.forgotpassword, name='forgotpass'),
     path('admin/', admin.site.urls),
-    path('מבוא_למדעי_המחשב/', views.mavo, name='mavo'),
-    path('create_post/', views.create_post, name='create_post'),
+    path('create_post/', blogim.create_post, name='create_post'),
     path('mainforum/', views.mainforum, name='mainforum'),
-    path('create_post/<int:post_id>/', views.delete_post_Admin, name='delete_post'),
+    path('create_post/<int:post_id>/', blogim.delete_post_Admin, name='delete_post'),
     path('check_session/', views.check_session, name='check_session'),
     path('active_sessions/', views.active_sessions, name='active_sessions'),
-    path('blog/<int:blog_id>/create_post/', views.create_post, name='create_post'),
+    path('blog/<int:blog_id>/create_post/', blogim.create_post, name='create_post'),
     path('blog/<int:blog_id>/', blogim.blog_detail, name='blog_detail'),
 
 ]
