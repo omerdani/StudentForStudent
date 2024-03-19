@@ -9,6 +9,7 @@
             margin: 0;
             padding: 0;
             background-color: #f2f2f2;
+            direction: rtl;
         }
 
         .container {
@@ -66,13 +67,15 @@
     </style>
 </head>
 <body>
+
     <div class="container">
+
         <div class="header">
             <h1>{{ blog.title }}</h1>
             <p>{{ blog.description }}</p>
         </div>
 
-        <button class="create-post-button" onclick="toggleCreatePostForm()">Create Your Post</button>
+        <button class="create-post-button" onclick="toggleCreatePostForm()">צור פוסט</button>
 
         <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none;">
             {% csrf_token %}
@@ -84,12 +87,16 @@
         </form>
 
         <div class="posts">
-            <h2>Posts:</h2>
+            <h2>פוסטים:</h2>
             {% for post2 in posts2 %}
                 <div class="post">
                     <h3>{{ post2.title }}</h3>
                     <p>Posted by: {{ post2.user_name }}</p>
-                    <p class="post-content">{{ post2.content }}</p>
+        <p class="post-content">{{ post2.content }}</p>
+        {% if post2.user_name == current_user.username %}
+            <button class="edit-post-button">Edit Post</button>
+            <button class="delete-post-button">Delete Post</button>
+        {% endif %}
                 </div>
             {% endfor %}
         </div>
