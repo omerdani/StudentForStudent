@@ -71,15 +71,30 @@ def login(request):
         return render(request, 'Login.html')
 
 def create_post(request, blog_id):
+    user_id = request.session.get('user_id', 'No user logged in')
+    user_type = request.session.get('user_type', 'No user type')
+    first_name = 'No first name'
+    last_name = 'No last name'
+
+    if user_id and user_type:
+        if user_type == 'candidate':
+            user = Candidate.objects.get(id=user_id)
+        elif user_type == 'student':
+            user = Student.objects.get(id=user_id)
+        elif user_type == 'graduate':
+            user = Graduate.objects.get(id=user_id)
+        first_name = user.first_name
+        last_name = user.last_name
     if request.method == 'POST':
         title = request.POST.get('title')
-        user_name = request.POST.get('user_name')
+        # Get the first name from the session
+        user_name = first_name
         content = request.POST.get('content')
         Post2.objects.create(title=title, content=content, user_name=user_name, blog_id=blog_id)
         return redirect('blog_detail', blog_id=blog_id)
     else:
         posts = Post2.objects.filter(blog_id=blog_id)
-        return render(request, 'blog.detail.html', {'posts': posts})
+        return render(request, 'blog.detail.html', {'posts': posts},{'user': user})
 def logout(request):
     request.session.flush()
     return redirect('login')
@@ -91,17 +106,30 @@ def delete_post_Admin(request, post_id):           #the admin can delete every p
     return render(request, 'after_login_forum.html',{'posts': posts})
 
 
-
 def check_session(request):
     user_id = request.session.get('user_id', 'No user logged in')
     user_type = request.session.get('user_type', 'No user type')
     session_key = request.session.session_key
+    first_name = 'No first name'
+    last_name = 'No last name'
+
+    if user_id and user_type:
+        if user_type == 'candidate':
+            user = Candidate.objects.get(id=user_id)
+        elif user_type == 'student':
+            user = Student.objects.get(id=user_id)
+        elif user_type == 'graduate':
+            user = Graduate.objects.get(id=user_id)
+        first_name = user.first_name
+        last_name = user.last_name
+
     try:
         session = Session.objects.get(session_key=session_key)
         session_length = session.expire_date - datetime.now(timezone.utc)
     except Session.DoesNotExist:
         session_length = 'Session does not exist'
-    return HttpResponse(f"User ID: {user_id}, User Type: {user_type}, Session Length: {session_length}")
+
+    return HttpResponse(f"User ID: {user_id}, User Type: {user_type}, First Name: {first_name}, Last Name: {last_name}, Session Length: {session_length}")
 def active_sessions(request):
     session_key_list = []
     for session in Session.objects.all():
