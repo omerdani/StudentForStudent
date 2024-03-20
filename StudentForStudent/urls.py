@@ -33,5 +33,7 @@ urlpatterns = [
     path('active_sessions/', views.active_sessions, name='active_sessions'),
     path('blog/<int:blog_id>/create_post/', blogim.create_post, name='create_post'),
     path('blog/<int:blog_id>/', blogim.blog_detail, name='blog_detail'),
+    path('blog/<int:blog_id>/post/<int:post_id>/delete/', blogim.delete_post, name='delete_post'),
+    path('blog/<int:blog_id>/post/<int:post_id>/delete/', blogim.delete_post, name='delete_post'),
 
 ]
