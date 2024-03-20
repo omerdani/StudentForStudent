@@ -1,0 +1,8 @@
+<form method="post" action="{% url 'edit_post' post.id %}">
+    {% csrf_token %}
+    <label for="title">Title:</label><br>
+    <input type="text" id="title" name="title" value="{{ post.title }}"><br>
+    <label for="content">Content:</label><br>
+    <textarea id="content" name="content">{{ post.content }}</textarea><br>
+    <button type="submit">Save Changes</button>
+</form>

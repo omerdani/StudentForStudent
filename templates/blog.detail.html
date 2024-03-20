@@ -77,7 +77,7 @@
 
         <button class="create-post-button" onclick="toggleCreatePostForm()">צור פוסט</button>
 
-        <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}">
+        <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none">
     {% csrf_token %}
     <label for="title">Title:</label><br>
     <input type="text" id="title" name="title"><br>
@@ -89,20 +89,23 @@
        <div class="posts">
             <h2>פוסטים:</h2>
             {% for post2 in posts2 %}
-                <div class="post">
-                    <h3>{{ post2.title }}</h3>
-                    <p>{{ post2.content }}</p>
-                    <p>Posted by: {{ post2.user_name }}</p>
-                    {% if post2.user_name == current_user %}
+               <div class="post">
+        <h3>{{ post2.title }}</h3>
+        <p>{{ post2.content }}</p>
+        <p>Posted by: {{ post2.user_name }}</p>
+        {% if post2.user_name == current_user %}
             <form method="post" action="{% url 'delete_post' post2.id %}">
                 {% csrf_token %}
                 <button type="submit">Delete</button>
+            </form>
+            <form method="get" action="{% url 'edit_post' post2.id %}">
+                <button type="submit">Edit</button>
             </form>
         {% endif %}
     </div>
 {% endfor %}
        </div>
-
+    </div>
 
 
 <script>

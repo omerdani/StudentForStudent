@@ -7,6 +7,8 @@ from django.contrib.sessions.models import Session
 from datetime import datetime, timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Post
 
 
 def blog_detail(request, blog_id):
@@ -88,3 +90,15 @@ def delete_post(request, post_id):
         post.delete()
         posts = Post2.objects.all()
         return redirect('blog_detail', blog_id=blog_id)  # Redirect to the blog detail page
+
+
+# views.py
+def edit_post(request, post_id):
+    post = get_object_or_404(Post2, id=post_id)
+    if request.method == 'POST':
+        post.title = request.POST.get('title')
+        post.content = request.POST.get('content')
+        post.save()
+        return redirect('blog_detail', blog_id=post.blog.id)
+    else:
+        return render(request, 'edit_post.html', {'post': post})
