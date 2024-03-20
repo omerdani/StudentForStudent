@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,43 +78,43 @@
 
         <button class="create-post-button" onclick="toggleCreatePostForm()">צור פוסט</button>
 
-        <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none">
-    {% csrf_token %}
-    <label for="title">Title:</label><br>
-    <input type="text" id="title" name="title"><br>
-    <label for="content">Content:</label><br>
-    <textarea id="content" name="content"></textarea><br>
-    <button type="submit">Create Post</button>
-</form>
+        <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none;">
+            {% csrf_token %}
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title"><br>
+            <label for="content">Content:</label><br>
+            <textarea id="content" name="content"></textarea><br>
+            <button type="submit">Create Post</button>
+        </form>
 
-       <div class="posts">
+        <div class="posts">
             <h2>פוסטים:</h2>
             {% for post2 in posts2 %}
-               <div class="post">
-        <h3>{{ post2.title }}</h3>
-        <p>{{ post2.content }}</p>
-        <p>Posted by: {{ post2.user_name }}</p>
-        {% if post2.user_name == current_user %}
-            <form method="post" action="{% url 'delete_post' post2.id %}">
-                {% csrf_token %}
-                <button type="submit">Delete</button>
-            </form>
-            <form method="get" action="{% url 'edit_post' post2.id %}">
-                <button type="submit">Edit</button>
-            </form>
-        {% endif %}
+                <div class="post">
+                    <h3>{{ post2.title }}</h3>
+                    <p>{{ post2.content }}</p>
+                    <p>Posted by: {{ post2.user_name }}</p>
+                    {% if post2.user_name == current_user %}
+                        <form method="post" action="{% url 'delete_post' post2.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    <form action="{% url 'edit_post' post2.id %}" method="get">
+                        <button type="submit">Edit</button>
+                      </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
-{% endfor %}
-       </div>
-    </div>
 
-
-<script>
-    function toggleCreatePostForm() {
-        var form = document.getElementById("create-post-form");
-        form.style.display = form.style.display === "none" ? "block" : "none";
-    }
-
-</script>
+    <script>
+        function toggleCreatePostForm() {
+            var form = document.getElementById("create-post-form");
+            form.style.display = form.style.display === "none" ? "block" : "none";
+        }
+    </script>
 </body>
 </html>
+
+
