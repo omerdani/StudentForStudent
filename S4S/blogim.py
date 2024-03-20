@@ -61,12 +61,6 @@ def create_post(request, blog_id):
     else:
         posts = Post2.objects.filter(blog_id=blog_id)
         return render(request, 'blog.detail.html', {'posts': posts, 'user': user})
-def delete_post_Admin(request, post_id):           #the admin can delete every post
-    if request.method == 'POST':
-        post = Post2.objects.get(pk=post_id)
-        post.delete()
-        posts = Post2.objects.all()
-    return render(request, 'blog.detail.html',{'posts': posts})
 
 def edit_post(request, post_id):
     # Get the post
@@ -92,4 +86,5 @@ def delete_post(request, post_id):
         post = Post2.objects.get(pk=post_id)
         blog_id = post.blog.id  # Save the blog id before deleting the post
         post.delete()
+        posts = Post2.objects.all()
         return redirect('blog_detail', blog_id=blog_id)  # Redirect to the blog detail page
