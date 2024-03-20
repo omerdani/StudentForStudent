@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #b8c1cc;
+            background-color: rgba(197, 197, 197, 0.2);
             margin: 0;
             padding: 0;
         }
@@ -17,8 +17,8 @@
             min-height: 100vh;
         }
         header {
-            background-color: #333333;
-            color: rgb(204, 227, 255);
+            background-color: rgba(126, 126, 126, 0.26);
+            color: rgb(0, 0, 0);
             display: flex;
             justify-content: center; /* Center items horizontally */
             align-items: center;
@@ -35,7 +35,7 @@
         }
         .sidebar {
             width: 250px;
-            background-color: rgba(51, 51, 51, 0.92);
+            background-color: rgba(51, 51, 51, 0.64);
             color: white;
             height: 100vh;
             position: fixed;
@@ -139,9 +139,14 @@
             font-weight: bold; /* Make the text bolder */
         }
         .sidebar a {
-            /* ... existing styles ... */
-            color: #bedcff; /* Change the color of the strings */
-            padding-top: 30px;
+            display: block;
+            color: white;
+            padding: 10px;
+            padding-top: 50px; /* Add this line */
+            text-decoration: none;
+            direction: ltr;
+            font-weight: bold; /* Make the font bolder */
+            font-size: 16px; /* Increase the font size */
         }
         button {
     background-color: #5e5959; /* Green background */
@@ -183,35 +188,35 @@ button:hover {
             <div class="year">
                 <h2>שנה רביעית</h2>
                 <h3> 'סמסטר א </br>
-                    <button>חישוביות וסיבוכיות</button> <br>
-                    <button>בטיחות תוכנה</button><br>
-                    </br>סמסטר ב <br><button>פרויקט גמר</button> <br></h3>
+                    <button onclick="location.href='/blog/29'">חישוביות וסיבוכיות</button> <br>
+                    <button onclick="location.href='/blog/30'">בטיחות תוכנה</button> <br>
+                    </br>סמסטר ב <br><button onclick="location.href='/blog/31'">פרויקט גמר</button></h3>
 
             </div>
             <div class="year">
                 <h2>שנה שלישית</h2>
-                <h3> 'סמסטר א </br><button>מבוא לתקשורת מחשבים</button> <br>
-                    <button>בדיקות ואיכות בהנדסת תוכנה</button><br>
-                    <button>בסיסי נתונים</button><br>
-                     <button>אלגוריתמים 2</button><br>
-                    </br>סמסטר ב <br><button>מבוא לקומפילציה</button> <br>
-                    <button>מערכות הפעלה</button><br>
-                    <button>ניהול פרויקט תוכנה</button><br>
-                     <button>אבטחת נתונים</button><br>
-                    <button>רשתות תקשורת מחשבים</button><br>
+                <h3> 'סמסטר א </br> <button onclick="location.href='/blog/20'">מבוא לתקשורת מחשבים</button> <br>
+                    <button onclick="location.href='/blog/21'">	בדיקות ואיכות בהנדסת תוכנה</button> <br>
+                    <button onclick="location.href='/blog/22'">	בסיסי נתונים</button> <br>
+                    <button onclick="location.href='/blog/23'">	אלגוריתמים 2</button> <br>
+                    </br>סמסטר ב <br><button onclick="location.href='/blog/24'">מבוא לקומפילציה</button> <br>
+                    <button onclick="location.href='/blog/25'">	מערכות הפעלה</button> <br>
+                    <button onclick="location.href='/blog/26'">ניהול פרויקט תוכנה</button> <br>
+                    <button onclick="location.href='/blog/27'">	אבטחת נתונים</button> <br>
+                    <button onclick="location.href='/blog/28'">	רשתות תקשורת מחשבים</button> <br>
                     <br></h3>
             </div>
             <div class="year">
                 <h2>שנה שניה</h2>
-                <h3> 'סמסטר א </br><button>עקרונות שפות תוכנה</button> <br>
-                     <button>מבנה נתונים</button><br>
-                    <button>אוטומטים ושפות פורמאליות</button><br>
-                     <button>יסודות הנדסת תוכנה</button><br>
-                    <button>מבוא לסטטיסטיקה והסתברות</button>
-                    </br>סמסטר ב <br><button>תכנות מונכה עצמים מתקדם</button> <br>
-                    <button>אלגוריתמים 1</button><br>
-                    <button>הנדסת דרישות וניתוח בהנדסת תוכנה</button><br>
-                     <button>אנליזה נומרית</button><br>
+                <h3> 'סמסטר א </br><button onclick="location.href='/blog/11'">עקרונות שפות תוכנה</button> <br>
+                    <button onclick="location.href='/blog/12'">מבנה נתונים</button> <br>
+                    <button onclick="location.href='/blog/13'">אוטומטים ושפות פורמאליות</button> <br>
+                    <button onclick="location.href='/blog/14'">יסודות הנדסת תוכנה</button> <br>
+                    <button onclick="location.href='/blog/15'">	מבוא לסטטיסטיקה והסתברות</button> <br>
+                    </br>סמסטר ב <br><button onclick="location.href='/blog/16'">תכנות מונחה עצמים מתקדם</button> <br>
+                    <button onclick="location.href='/blog/17'">	אלגוריתמים 1</button> <br>
+                    <button onclick="location.href='/blog/18'">הנדסת דרישות וניתוח בהנדסת תוכנה</button> <br>
+                    <button onclick="location.href='/blog/19'">אנליזה נומרית</button> <br>
 
                     <br></h3>
             </div>
@@ -219,15 +224,15 @@ button:hover {
                 <h2>שנה ראשונה</h2>
                 <h3> 'סמסטר א </br>
                     <button onclick="location.href='/blog/1'">מבוא למדעי המחשב</button> <br>
-                     <button>ארכיטקטורת מחשבים 1</button><br>
-                    <button> לוגיקה ונושאים דיסקרטים 1</button><br>
-                     <button>אלגברה לינארית 1</button><br>
-                    <button>חדו"א </button>
-                    </br>סמסטר ב <br><button>ארכיטקטורת מחשבים </button> <br>
-                    <button>תכנות מונחה עצמים</button><br>
-                    <button>לוגיקה ונושאים דיסקרטים 2</button><br>
-                     <button>פיזיקה להנדסת תוכנה</button><br>
-                    <button> חדו"א 2 </button><br>
+                    <button onclick="location.href='/blog/2'">ארכיטקטורת מחשבים 1</button> <br>
+                    <button onclick="location.href='/blog/3'">לוגיקה ונושאים דיסקרטים 1</button> <br>
+                    <button onclick="location.href='/blog/4'">אלגברה לינארית 1</button> <br>
+                    <button onclick="location.href='/blog/5'">חדו"א 1</button> <br>
+                    </br>סמסטר ב <br><button onclick="location.href='/blog/6'">ארכיטקטורת מחשבים 2</button> <br>
+                    <button onclick="location.href='/blog/7'">תכנות מונחה עצמים</button> <br>
+                    <button onclick="location.href='/blog/8'">לוגיקה ונושאים דיסקרטים 2</button> <br>
+                    <button onclick="location.href='/blog/9'">פיזיקה להנדסת תוכנה</button> <br>
+                    <button onclick="location.href='/blog/10'">חדו"א 2</button> <br>
                     <br></h3>
             </div>
         </div>
