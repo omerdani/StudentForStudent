@@ -28,12 +28,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('create_post/', blogim.create_post, name='create_post'),
     path('mainforum/', views.mainforum, name='mainforum'),
-    path('create_post/<int:post_id>/', blogim.delete_post_Admin, name='delete_post'),
     path('check_session/', views.check_session, name='check_session'),
     path('active_sessions/', views.active_sessions, name='active_sessions'),
     path('blog/<int:blog_id>/create_post/', blogim.create_post, name='create_post'),
     path('blog/<int:blog_id>/', blogim.blog_detail, name='blog_detail'),
-    path('blog/<int:blog_id>/post/<int:post_id>/delete/', blogim.delete_post, name='delete_post'),
-    path('blog/<int:blog_id>/post/<int:post_id>/delete/', blogim.delete_post, name='delete_post'),
+    path('post/<int:post_id>/delete/', blogim.delete_post, name='delete_post'),
 
 ]
