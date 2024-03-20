@@ -59,11 +59,9 @@ def create_post(request, blog_id):
         return render(request, 'blog.detail.html', {'posts': posts, 'user': user})
 
 def edit_post(request, post_id):
-    # Get the post
-    post = Post2.objects.get(id=post_id)
 
+    post = Post2.objects.get(id=post_id)
     if request.method == 'POST':
-        # Update the post
         post.title = request.POST.get('title')
         post.content = request.POST.get('content')
         post.save()
