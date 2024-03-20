@@ -33,29 +33,48 @@
     <h1>Candidates</h1>
     <ul>
         {% for candidate in candidates %}
-        <li>{{ candidate.first_name }} {{ candidate.last_name }} - Email: {{ candidate.email }} - Password: {{ candidate.password }}</li>
+        <li>{{ candidate.first_name }} {{ candidate.last_name }} - Email: {{ candidate.email }}
+            - Password: {{ candidate.password }} id: {{ candidate.id }}</li>
         {% endfor %}
     </ul>
 
     <h1>Students</h1>
     <ul>
         {% for student in students %}
-        <li>{{ student.first_name }} {{ student.last_name }} - Year: {{ student.select_year }} - Email: {{ student.email }} - Password: {{ student.password }}</li>
+        <li>{{ student.first_name }} {{ student.last_name }} - Year: {{ student.select_year }} - Email: {{ student.email }}
+            - Password: {{ student.password }} id: {{ student.id }}</li>
         {% endfor %}
     </ul>
 
     <h1>Graduates</h1>
     <ul>
         {% for graduate in graduates %}
-        <li>{{ graduate.first_name }} {{ graduate.last_name }} - Workplace: {{ graduate.work_place }} - Email: {{ graduate.email }} - Password: {{ student.password }}</li>
+        <li>{{ graduate.first_name }} {{ graduate.last_name }} - Workplace: {{ graduate.work_place }}
+            - Email: {{ graduate.email }} - Password: {{ graduate.password }} id: {{ graduate.id }}</li>
         {% endfor %}
     </ul>
-    <h1>Posts</h1>
+
+    <h1>Admin Posts</h1>
     <ul>
         {% for post in posts %}
-        <li> {{ post.user_name }} - {{ post.title }} - {{ post.content }} - {{ post.date_posted }} </li>
+        <li>{{ post.author }} - {{ post.title }} - {{ post.content }} - {{ post.date_posted }} - {{ post.id }}</li>
         {% endfor %}
     </ul>
+
+    <h1>User Posts</h1>
+    <ul>
+        {% for post2 in posts2 %}
+        <li>{{ post2.user_name }} - {{ post2.title }} - {{ post2.content }}
+            - {{ post2.date_posted }} - {{ post2.id }} - {{ post2.candidate.first_name }}</li>
+        {% endfor %}
+    </ul>
+ <h1>Blogs</h1>
+    <ul>
+        {% for blog in blogs %}
+        <li>{{ blog.title }} - {{ blog.description }} - {{ blog.id }} - </li>
+        {% endfor %}
+    </ul>
+
 
 </body>
 </html>

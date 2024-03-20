@@ -3,6 +3,10 @@ import datetime
 
 from django.shortcuts import render, redirect
 from .models import Candidate, Student, Graduate, Post, Post2
+from django.http import HttpResponse
+from django.contrib.sessions.models import Session
+from datetime import datetime, timezone
+#from .models import post_id
 def signup(request):
     if request.method == 'POST':
         status = request.POST.get('status')
@@ -27,19 +31,21 @@ def signup(request):
             work_place = request.POST.get('workplace')
             Graduate.objects.create(first_name=first_name, last_name=last_name, work_place=work_place, email=email, password=password)
 
-        return redirect('signup_success')
+        return render(request,'Login.html')
 
     return render(request, 'SignUp.html')
 
-def display_data(request):
-    candidates = Candidate.objects.all()
-    students = Student.objects.all()
-    graduates = Graduate.objects.all()
-    posts = Post2.objects.all()
-    return render(request, 'display_data.html', {'candidates': candidates, 'students': students,
-                                                 'graduates': graduates, 'posts': posts})
+
+from django.shortcuts import redirect
 
 def login(request):
+    user_id = request.session.get('user_id')
+    user_type = request.session.get('user_type')
+
+    # If user is already logged in, redirect to home page
+    if user_id and user_type:
+        return redirect('')
+
     if request.method == 'POST':
         email = request.POST.get('username')
         password = request.POST.get('password')
@@ -47,34 +53,77 @@ def login(request):
         candidate = Candidate.objects.filter(email=email).first()
         student = Student.objects.filter(email=email).first()
         graduate = Graduate.objects.filter(email=email).first()
+
         if candidate and candidate.password == password:
-            return redirect('')
+            request.session['user_id'] = candidate.id
+            request.session['user_type'] = 'candidate'
         elif student and student.password == password:
-            return redirect('')
+            request.session['user_id'] = student.id
+            request.session['user_type'] = 'student'
         elif graduate and graduate.password == password:
-            return redirect('')
+            request.session['user_id'] = graduate.id
+            request.session['user_type'] = 'graduate'
         else:
-            return render(request, 'Login.html', {'error': 'Invalid email or password.'})
+            return render(request, 'Login.html')
+
+        return redirect('')
     else:
         return render(request, 'Login.html')
 
-def create_post(request):
-    if request.method == 'POST':
-        title = request.POST.get('title')
-        user_name = request.POST.get('user_name')
-        content = request.POST.get('content')
-        Post2.objects.create(title=title, content=content,user_name=user_name)
-        return redirect('post_success')
-    else:
-        posts = Post2.objects.all()
-        return render(request, 'after_login_forum.html',{'posts': posts})
+
+def logout(request):
+    request.session.flush()
+    return redirect('login')
+
+
+def check_session(request):
+    user_id = request.session.get('user_id', 'No user logged in')
+    user_type = request.session.get('user_type', 'No user type')
+    session_key = request.session.session_key
+    first_name = 'No first name'
+    last_name = 'No last name'
+
+    if user_id and user_type:
+        if user_type == 'candidate':
+            user = Candidate.objects.get(id=user_id)
+        elif user_type == 'student':
+            user = Student.objects.get(id=user_id)
+        elif user_type == 'graduate':
+            user = Graduate.objects.get(id=user_id)
+        first_name = user.first_name
+        last_name = user.last_name
+
+    try:
+        session = Session.objects.get(session_key=session_key)
+        session_length = session.expire_date - datetime.now(timezone.utc)
+    except Session.DoesNotExist:
+        session_length = 'Session does not exist'
+
+    return HttpResponse(f"User ID: {user_id}, User Type: {user_type}, First Name: {first_name}, Last Name: {last_name}, Session Length: {session_length}")
+def active_sessions(request):
+    session_key_list = []
+    for session in Session.objects.all():
+        if '_auth_user_id' in session.get_decoded():  # check if user is logged in
+            session_key_list.append(session.session_key)
+    return HttpResponse(f"Active sessions: {session_key_list}")
 def home(request):
-    return render(request, 'Home.html')
+    user_id = request.session.get('user_id')
+    user_type = request.session.get('user_type')
+
+    if user_id and user_type:
+        if user_type == 'candidate':
+            user = Candidate.objects.get(id=user_id)
+        elif user_type == 'student':
+            user = Student.objects.get(id=user_id)
+        elif user_type == 'graduate':
+            user = Graduate.objects.get(id=user_id)
+        return render(request, 'MainForum.html', {'user': user})
+    else:
+        return render(request, 'Home.html')
 
 def forgotpassword(request):
     return render(request, 'ForgotPassword.html')
-def mavo(request):
-    return render(request, 'Mavo.html')
+
 def mainforum2(request):
     return render(request, 'after_login_forum.html')
 def mainforum(request):

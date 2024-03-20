@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #b4beac;
+            background-color: #b8c1cc;
             margin: 0;
             padding: 0;
         }
@@ -17,21 +17,25 @@
             min-height: 100vh;
         }
         header {
-            background-color: #333;
-            color: white;
-            padding: 10px;
+            background-color: #333333;
+            color: rgb(204, 227, 255);
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* Center items horizontally */
             align-items: center;
+            position: relative; /* Make header a relative container */
         }
         .menu-icon {
             cursor: pointer;
             font-size: 24px;
             padding: 10px;
+            position: absolute; /* Position menu icon absolutely */
+            left: 10px; /* Position menu icon at the right */
+            top: 50%; /* Center menu icon vertically */
+            transform: translateY(-50%); /* Center menu icon vertically */
         }
         .sidebar {
             width: 250px;
-            background-color: #111;
+            background-color: rgba(51, 51, 51, 0.92);
             color: white;
             height: 100vh;
             position: fixed;
@@ -40,6 +44,27 @@
             transition: left 0.3s ease;
             padding-top: 60px; /* Adjust to accommodate header */
         }
+        .year-headers {
+            display: flex;
+            color: #414141;
+            justify-content: center;
+            padding-top: 80px; /* Adjust to accommodate header */
+            gap: 100px; /* Add space between headers */
+        }
+        .year-headers h2 {
+            text-align: center;
+            font-size: 42px;
+        }
+        .year {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+        }
+        .year h3 {
+                text-align: center;
+            font-size: 23px;
+        }
         .sidebar a {
             display: block;
             color: white;
@@ -47,7 +72,7 @@
             text-decoration: none;
         }
         .sidebar a:hover {
-            background-color: #555;
+            background-color: rgba(85, 85, 85, 0);
         }
         .close-icon {
             position: absolute;
@@ -108,6 +133,36 @@
             border: 1px solid #ccc;
             margin-right: 10px;
         }
+        h2 {
+            text-align: center;
+            font-size: 2em; /* Make the text bigger */
+            font-weight: bold; /* Make the text bolder */
+        }
+        .sidebar a {
+            /* ... existing styles ... */
+            color: #bedcff; /* Change the color of the strings */
+            padding-top: 30px;
+        }
+        button {
+    background-color: #5e5959; /* Green background */
+    border: none; /* Remove border */
+    color: white; /* White text */
+    padding: 10px 14px; /* Some padding */
+    text-align: center; /* Centered text */
+    text-decoration: none; /* Remove underline */
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer; /* Mouse pointer on hover */
+    transition-duration: 0.4s; /* Transition effects */
+    border-radius: 12px; /* Rounded corners */
+}
+
+button:hover {
+    background-color: #45a049; /* Green background on hover */
+    color: white; /* White text on hover */
+}
+
     </style>
 </head>
 <body>
@@ -115,112 +170,92 @@
 <div class="container">
     <header>
         <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
-        <h2>Welcome to Main Page</h2>
+        <h2>{{ user.first_name }} {{ user.last_name }}, welcome to S4S Forum</h2>
     </header>
+    <button style="position: absolute;
+         top: 15%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+         width: 200px;
+         height: 50px;
+         "onclick="location.href='/blog/32'">פורום הנדסת תוכנה כללי</button> <br>
+        <div class="year-headers">
+            <div class="year">
+                <h2>שנה רביעית</h2>
+                <h3> 'סמסטר א </br>
+                    <button onclick="location.href='/blog/29'">חישוביות וסיבוכיות</button> <br>
+                    <button onclick="location.href='/blog/30'">בטיחות תוכנה</button> <br>
+                    </br>סמסטר ב <br><button onclick="location.href='/blog/31'">פרויקט גמר</button></h3>
+
+            </div>
+            <div class="year">
+                <h2>שנה שלישית</h2>
+                <h3> 'סמסטר א </br> <button onclick="location.href='/blog/20'">מבוא לתקשורת מחשבים</button> <br>
+                    <button onclick="location.href='/blog/21'">	בדיקות ואיכות בהנדסת תוכנה</button> <br>
+                    <button onclick="location.href='/blog/22'">	בסיסי נתונים</button> <br>
+                    <button onclick="location.href='/blog/23'">	אלגוריתמים 2</button> <br>
+                    </br>סמסטר ב <br><button onclick="location.href='/blog/24'">מבוא לקומפילציה</button> <br>
+                    <button onclick="location.href='/blog/25'">	מערכות הפעלה</button> <br>
+                    <button onclick="location.href='/blog/26'">ניהול פרויקט תוכנה</button> <br>
+                    <button onclick="location.href='/blog/27'">	אבטחת נתונים</button> <br>
+                    <button onclick="location.href='/blog/28'">	רשתות תקשורת מחשבים</button> <br>
+                    <br></h3>
+            </div>
+            <div class="year">
+                <h2>שנה שניה</h2>
+                <h3> 'סמסטר א </br><button onclick="location.href='/blog/11'">עקרונות שפות תוכנה</button> <br>
+                    <button onclick="location.href='/blog/12'">מבנה נתונים</button> <br>
+                    <button onclick="location.href='/blog/13'">אוטומטים ושפות פורמאליות</button> <br>
+                    <button onclick="location.href='/blog/14'">יסודות הנדסת תוכנה</button> <br>
+                    <button onclick="location.href='/blog/15'">	מבוא לסטטיסטיקה והסתברות</button> <br>
+                    </br>סמסטר ב <br><button onclick="location.href='/blog/16'">תכנות מונחה עצמים מתקדם</button> <br>
+                    <button onclick="location.href='/blog/17'">	אלגוריתמים 1</button> <br>
+                    <button onclick="location.href='/blog/18'">הנדסת דרישות וניתוח בהנדסת תוכנה</button> <br>
+                    <button onclick="location.href='/blog/19'">אנליזה נומרית</button> <br>
+
+                    <br></h3>
+            </div>
+            <div class="year">
+                <h2>שנה ראשונה</h2>
+                <h3> 'סמסטר א </br>
+                    <button onclick="location.href='/blog/1'">מבוא למדעי המחשב</button> <br>
+                    <button onclick="location.href='/blog/2'">ארכיטקטורת מחשבים 1</button> <br>
+                    <button onclick="location.href='/blog/3'">לוגיקה ונושאים דיסקרטים 1</button> <br>
+                    <button onclick="location.href='/blog/4'">אלגברה לינארית 1</button> <br>
+                    <button onclick="location.href='/blog/5'">חדו"א 1</button> <br>
+                    </br>סמסטר ב <br><button onclick="location.href='/blog/6'">ארכיטקטורת מחשבים 2</button> <br>
+                    <button onclick="location.href='/blog/7'">תכנות מונחה עצמים</button> <br>
+                    <button onclick="location.href='/blog/8'">לוגיקה ונושאים דיסקרטים 2</button> <br>
+                    <button onclick="location.href='/blog/9'">פיזיקה להנדסת תוכנה</button> <br>
+                    <button onclick="location.href='/blog/10'">חדו"א 2</button> <br>
+                    <br></h3>
+            </div>
+        </div>
     <div class="sidebar" id="sidebar">
         <div class="close-icon" onclick="toggleSidebar(event)">×</div>
-        <a href="#">Menu Item 1</a>
-        <a href="#">Menu Item 2</a>
-        <a href="#">Menu Item 3</a>
-        <a href="#">Menu Item 4</a>
-    </div>
-    <div class="container-content">
-        <div class="user-details">
-            <p><strong>Name:</strong> {{ user.name }}</p>
-            <p><strong>Last Name:</strong> {{ user.last_name }}</p>
-            <!-- Add other user details here -->
-        </div>
-        <div class="year-semester-select">
-            <select id="year-select" onchange="showSemesterOptions()">
-                <option value="">Select Year</option>
-                <option value="1">שנה 1</option>
-                <option value="2">שנה 2</option>
-                <option value="3">שנה 3</option>
-                <option value="4">שנה 4</option>
-            </select>
-            <select id="semester-select" style="display: none;">
-                <option value="">Select Semester</option>
-                <option value="a">סמסטר א</option>
-                <option value="b">סמסטר ב</option>
-            </select>
-        </div>
-        <div class="course-select" id="course-select">
-            <select id="course-year-semester-select" style="display: none;">
-                <option value="">Select Course</option>
-                <!-- Options will be dynamically added based on selected year and semester -->
-            </select>
-        </div>
-        <div class="logout-link">
-            <a href="/logout/">Logout</a>
-        </div>
+        <a href="/My_Profile/">My Profile</a>
+        <a href="/Settings/">Settings</a>
+        <a href="/About_us/">About us</a>
+        <a href="{% url 'logout' %}">Sign Out</a>
     </div>
 </div>
 
 <script>
     function toggleSidebar(event) {
-        event.stopPropagation(); // Stop event propagation
+        event.stopPropagation();
         const sidebar = document.getElementById('sidebar');
         sidebar.style.left = (sidebar.style.left === "0px") ? "-250px" : "0px";
     }
 
-    function showSemesterOptions() {
-        const semesterSelect = document.getElementById("semester-select");
-        semesterSelect.style.display = "block";
-        semesterSelect.addEventListener("change", showCourseOptions);
-    }
-
-function showCourseOptions() {
-    const year = document.getElementById("year-select").value;
-    const semester = document.getElementById("semester-select").value;
-    const courseSelect = document.getElementById("course-select");
-    const courseYearSemesterSelect = document.getElementById("course-year-semester-select");
-    const courses = generateCourseNames(year, semester);
-    courseYearSemesterSelect.innerHTML = '<option value="">Select Course</option>' + courses;
-    courseSelect.style.display = "block";
-    courseYearSemesterSelect.style.display = "block";
-}
-
-
-    function generateCourseNames(year, semester) {
-        const courses = [
-            "מבוא למדעי המחשב", "ארכיטקטורת מחשבים 1","לוגיקה ונושאים דיסקרטים 1","אלגברה לינארית 1", "חדו\"א 1",
-            "תכנות מונחה עצמים","ארכיטקטורת מחשבים 2","לוגיקה ונושאים דיסקרטים 2","פיזיקה להנדסת תוכנה","חדו\"א 2",
-            "עקרונות שפות תוכנה","מבנה נתונים","אוטומטים ושפות פורמאליות","יסודות הנדסת תוכנה","מבוא לסטטיסטיקה והסתברות",
-            "תכנות מונכה עצמים מתקדם","אלגוריתמים 1","הנדסת דרישות וניתוח בהנדסת תוכנה","אנליזה נומרית", "",
-            "אלגוריתמים 2","בסיסי נתונים","בדיקות ואיכות בהנדסת תוכנה","מבוא לתקשורת מחשבים","",
-            "מבוא לקומפילציה","מערכות הפעלה","ניהול פרויקט תוכנה","הבטחת נתונים", "רשתות תקשורת מחשבים",
-            "חישוביות וסיבוכיות","בטיחות תוכנה","פרויקט גמר","","",
-            "פרויקט גמר", "", "", "", "",
-        ];
-
-        let start, end;
-
-        switch (semester) {
-            case 'a':
-                start = (year - 1) * 10;
-                end = start + 4;
-                break;
-            case 'b':
-                start = (year - 1) * 10 + 5;
-                end = start + 4;
-                break;
-            default:
-                start = 0;
-                end = 0;
-                break;
-        }
-
-        const selectedCourses = courses.slice(start, end + 1);
-        return selectedCourses.map(course => `<option value="${course.replace(/ /g, '_')}">${course}</option>`).join('');
-    }
-
-    document.getElementById("course-year-semester-select").addEventListener("change", function() {
-        const selectedCourse = this.value;
-        if (selectedCourse) {
-            window.location.href = `/${selectedCourse}/`;
+    // Close the menu when clicking outside of it
+    document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('sidebar');
+        if (!sidebar.contains(event.target)) {
+            sidebar.style.left = "-250px";
         }
     });
 </script>
+
 
 </body>
 </html>

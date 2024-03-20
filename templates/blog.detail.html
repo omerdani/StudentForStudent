@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ blog.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .post {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .post h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .post p {
+            color: #666;
+        }
+
+        .post-content {
+            margin-top: 10px;
+        }
+
+        .create-post-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .create-post-button:hover {
+            background-color: #0056b3;
+        }
+
+        #create-post-form {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h1>{{ blog.title }}</h1>
+            <p>{{ blog.description }}</p>
+        </div>
+
+        <button class="create-post-button" onclick="toggleCreatePostForm()">צור פוסט</button>
+
+        <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none;">
+            {% csrf_token %}
+            <label for="title">Title:</label><br>
+            <input type="text" id="title" name="title"><br>
+            <label for="content">Content:</label><br>
+            <textarea id="content" name="content"></textarea><br>
+            <button type="submit">Create Post</button>
+        </form>
+
+        <div class="posts">
+            <h2>פוסטים:</h2>
+            {% for post2 in posts2 %}
+                <div class="post">
+                    <h3>{{ post2.title }}</h3>
+                    <p>{{ post2.content }}</p>
+                    <p>Posted by: {{ post2.user_name }}</p>
+                    {% if post2.user_name == current_user %}
+                        <form method="post" action="{% url 'delete_post' post2.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    <form action="{% url 'edit_post' post2.id %}" method="get">
+                        <button type="submit">Edit</button>
+                      </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        function toggleCreatePostForm() {
+            var form = document.getElementById("create-post-form");
+            form.style.display = form.style.display === "none" ? "block" : "none";
+        }
+    </script>
+</body>
+</html>
+
+
