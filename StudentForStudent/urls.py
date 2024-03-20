@@ -33,5 +33,6 @@ urlpatterns = [
     path('blog/<int:blog_id>/create_post/', blogim.create_post, name='create_post'),
     path('blog/<int:blog_id>/', blogim.blog_detail, name='blog_detail'),
     path('post/<int:post_id>/delete/', blogim.delete_post, name='delete_post'),
+    path('edit_post/<int:post_id>/', blogim.edit_post, name='edit_post'),
 
 ]

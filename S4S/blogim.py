@@ -76,7 +76,7 @@ def edit_post(request, post_id):
         # Redirect to the blog detail page
         return redirect('blog_detail', blog_id=post.blog.id)
 
-    # If the request method is not POST, render the edit post form
+    # If the request method is not POST, render the edit post form with the current post details
     return render(request, 'edit_post.html', {'post': post})
 
 
