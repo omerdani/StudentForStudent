@@ -27,13 +27,14 @@
         }
 
         .post {
-    background-color: #c4c4bd;
-    border-radius: 5px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 5);
-    position: relative;
-}
+            background-color: #c4c4bd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 5);
+            position: relative;
+        }
+
         .post h3 {
             margin-top: 0;
             color: #333;
@@ -55,7 +56,8 @@
             justify-content: space-between;
             width: auto;
         }
-         .post-details {
+
+        .post-details {
             position: absolute;
             top: 0;
             left: 0;
@@ -90,7 +92,9 @@
 
 </head>
 <body>
-
+<div style="text-align: left;">
+    <input type="image" src="https://gyazo.com/177f45cc28123bf4096cfcb19742301c\S4S.JPG" alt="Submit" width="48" height="48">
+</div>
     <div class="container">
 
         <div class="header">
@@ -124,6 +128,7 @@
                     <h3>{{ post2.title }}</h3>
                     <p>{{ post2.content }}</p>
                     {% if post2.user_name == current_user %}
+                    {% endif %}
                         <form method="post" action="{% url 'delete_post' post2.id %}">
                             {% csrf_token %}
                             <button type="submit">Delete</button>
@@ -131,7 +136,6 @@
                         <form action="{% url 'edit_post' post2.id %}" method="get">
                             <button type="submit">Edit</button>
                         </form>
-                    {% endif %}
                 </div>
             {% endfor %}
         </div>
