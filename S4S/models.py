@@ -63,6 +63,7 @@ class Post2(models.Model):
     candidate = models.ForeignKey('Candidate', on_delete=models.CASCADE, null=True, blank=True)
     student = models.ForeignKey('Student', on_delete=models.CASCADE, null=True, blank=True)
     graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
-
+    likes_count = models.IntegerField(default=0)
+    dislikes_count = models.IntegerField(default=0)
     def __str__(self):
         return self.title
