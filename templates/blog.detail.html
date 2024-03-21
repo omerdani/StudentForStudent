@@ -113,6 +113,8 @@
 
         .post-author, .post-date {
             margin-right: 7px;
+            padding-right: 10px;
+            padding-top: 8px; /* Adjust as needed */
         }
         .invert-color {
             filter: invert(0);
@@ -126,7 +128,46 @@
             cursor: pointer;
             margin-bottom: 20px;
         }
-
+        .post-actions {
+            position: absolute;
+            margin-bottom: 5px;
+            left: 5px;
+            bottom: 1px;
+        }
+        .delete-button {
+            margin-right: 0px;
+            margin-bottom: 3px;
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #107ef3; /* Green */
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            right: 400px; /* Adjust as needed */
+        }
+        .edit-button {
+            margin-bottom: 3px;
+            margin-right: 19px; /* Add this line */
+            display: inline-block;
+            padding: 4px 8px;
+            background-color: #107ef3; /* Green */
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            right: 400px; /* Adjust as needed */
+        }
         .create-post-button:hover {
             background-color: #0056b3;
         }
@@ -138,7 +179,9 @@
         #create-post-form {
             display: none;
         }
-
+        .post-details p {
+            padding-left: 10px; /* Adjust as needed */
+        }
     </style>
 
 </head>
@@ -156,7 +199,7 @@
 
         <button class="create-post-button" onclick="toggleCreatePostForm()">צור פוסט</button>
         <a href="{% url '' %}" class="top-left">>
-            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="275" height="75" class="invert-color">
+            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
         </a>
         <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none;">
             {% csrf_token %}
@@ -171,25 +214,29 @@
             <h2>פוסטים:</h2>
             {% for post2 in posts2 %}
                 <div class="post">
-                    <div class="post-info">
-                        <span class="post-author">פורסם על ידי: {{ post2.user_name }}</span>
-                    </div>
-                    <div class="post-details">
-                       {% load tz %}
-                    <p>Posted on: {{ post2.date_posted|timezone:"Asia/Jerusalem"|date:"F j, Y, P" }}</p>
-                    </div>
-                    <br>
-                    <h3>{{ post2.title }}</h3>
-                    <p>{{ post2.content }}</p>
-                    {% if post2.user_name == current_user %}
-                        <form method="post" action="{% url 'delete_post' post2.id %}">
-                            {% csrf_token %}
-                            <button type="submit">Delete</button>
-                        </form>
-                        <form action="{% url 'edit_post' post2.id %}" method="get">
-                            <button type="submit">Edit</button>
-                        </form>
-                    {% endif %}
+                    <a href="{% url 'post_detail' post2.id %}" style="text-decoration: none; color: inherit;">
+                        <div class="post-info">
+                            <span class="post-author">פורסם על ידי: {{ post2.user_name }}</span>
+                        </div>
+                        <div class="post-details">
+                           {% load tz %}
+                        <p>Posted on: {{ post2.date_posted|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+                        </div>
+                        <br>
+                        <h3>{{ post2.title }}</h3>
+                        <p>{{ post2.content }}</p>
+                        {% if post2.user_name == current_user %}
+                        <div class="post-actions">
+                            <form action="{% url 'edit_post' post2.id %}" method="get" style="display: inline;">
+                                <button type="submit" class="edit-button">Edit</button>
+                            </form>
+                            <form method="post" action="{% url 'delete_post' post2.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="delete-button">Delete</button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </a>
                 </div>
             {% endfor %}
         </div>
