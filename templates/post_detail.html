@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ blog.title }}</title>
+    <title>Post Detail</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -113,8 +113,6 @@
 
         .post-author, .post-date {
             margin-right: 7px;
-            padding-right: 10px;
-            padding-top: 8px; /* Adjust as needed */
         }
         .invert-color {
             filter: invert(0);
@@ -136,37 +134,11 @@
         }
         .delete-button {
             margin-right: 0px;
-            margin-bottom: 3px;
-            display: inline-block;
-            padding: 4px 8px;
-            background-color: #107ef3; /* Green */
-            border: none;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            font-size: 16px;
-            transition-duration: 0.4s;
-            cursor: pointer;
-            right: 400px; /* Adjust as needed */
+            margin-bottom: 5px;
         }
         .edit-button {
-            margin-bottom: 3px;
-            margin-right: 19px; /* Add this line */
-            display: inline-block;
-            padding: 4px 8px;
-            background-color: #107ef3; /* Green */
-            border: none;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            font-size: 16px;
-            transition-duration: 0.4s;
-            cursor: pointer;
-            right: 400px; /* Adjust as needed */
+            margin-bottom: 5px;
+            margin-right: 15px; /* Add this line */
         }
         .create-post-button:hover {
             background-color: #0056b3;
@@ -176,80 +148,116 @@
             top: 0px;
             right: 0;
         }
+        .post-info {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            width: auto;
+        }
+        .post-details {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            width: auto;
+        }
         #create-post-form {
             display: none;
+        }
+        .comment-button, .like-button, .dislike-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #107ef3; /* Green */
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            position: relative;
+            right: 400px; /* Adjust as needed */
         }
         .post-details p {
             padding-left: 10px; /* Adjust as needed */
         }
+        .comment-button:hover, .like-button:hover, .dislike-button:hover, .go_back:hover{
+            background-color: rgba(16, 126, 243, 0.80);
+        }
+        .go_back {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #107ef3; /* Green */
+            border: none;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            position: relative;
+        }
+        .post-actions {
+        position: relative;
+        }
+        .post-author{
+            margin-right: 7px;
+            padding-right: 10px;
+            padding-top: 8px; /* Adjust as needed */
+        }
     </style>
-
 </head>
 <body>
 <header>
     <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
     <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
 </header>
-    <div class="container">
-
-        <div class="header">
-            <h1>{{ blog.title }}</h1>
-            <p>{{ blog.description }}</p>
+<div class="container">
+        <button class="go_back" onclick="window.location='{% url 'blog-detail' blog.id %}'">{{ blog.title }}</button>
+    <br><br><br>
+        <div class="sidebar" id="sidebar">
+            <div class="close-icon" onclick="toggleSidebar(event)">×</div>
+            <a href="/My_Profile/">My Profile</a>
+            <a href="/Settings/">Settings</a>
+            <a href="/About_us/">About us</a>
+            <a href="{% url 'logout' %}">Sign Out</a>
         </div>
-
-        <button class="create-post-button" onclick="toggleCreatePostForm()">צור פוסט</button>
-        <a href="{% url '' %}" class="top-left">>
-            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
-        </a>
-        <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none;">
-            {% csrf_token %}
-            <label for="title">Title:</label><br>
-            <input type="text" id="title" name="title"><br>
-            <label for="content">Content:</label><br>
-            <textarea id="content" name="content"></textarea><br>
-            <button type="submit">Create Post</button>
-        </form>
-
-        <div class="posts">
-            <h2>פוסטים:</h2>
-            {% for post2 in posts2 %}
-                <div class="post">
-                    <a href="{% url 'post_detail' post2.id %}" style="text-decoration: none; color: inherit;">
-                        <div class="post-info">
-                            <span class="post-author">פורסם על ידי: {{ post2.user_name }}</span>
-                        </div>
-                        <div class="post-details">
-                           {% load tz %}
-                        <p>Posted on: {{ post2.date_posted|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
-                        </div>
-                        <br>
-                        <h3>{{ post2.title }}</h3>
-                        <p>{{ post2.content }}</p>
-                        {% if post2.user_name == current_user %}
-                        <div class="post-actions">
-                            <form action="{% url 'edit_post' post2.id %}" method="get" style="display: inline;">
-                                <button type="submit" class="edit-button">Edit</button>
-                            </form>
-                            <form method="post" action="{% url 'delete_post' post2.id %}" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="delete-button">Delete</button>
-                            </form>
-                        </div>
-                        {% endif %}
-                    </a>
-                </div>
-            {% endfor %}
+    <div class="post">
+        <div class="post-info">
+            <span class="post-author">פורסם על ידי: {{ post.user_name }}</span>
         </div>
-            <div class="sidebar" id="sidebar">
-                <div class="close-icon" onclick="toggleSidebar(event)">×</div>
-                <a href="/My_Profile/">My Profile</a>
-                <a href="/Settings/">Settings</a>
-                <a href="/About_us/">About us</a>
-                <a href="{% url 'logout' %}">Sign Out</a>
-            </div>
+        <div class="post-details">
+           {% load tz %}
+        <p>Posted on: {{ post.date_posted|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+        </div>
+        <br>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content }}</p>
+        <button class="comment-button">Comment</button>
+        <button class="like-button">Like</button>
+        <button class="dislike-button">Dislike</button>
     </div>
 
+</div>
     <script>
+        document.querySelector('.comment-button').addEventListener('click', function() {
+            // Handle comment button click
+        });
+        document.querySelector('.like-button').addEventListener('click', function() {
+            // Handle like button click
+        });
+        document.querySelector('.dislike-button').addEventListener('click', function() {
+            // Handle dislike button click
+        });
         function toggleSidebar(event) {
         event.stopPropagation();
         const sidebar = document.getElementById('sidebar');
