@@ -5,11 +5,19 @@
     <title>Post Detail</title>
     <style>
         body {
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: rgba(197, 197, 197, 0.2);
             direction: rtl;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }});
+        }
+        body.dark-mode {
+           background: linear-gradient(to bottom, rgb(164, 164, 164), rgb(91, 91, 91));
         }
         header {
             background-color: rgba(126, 126, 126, 0.26);
@@ -83,7 +91,7 @@
         }
    .comment {
        background-color: rgba(162, 153, 145, 0.08);
-       box-shadow: 0 2px 4px rgb(208, 152, 94);
+       box-shadow: 0 2px 4px rgb(255, 255, 255);
         border-radius: 5px;
         margin-bottom: 30px; /* adjust as needed */
         word-wrap: break-word
@@ -277,6 +285,7 @@
         margin: 8px 0;
         box-sizing: border-box;
         border: 2px solid #7a7272;
+        background: rgba(224, 223, 223, 0.35);
         border-radius: 4px;
         resize: none; /* Add this line */
     }
@@ -338,18 +347,23 @@
                 <div class = "post-date">
         <p>Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
         </div>
-                <form method="POST" action="{% url 'delete_comment' comment.id %}">
-    {% csrf_token %}
-    <button class="delete1">מחק</button>
-</form>
-
-            </div>
-        {% endfor %}
+              {% if comment.author == current_user %}
+            <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                {% csrf_token %}
+                <button class="delete1">מחק</button>
+            </form>
+        {% endif %}
     </div>
-
+{% endfor %}
+    </div>
 </div>
     <script>
-
+    if ("{{ request.session.dark_mode }}" === "True") {
+        document.body.classList.add('dark-mode');
+        console.log('Dark mode enabled');
+    } else {
+        console.log('Dark mode disabled');
+    }
         document.querySelector('.like-button').addEventListener('click', function() {
             // Handle like button click
         });
