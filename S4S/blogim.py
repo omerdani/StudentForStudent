@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from .models import Blog, Post2, Candidate, Student, Graduate
 from django.shortcuts import redirect
+from django.shortcuts import render, get_object_or_404
 
 
 
@@ -59,11 +60,9 @@ def create_post(request, blog_id):
         return render(request, 'blog.detail.html', {'posts': posts, 'user': user})
 
 def edit_post(request, post_id):
-    # Get the post
-    post = Post2.objects.get(id=post_id)
 
+    post = Post2.objects.get(id=post_id)
     if request.method == 'POST':
-        # Update the post
         post.title = request.POST.get('title')
         post.content = request.POST.get('content')
         post.save()
@@ -81,3 +80,11 @@ def delete_post(request, post_id):
         post.delete()
         posts = Post2.objects.all()
         return redirect('blog_detail', blog_id=blog_id)
+
+def post_detail(request, post_id):
+    post = get_object_or_404(Post2, pk=post_id)
+    blog = post.blog  # Assuming each post is associated with a blog
+
+    # Pass the blog object to the template
+    context = {'post': post, 'blog': blog}
+    return render(request, 'post_detail.html', context)

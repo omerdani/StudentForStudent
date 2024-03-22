@@ -1,6 +1,5 @@
 # Create your views here.
 import datetime
-
 from django.shortcuts import render, redirect
 from .models import Candidate, Student, Graduate, Post, Post2
 from django.http import HttpResponse
@@ -69,11 +68,15 @@ def login(request):
         return redirect('')
     else:
         return render(request, 'Login.html')
-
-
 def logout(request):
     request.session.flush()
     return redirect('login')
+def delete_post_Admin(request, post_id):           #the admin can delete every post
+    if request.method == 'POST':
+        post = Post2.objects.get(pk=post_id)
+        post.delete()
+        posts = Post2.objects.all()
+    return render(request, 'after_login_forum.html',{'posts': posts})
 
 
 def check_session(request):
@@ -123,7 +126,6 @@ def home(request):
 
 def forgotpassword(request):
     return render(request, 'ForgotPassword.html')
-
 def mainforum2(request):
     return render(request, 'after_login_forum.html')
 def mainforum(request):
