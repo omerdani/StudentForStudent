@@ -74,6 +74,9 @@
         }
 
         .post {
+             display: flex;
+             flex-direction: column;
+             justify-content: space-between;
             background-color: rgba(126, 126, 126, 0.15);
             border-radius: 5px;
             padding: 20px;
@@ -182,6 +185,22 @@
         .post-details p {
             padding-left: 10px; /* Adjust as needed */
         }
+        .comment-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: relative;
+}
+        .comment-count {
+ position: absolute;
+    bottom: 10px; /* Adjust as needed */
+    left: 10px; /* Adjust as needed */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    }
     </style>
 
 </head>
@@ -217,6 +236,7 @@
                     <a href="{% url 'post_detail' post2.id %}" style="text-decoration: none; color: inherit;">
                         <div class="post-info">
                             <span class="post-author">פורסם על ידי: {{ post2.user_name }}</span>
+
                         </div>
                         <div class="post-details">
                            {% load tz %}
@@ -225,6 +245,7 @@
                         <br>
                         <h3>{{ post2.title }}</h3>
                         <p>{{ post2.content }}</p>
+                        <span class="comment-count">&#9993; {{ post2.comment_count }}</span>
                         {% if post2.user_name == current_user %}
                         <div class="post-actions">
                             <form action="{% url 'edit_post' post2.id %}" method="get" style="display: inline;">
