@@ -6,9 +6,10 @@
     <style>
         body {
             background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }});
-            background-repeat: no-repeat;
+              background-repeat: no-repeat;
             background-attachment: fixed;
-            height: 100vh;
+            height: 100%;
+            width: 100%;
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
@@ -207,6 +208,10 @@
     white-space: nowrap;
     max-width: 100%;
     }
+     .invert-color::before, .invert-color::after {
+        content: none; /* Remove content */
+    }
+
     </style>
 
 </head>
@@ -214,6 +219,7 @@
 <header>
     <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
     <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
+     <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
 </header>
     <div class="container">
 
@@ -223,9 +229,11 @@
         </div>
 
         <button class="create-post-button" onclick="toggleCreatePostForm()">צור פוסט</button>
-        <a href="{% url '' %}" class="top-left">>
+        <a href="{% url '' %}" class="top-left">
             <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
         </a>
+
+
         <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none;">
             {% csrf_token %}
             <label for="title">Title:</label><br>

@@ -5,7 +5,7 @@ from .models import Candidate, Student, Graduate, Post, Post2
 from django.http import HttpResponse
 from django.contrib.sessions.models import Session
 from datetime import datetime, timezone
-#from .models import post_id
+
 def signup(request):
     if request.method == 'POST':
         status = request.POST.get('status')
