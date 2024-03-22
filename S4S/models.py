@@ -65,6 +65,7 @@ class Post2(models.Model):
     graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
     likes_count = models.IntegerField(default=0)
     dislikes_count = models.IntegerField(default=0)
+
     def __str__(self):
         return self.title
 class Comment(models.Model):
@@ -72,3 +73,5 @@ class Comment(models.Model):
     author = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
+
+
