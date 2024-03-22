@@ -110,6 +110,8 @@ def post_detail(request, post_id):
             comment.post = post
             comment.author = first_name + ' ' + last_name
             comment.save()
+            post.comment_count += 1
+            post.save()
             return redirect('post_detail', post_id=post.id)
     else:
         form = CommentForm()
@@ -127,6 +129,8 @@ def add_like(request, post_id):
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     post_id = comment.post.id
+    comment.post.comment_count -= 1
+    comment.post.save()
     comment.delete()
     return redirect('post_detail', post_id=post_id)
 

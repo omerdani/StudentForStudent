@@ -82,8 +82,8 @@
             position: relative;
         }
    .comment {
-       background-color: rgba(126, 126, 126, 0.08);
-       box-shadow: 0 2px 4px rgba(0, 0, 0, 5);
+       background-color: rgba(162, 153, 145, 0.08);
+       box-shadow: 0 2px 4px rgb(208, 152, 94);
         border-radius: 5px;
         margin-bottom: 30px; /* adjust as needed */
         word-wrap: break-word
@@ -179,7 +179,7 @@
         }
         .post-date {
             position: relative;
-            top: -40px;
+            top: -50px;
             right: 520px;
             display: flex;
             justify-content: space-between;
@@ -231,7 +231,7 @@
             display: inline-block;
             padding: 10px 20px;
             margin: 10px;
-            background-color: #107ef3; /* Green */
+            background-color: #107ef3;
             border: none;
             color: white;
             text-align: center;
@@ -263,6 +263,8 @@
         position: relative;
         }
         .post-author{
+             font-size: 18px;
+            font-weight: bold;
             margin-right: 7px;
             padding-right: 10px;
             padding-top: 8px; /* Adjust as needed */
@@ -279,14 +281,10 @@
         resize: none; /* Add this line */
     }
 
-    /* This will apply to a text box form with a specific class */
-    .my-textbox-class {
-        background-color: #810a0a;
-    }
-
-    /* This will apply to a text box form with a specific ID */
-    #my-textbox-id {
-        font-size: 16px;
+  .author {
+        font-size: 18px;
+        font-weight: bold;
+      text-decoration: underline;
     }
 
     </style>
@@ -333,7 +331,8 @@
      <div class="comments">
         {% for comment in post.comments.all %}
             <div class="comment">
-                <div class="author">{{ comment.author }}</div>
+                <span class="author"> הוגב ע"י: {{ comment.author}}  <br></span>
+                <br>
                 <div class="text">{{ comment.text }}</div>
                  {% load tz %}
                 <div class = "post-date">
