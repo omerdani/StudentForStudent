@@ -81,6 +81,27 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 5);
             position: relative;
         }
+   .comment {
+       background-color: rgba(126, 126, 126, 0.08);
+       box-shadow: 0 2px 4px rgba(0, 0, 0, 5);
+        border-radius: 5px;
+        margin-bottom: 30px; /* adjust as needed */
+        word-wrap: break-word
+    }
+          .created_date {
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            width: auto;
+        } {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            width: auto;
+        }
         .post h3 {
             margin-top: 0;
             color: #333;
@@ -170,7 +191,7 @@
         .comment-button, .like-button, .dislike-button {
             display: inline-block;
             padding: 10px 20px;
-            margin: 10px;
+            margin: 1px;
             background-color: #107ef3; /* Green */
             border: none;
             color: white;
@@ -182,7 +203,7 @@
             transition-duration: 0.4s;
             cursor: pointer;
             position: relative;
-            right: 400px; /* Adjust as needed */
+            right: 480px; /* Adjust as needed */
         }
         .post-details p {
             padding-left: 10px; /* Adjust as needed */
@@ -206,6 +227,22 @@
             cursor: pointer;
             position: relative;
         }
+          .comment1 {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #107ef3; /* Green */
+            border: none;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            position: relative;
+        }
         .post-actions {
         position: relative;
         }
@@ -214,6 +251,27 @@
             padding-right: 10px;
             padding-top: 8px; /* Adjust as needed */
         }
+           /* This will apply to all text box forms */
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: 2px solid #7a7272;
+        border-radius: 4px;
+        resize: none; /* Add this line */
+    }
+
+    /* This will apply to a text box form with a specific class */
+    .my-textbox-class {
+        background-color: #810a0a;
+    }
+
+    /* This will apply to a text box form with a specific ID */
+    #my-textbox-id {
+        font-size: 16px;
+    }
+
     </style>
 </head>
 <body>
@@ -242,16 +300,32 @@
         <br>
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
-        <button class="comment-button">Comment</button>
+        <button class="comment-button" id="toggle-comment-form">comment</button>
+
         <button class="like-button">Like</button>
         <button class="dislike-button">Dislike</button>
     </div>
 
+<form method="post" id="comment-form" style="display: none;">
+    {% csrf_token %}
+    {{ form.text }}
+    <br>
+    <button class="comment1">add comment</button>
+</form>
+
+     <div class="comments">
+        {% for comment in post.comments.all %}
+            <div class="comment">
+                <div class="author">{{ comment.author }}</div>
+                <div class="text">{{ comment.text }}</div>
+                <div class="created_date">{{ comment.created_date }}</div>
+            </div>
+        {% endfor %}
+    </div>
+
 </div>
     <script>
-        document.querySelector('.comment-button').addEventListener('click', function() {
-            // Handle comment button click
-        });
+
         document.querySelector('.like-button').addEventListener('click', function() {
             // Handle like button click
         });
@@ -275,6 +349,15 @@
             var form = document.getElementById("create-post-form");
             form.style.display = form.style.display === "none" ? "block" : "none";
         }
+        document.getElementById('toggle-comment-form').addEventListener('click', function() {
+    var commentForm = document.getElementById('comment-form');
+    if (commentForm.style.display === "none") {
+        commentForm.style.display = "block";
+    } else {
+        commentForm.style.display = "none";
+    }
+});
     </script>
+
 </body>
 </html>
