@@ -177,10 +177,10 @@
             justify-content: space-between;
             width: auto;
         }
-        .post-details {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .post-date {
+            position: relative;
+            top: -40px;
+            right: 520px;
             display: flex;
             justify-content: space-between;
             width: auto;
@@ -203,7 +203,7 @@
             transition-duration: 0.4s;
             cursor: pointer;
             position: relative;
-            right: 480px; /* Adjust as needed */
+            right: 0px; /* Adjust as needed */
         }
         .post-details p {
             padding-left: 10px; /* Adjust as needed */
@@ -243,6 +243,22 @@
             cursor: pointer;
             position: relative;
         }
+        .delete1 {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #107ef3; /* Green */
+            border: none;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            position: relative;
+        }
         .post-actions {
         position: relative;
         }
@@ -251,6 +267,7 @@
             padding-right: 10px;
             padding-top: 8px; /* Adjust as needed */
         }
+
            /* This will apply to all text box forms */
     input[type="text"], textarea {
         width: 100%;
@@ -300,17 +317,17 @@
         <br>
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
-        <button class="comment-button" id="toggle-comment-form">comment</button>
+        <button class="comment-button" id="toggle-comment-form">תגובה</button>
 
-        <button class="like-button">Like</button>
-        <button class="dislike-button">Dislike</button>
+        <button class="like-button">אהבתי</button>
+        <button class="dislike-button">לא אהבתי</button>
     </div>
 
 <form method="post" id="comment-form" style="display: none;">
     {% csrf_token %}
     {{ form.text }}
     <br>
-    <button class="comment1">add comment</button>
+    <button class="comment1">הוסף תגובה</button>
 </form>
 
      <div class="comments">
@@ -318,7 +335,15 @@
             <div class="comment">
                 <div class="author">{{ comment.author }}</div>
                 <div class="text">{{ comment.text }}</div>
-                <div class="created_date">{{ comment.created_date }}</div>
+                 {% load tz %}
+                <div class = "post-date">
+        <p>Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+        </div>
+                <form method="POST" action="{% url 'delete_comment' comment.id %}">
+    {% csrf_token %}
+    <button class="delete1">מחק</button>
+</form>
+
             </div>
         {% endfor %}
     </div>
