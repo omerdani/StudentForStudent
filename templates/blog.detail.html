@@ -131,7 +131,7 @@
         .post-actions {
             position: absolute;
             margin-bottom: 5px;
-            left: 5px;
+            right: 0;
             bottom: 1px;
         }
         .delete-button {
@@ -228,11 +228,11 @@
                         {% if post2.user_name == current_user %}
                         <div class="post-actions">
                             <form action="{% url 'edit_post' post2.id %}" method="get" style="display: inline;">
-                                <button type="submit" class="edit-button">Edit</button>
+                                <button type="submit" class="edit-button">ערוך</button>
                             </form>
                             <form method="post" action="{% url 'delete_post' post2.id %}" style="display: inline;">
                                 {% csrf_token %}
-                                <button type="submit" class="delete-button">Delete</button>
+                                <button type="submit" class="delete-button">מחק</button>
                             </form>
                         </div>
                         {% endif %}

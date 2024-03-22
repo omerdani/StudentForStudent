@@ -36,4 +36,6 @@ urlpatterns = [
     path('blog/<int:pk>/', blogim.blog_detail, name='blog-detail'),
     path('edit_post/<int:post_id>/', blogim.edit_post, name='edit_post'),
     path('post/<int:post_id>/', blogim.post_detail, name='post_detail'),
+    path('delete_comment/<int:comment_id>/', blogim.delete_comment, name='delete_comment'),
+
 ]

@@ -1,10 +1,9 @@
 
 from django.shortcuts import render
-from .models import Blog, Post2, Candidate, Student, Graduate
+from .models import Blog, Post2, Candidate, Student, Graduate,Comment
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
-
-
+from .forms import CommentForm
 
 def blog_detail(request, blog_id):
     blog = Blog.objects.get(pk=blog_id)
@@ -81,10 +80,52 @@ def delete_post(request, post_id):
         posts = Post2.objects.all()
         return redirect('blog_detail', blog_id=blog_id)
 
-def post_detail(request, post_id):
-    post = get_object_or_404(Post2, pk=post_id)
-    blog = post.blog  # Assuming each post is associated with a blog
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Post2, Comment
+from .forms import CommentForm
 
-    # Pass the blog object to the template
-    context = {'post': post, 'blog': blog}
+def post_detail(request, post_id):
+    user_id = request.session.get('user_id', 'No user logged in')
+    user_type = request.session.get('user_type', 'No user type')
+    first_name = 'No first name'
+    last_name = 'No last name'
+    user = None
+    if user_id and user_type:
+        if user_type == 'candidate':
+            user = Candidate.objects.get(id=user_id)
+        elif user_type == 'student':
+            user = Student.objects.get(id=user_id)
+        elif user_type == 'graduate':
+            user = Graduate.objects.get(id=user_id)
+        first_name = user.first_name
+        last_name = user.last_name
+
+    post = get_object_or_404(Post2, pk=post_id)
+    blog = post.blog
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = first_name + ' ' + last_name
+            comment.save()
+            return redirect('post_detail', post_id=post.id)
+    else:
+        form = CommentForm()
+    context = {'post': post, 'blog': blog, 'form': form}
     return render(request, 'post_detail.html', context)
+
+
+def add_like(request, post_id):
+    post = get_object_or_404(Post2, pk=post_id)
+    post.likes_count += 1
+    post.save()
+    return redirect('post_detail', post_id=post_id)
+
+
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    post_id = comment.post.id
+    comment.delete()
+    return redirect('post_detail', post_id=post_id)
