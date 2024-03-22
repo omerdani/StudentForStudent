@@ -129,3 +129,4 @@ def delete_comment(request, comment_id):
     post_id = comment.post.id
     comment.delete()
     return redirect('post_detail', post_id=post_id)
+
