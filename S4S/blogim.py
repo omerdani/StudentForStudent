@@ -102,7 +102,7 @@ def post_detail(request, post_id):
 
     post = get_object_or_404(Post2, pk=post_id)
     blog = post.blog
-
+    current_user = first_name + ' ' + last_name
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -115,7 +115,7 @@ def post_detail(request, post_id):
             return redirect('post_detail', post_id=post.id)
     else:
         form = CommentForm()
-    context = {'post': post, 'blog': blog, 'form': form}
+    context = {'post': post, 'blog': blog, 'form': form, 'current_user': current_user}
     return render(request, 'post_detail.html', context)
 
 
