@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgba(197, 197, 197, 0.2);
+            direction: rtl;
+        }
+        header {
+            background-color: rgba(126, 126, 126, 0.26);
+            color: rgb(0, 0, 0);
+            display: flex;
+            justify-content: center; /* Center items horizontally */
+            align-items: center;
+            position: relative; /* Make header a relative container */
+        }
+        .menu-icon {
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+            position: absolute; /* Position menu icon absolutely */
+            left: 10px; /* Position menu icon at the right */
+            top: 50%; /* Center menu icon vertically */
+            transform: translateY(-50%); /* Center menu icon vertically */
+        }
+        .sidebar {
+            width: 250px;
+            background-color: rgba(51, 51, 51, 0.64);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            transition: left 0.3s ease;
+            padding-top: 60px; /* Adjust to accommodate header */
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px;
+            padding-top: 50px; /* Add this line */
+            text-decoration: none;
+            direction: ltr;
+            font-weight: bold; /* Make the font bolder */
+            font-size: 16px; /* Increase the font size */
+        }
+        .sidebar a:hover {
+            background-color: rgba(85, 85, 85, 0);
+        }
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .post {
+            background-color: rgba(126, 126, 126, 0.15);
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 5);
+            position: relative;
+        }
+        .post h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .post p {
+            color: #000000;
+        }
+
+        .post-content {
+            margin-top: 10px;
+        }
+
+        .post-info {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            width: auto;
+        }
+         .post-details {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            width: auto;
+        }
+
+        .post-author, .post-date {
+            margin-right: 7px;
+        }
+        .invert-color {
+            filter: invert(0);
+        }
+        .create-post-button {
+            background-color: rgba(16, 126, 243, 0.88);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .post-actions {
+            position: absolute;
+            margin-bottom: 5px;
+            left: 5px;
+            bottom: 1px;
+        }
+        .delete-button {
+            margin-right: 0px;
+            margin-bottom: 5px;
+        }
+        .edit-button {
+            margin-bottom: 5px;
+            margin-right: 15px; /* Add this line */
+        }
+        .create-post-button:hover {
+            background-color: #0056b3;
+        }
+        .top-left {
+            position: absolute;
+            top: 0px;
+            right: 0;
+        }
+        .post-info {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            width: auto;
+        }
+        .post-details {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            width: auto;
+        }
+        #create-post-form {
+            display: none;
+        }
+        .comment-button, .like-button, .dislike-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #107ef3; /* Green */
+            border: none;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            position: relative;
+            right: 400px; /* Adjust as needed */
+        }
+        .post-details p {
+            padding-left: 10px; /* Adjust as needed */
+        }
+        .comment-button:hover, .like-button:hover, .dislike-button:hover, .go_back:hover{
+            background-color: rgba(16, 126, 243, 0.80);
+        }
+        .go_back {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #107ef3; /* Green */
+            border: none;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+            position: relative;
+        }
+        .post-actions {
+        position: relative;
+        }
+        .post-author{
+            margin-right: 7px;
+            padding-right: 10px;
+            padding-top: 8px; /* Adjust as needed */
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
+    <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
+</header>
+<div class="container">
+        <button class="go_back" onclick="window.location='{% url 'blog-detail' blog.id %}'">{{ blog.title }}</button>
+    <br><br><br>
+        <div class="sidebar" id="sidebar">
+            <div class="close-icon" onclick="toggleSidebar(event)">×</div>
+            <a href="/My_Profile/">My Profile</a>
+            <a href="/Settings/">Settings</a>
+            <a href="/About_us/">About us</a>
+            <a href="{% url 'logout' %}">Sign Out</a>
+        </div>
+    <div class="post">
+        <div class="post-info">
+            <span class="post-author">פורסם על ידי: {{ post.user_name }}</span>
+        </div>
+        <div class="post-details">
+           {% load tz %}
+        <p>Posted on: {{ post.date_posted|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+        </div>
+        <br>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.content }}</p>
+        <button class="comment-button">Comment</button>
+        <button class="like-button">Like</button>
+        <button class="dislike-button">Dislike</button>
+    </div>
+
+</div>
+    <script>
+        document.querySelector('.comment-button').addEventListener('click', function() {
+            // Handle comment button click
+        });
+        document.querySelector('.like-button').addEventListener('click', function() {
+            // Handle like button click
+        });
+        document.querySelector('.dislike-button').addEventListener('click', function() {
+            // Handle dislike button click
+        });
+        function toggleSidebar(event) {
+        event.stopPropagation();
+        const sidebar = document.getElementById('sidebar');
+        sidebar.style.left = (sidebar.style.left === "0px") ? "-250px" : "0px";
+    }
+
+    // Close the menu when clicking outside of it
+    document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('sidebar');
+        if (!sidebar.contains(event.target)) {
+            sidebar.style.left = "-250px";
+        }
+    });
+        function toggleCreatePostForm() {
+            var form = document.getElementById("create-post-form");
+            form.style.display = form.style.display === "none" ? "block" : "none";
+        }
+    </script>
+</body>
+</html>
