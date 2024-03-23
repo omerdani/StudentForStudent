@@ -39,5 +39,6 @@ urlpatterns = [
     path('delete_comment/<int:comment_id>/', blogim.delete_comment, name='delete_comment'),
     path('Settings/', options.settings, name='settings'),
     path('toggle_dark_mode/', options.toggle_dark_mode, name='toggle_dark_mode'),
+    path('About_us/', blogim.about_us, name='about_us'),
 
 ]

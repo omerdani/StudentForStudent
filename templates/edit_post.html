@@ -5,21 +5,29 @@
     <title>Edit Post</title>
     <style>
         body {
-            background-color: #b0b0a6;
+             background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }});
+              background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            direction: rtl;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+
             font-family: Arial, sans-serif;
-            direction: rtl;
+
         }
 
         form {
-            background-color: #fff;
+           background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }});
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,10);
             overflow: auto;
             width: 60%;
             max-width: 800px;
@@ -34,10 +42,11 @@
             padding: 15px;
             margin-bottom: 15px;
             border-radius: 4px;
-            border: 1px solid #ddd;
+            border: 1px solid #0e0e0e;
             resize: none;
             height: 100px;
             font-size: 25px; /* Increase input and textarea font size */
+             background-color: #e7e3e3;
         }
 
         button {
