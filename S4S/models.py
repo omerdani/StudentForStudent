@@ -76,3 +76,11 @@ class Comment(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
 
 
+class Notification(models.Model):
+    candidate = models.ForeignKey('Candidate', on_delete=models.CASCADE, null=True, blank=True)
+    student = models.ForeignKey('Student', on_delete=models.CASCADE, null=True, blank=True)
+    graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey(Post2, on_delete=models.CASCADE)
+    seen = models.BooleanField(default=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+

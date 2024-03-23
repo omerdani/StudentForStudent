@@ -8,7 +8,7 @@
             background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }});
               background-repeat: no-repeat;
             background-attachment: fixed;
-            height: 100%;
+            height: 100vh;
             width: 100%;
             margin: 0;
             padding: 0;
@@ -211,6 +211,11 @@
      .invert-color::before, .invert-color::after {
         content: none; /* Remove content */
     }
+    #notification-container {
+    position: absolute;
+    top: 23px;
+    left: 350px;
+}
 
     </style>
 
@@ -220,6 +225,10 @@
     <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
     <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
      <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
+     <div id="notification-container">
+    <span>&#x1F514;</span> <!-- This is a Unicode bell symbol -->
+    <span id="notification-counter"></span>
+</div>
 </header>
     <div class="container">
 
@@ -283,7 +292,7 @@
                 <a href="{% url 'logout' %}">Sign Out</a>
             </div>
     </div>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
     if ("{{ request.session.dark_mode }}" === "True") {
         document.body.classList.add('dark-mode');
@@ -308,6 +317,13 @@
             var form = document.getElementById("create-post-form");
             form.style.display = form.style.display === "none" ? "block" : "none";
         }
+        function updateNotificationCounter() {
+    $.get('/notifications/unseen_count/', function(data) {
+        $('#notification-counter').text(data.unseen_count);
+    });
+}
+updateNotificationCounter();
+setInterval(updateNotificationCounter, 5000);
     </script>
 </body>
 </html>
