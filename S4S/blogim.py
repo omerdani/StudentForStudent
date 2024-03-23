@@ -150,3 +150,4 @@ def delete_comment(request, comment_id):
 
 def about_us(request):
     return render(request, 'about_us.html')
+
