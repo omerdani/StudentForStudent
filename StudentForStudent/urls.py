@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from S4S import views, DataVisuals,blogim, options
+from S4S import views, DataVisuals,blogim, options,user_profile
 
 urlpatterns = [
     path('', views.home, name=''),
@@ -40,5 +40,6 @@ urlpatterns = [
     path('Settings/', options.settings, name='settings'),
     path('toggle_dark_mode/', options.toggle_dark_mode, name='toggle_dark_mode'),
     path('About_us/', blogim.about_us, name='about_us'),
+    path('My_Profile/', user_profile.my_profile, name='My_Profile'),
 
 ]

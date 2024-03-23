@@ -1,0 +1,46 @@
+<html lang="en" dir="rtl">
+<head>
+    <style>
+        body {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }});
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action=".">
+        {% csrf_token %}
+        <label for="first_name">First Name:</label><br>
+        <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}"><br>
+        <label for="last_name">Last Name:</label><br>
+        <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}"><br>
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" value="{{ user.email }}" readonly style="background-color: #ada7a7;"><br>
+        {% if user_type == 'student' %}
+        <label for="current_year">Current Year:</label><br>
+        <input type="text" id="current_year" name="current_year" value="{{ user.current_year }}"><br>
+        {% endif %}
+        <button type="submit">Update Profile</button>
+    </form>
+
+    {% for post in posts %}
+        <div class="post">
+            <div class="post-info">
+                <span class="post-author">Posted by: {{ post.user_name }}</span>
+            </div>
+            <div class="post-details">
+               {% load tz %}
+            <p>Posted on: {{ post.date_posted|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+            </div>
+            <br>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.content }}</p>
+        </div>
+    {% endfor %}
+</body>
+</html>
