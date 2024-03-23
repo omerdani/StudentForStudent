@@ -10,28 +10,150 @@
             padding: 0;
             font-family: Arial, sans-serif;
         }
+        .sidebar {
+            width: 250px;
+            background-color: rgba(51, 51, 51, 0.64);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            transition: left 0.3s ease;
+            padding-top: 60px; /* Adjust to accommodate header */
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px;
+            padding-top: 50px; /* Add this line */
+            text-decoration: none;
+            direction: ltr;
+            font-weight: bold; /* Make the font bolder */
+            font-size: 16px; /* Increase the font size */
+        }
+        .sidebar a:hover {
+            background-color: rgba(85, 85, 85, 0);
+        }
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .post {
+            display: none;
+            background-color: rgba(126, 126, 126, 0.15);
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 5);
+            position: relative;
+            margin-right: 20px;
+            margin-left: 500px;
+        }
+        header {
+            background-color: rgba(126, 126, 126, 0.26);
+            color: rgb(0, 0, 0);
+            display: flex;
+            justify-content: center; /* Center items horizontally */
+            align-items: center;
+            position: relative; /* Make header a relative container */
+        }
+        .post h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .post p {
+            color: #000000;
+        }
+        .post-info {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            width: auto;
+        }
+        .menu-icon {
+    cursor: pointer;
+    font-size: 24px;
+    padding: 10px;
+    position: absolute; /* Position menu icon absolutely */
+    left: 10px; /* Position menu icon at the left */
+    top: 50%; /* Center menu icon vertically */
+    transform: translateY(-50%); /* Center menu icon vertically */
+}
+        .post-details {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: space-between;
+            width: auto;
+            margin-left: 10px;
+
+        }
+        .post-author, .post-date {
+            margin-right: 7px;
+            padding-right: 10px;
+            padding-top: 8px; /* Adjust as needed */
+        }
+        button,input[type="text"], input[type="email"] {
+            margin-right: 20px;
+        }
+        label[for="select_year"], label[for="first_name"], label[for="last_name"], label[for="email"]{
+            padding-right: 20px;
+        }
     </style>
 </head>
+<header>
+    <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
+    <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
+     <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
+     <div id="notification-container">
+    <span>&#x1F514;</span> <!-- This is a Unicode bell symbol -->
+    <span id="notification-counter"></span>
+</div>
+</header>
 <body>
+
     <form method="post" action=".">
         {% csrf_token %}
-        <label for="first_name">First Name:</label><br>
+        <label for="first_name">שם פרטי:</label><br>
         <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}"><br>
-        <label for="last_name">Last Name:</label><br>
+        <label for="last_name">שם משפחה:</label><br>
         <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}"><br>
-        <label for="email">Email:</label><br>
+        <label for="email">אימייל:</label><br>
         <input type="email" id="email" name="email" value="{{ user.email }}" readonly style="background-color: #ada7a7;"><br>
         {% if user_type == 'student' %}
-        <label for="current_year">Current Year:</label><br>
-        <input type="text" id="current_year" name="current_year" value="{{ user.current_year }}"><br>
+        <label for="select_year">שנת לימוד:</label><br>
+        <input type="text" id="select_year" name="select_year" value="{{ user.select_year }}"><br>
         {% endif %}
-        <button type="submit">Update Profile</button>
+        <button type="submit">עדכן פרופיל</button>
     </form>
 
-    {% for post in posts %}
+    <button id="myPostsButton" onclick="togglePosts()">הפוסטים שלי</button> <br><br><br>
+    <div class="sidebar" id="sidebar">
+                <div class="close-icon" onclick="toggleSidebar(event)">×</div>
+                <a href="/My_Profile/">My Profile</a>
+                <a href="/Settings/">Settings</a>
+                <a href="/About_us/">About us</a>
+                <a href="{% url 'logout' %}">Sign Out</a>
+            </div>
+   {% for post in posts %}
+    <a href="{% url 'post_detail' post.id %}" style="text-decoration: none; color: inherit;">
         <div class="post">
             <div class="post-info">
-                <span class="post-author">Posted by: {{ post.user_name }}</span>
+                <span class="post-author">פורסם על ידי: {{ post.user_name }}</span>
             </div>
             <div class="post-details">
                {% load tz %}
@@ -41,6 +163,33 @@
             <h3>{{ post.title }}</h3>
             <p>{{ post.content }}</p>
         </div>
-    {% endfor %}
+    </a>
+{% endfor %}
+
+    <script>
+        function togglePosts() {
+            var posts = document.getElementsByClassName('post');
+            for (var i = 0; i < posts.length; i++) {
+                if (posts[i].style.display === 'none' || posts[i].style.display === '') {
+                    posts[i].style.display = 'block';
+                } else {
+                    posts[i].style.display = 'none';
+                }
+            }
+        }
+            function toggleSidebar(event) {
+        event.stopPropagation();
+        const sidebar = document.getElementById('sidebar');
+        sidebar.style.left = (sidebar.style.left === "0px") ? "-250px" : "0px";
+    }
+
+    // Close the menu when clicking outside of it
+    document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('sidebar');
+        if (!sidebar.contains(event.target)) {
+            sidebar.style.left = "-250px";
+        }
+    });
+    </script>
 </body>
 </html>
