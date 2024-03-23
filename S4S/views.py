@@ -124,6 +124,18 @@ def home(request):
     else:
         return render(request, 'Home.html')
 
+def like_post(request, post_id):
+    post = get_object_or_404(Post2, id=post_id)
+    user_vote, created = UserVote.objects.get_or_create(user=request.user, post=post)
+
+    if created:
+        user_vote.vote = True
+    else:
+        user_vote.vote = not user_vote.vote
+
+    user_vote.save()
+    return redirect('post_detail', post_id=post.id)
+
 def forgotpassword(request):
     return render(request, 'ForgotPassword.html')
 def mainforum2(request):
