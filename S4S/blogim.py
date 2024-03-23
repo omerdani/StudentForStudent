@@ -1,6 +1,6 @@
 
 from django.shortcuts import render
-from .models import Blog, Post2, Candidate, Student, Graduate,Comment
+from .models import Blog, Post2, Candidate, Student, Graduate,Comment, Notification
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from .forms import CommentForm
@@ -112,12 +112,26 @@ def post_detail(request, post_id):
             comment.save()
             post.comment_count += 1
             post.save()
+            post_owner_username = None
+            if post.candidate:
+                post_owner_username = post.candidate.first_name + ' ' + post.candidate.last_name
+            elif post.student:
+                post_owner_username = post.student.first_name + ' ' + post.student.last_name
+            elif post.graduate:
+                post_owner_username = post.graduate.first_name + ' ' + post.graduate.last_name
+
+            if comment.author != post_owner_username:
+                if post.candidate:
+                    Notification.objects.create(candidate=post.candidate, post=post)
+                elif post.student:
+                    Notification.objects.create(student=post.student, post=post)
+                elif post.graduate:
+                    Notification.objects.create(graduate=post.graduate, post=post)
             return redirect('post_detail', post_id=post.id)
     else:
         form = CommentForm()
     context = {'post': post, 'blog': blog, 'form': form, 'current_user': current_user}
     return render(request, 'post_detail.html', context)
-
 
 def add_like(request, post_id):
     post = get_object_or_404(Post2, pk=post_id)
@@ -136,3 +150,4 @@ def delete_comment(request, comment_id):
 
 def about_us(request):
     return render(request, 'about_us.html')
+

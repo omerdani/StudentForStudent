@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from S4S import views, DataVisuals,blogim, options
+from S4S import views, DataVisuals,blogim, options,notifcations, user_profile
 
 urlpatterns = [
     path('', views.home, name=''),
@@ -39,6 +39,10 @@ urlpatterns = [
     path('delete_comment/<int:comment_id>/', blogim.delete_comment, name='delete_comment'),
     path('Settings/', options.settings, name='settings'),
     path('toggle_dark_mode/', options.toggle_dark_mode, name='toggle_dark_mode'),
+    path('notifications/unseen_count/', notifcations.unseen_count, name='unseen_count'),
+    path('notifications/mark_seen/<int:notification_id>/', notifcations.mark_notification_seen, name='mark_notification_seen'),
+    path('notifications/', notifcations.notifications, name='notifications'),
     path('About_us/', blogim.about_us, name='about_us'),
+    path('My_Profile/', user_profile.my_profile, name='My_Profile'),
 
 ]
