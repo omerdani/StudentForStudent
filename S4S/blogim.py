@@ -147,3 +147,6 @@ def delete_comment(request, comment_id):
     comment.post.save()
     comment.delete()
     return redirect('post_detail', post_id=post_id)
+
+def about_us(request):
+    return render(request, 'about_us.html')
