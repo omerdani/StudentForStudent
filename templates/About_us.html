@@ -13,7 +13,8 @@
         h4{
              direction: rtl;
             font-size: 2em;
-            line-height: 1.5
+            line-height: 1.5;
+            margin: 0;
         }
         h1 {
             direction: rtl;
@@ -75,6 +76,8 @@
             position: absolute;
             top: 0px;
             right: 0;
+            margin: 0px;
+
         }
         body {
             background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }});
@@ -107,7 +110,7 @@
     <span id="notification-counter"></span>
 </div>
      <a href="{% url '' %}" class="top-left">
-            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
+            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="61" class="invert-color">
         </a>
 </header>
 <body>
