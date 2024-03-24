@@ -7,7 +7,7 @@
         body {
             background-repeat: no-repeat;
             background-attachment: fixed;
-            height: 100vh;
+            height: 100%;
             width: 100%;
             margin: 0;
             padding: 0;
@@ -196,7 +196,7 @@
         #create-post-form {
             display: none;
         }
-        .comment-button, .like-button, .dislike-button {
+        .comment-button, .like-button {
             display: inline-block;
             padding: 10px 20px;
             margin: 1px;
@@ -216,7 +216,7 @@
         .post-details p {
             padding-left: 10px; /* Adjust as needed */
         }
-        .comment-button:hover, .like-button:hover, .dislike-button:hover, .go_back:hover{
+        .comment-button:hover, .like-button:hover:hover, .go_back:hover{
             background-color: rgba(16, 126, 243, 0.80);
         }
         .go_back {
@@ -295,7 +295,14 @@
         font-weight: bold;
       text-decoration: underline;
     }
+    .like-section {
+        display: flex;
+        align-items: center;
+    }
 
+    .likes-symbol {
+        margin-right: 0px; /* adjust as needed */
+    }
     </style>
 </head>
 <body>
@@ -325,9 +332,10 @@
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
         <button class="comment-button" id="toggle-comment-form">תגובה</button>
-        <button class="like-button" onclick="location.href='{% url 'like_post' post.id %}'">Like</button>
-        <p>Likes: {{ post.likes_count }}</p>
-        <button class="dislike-button">לא אהבתי</button>
+        <div class="like-section">
+            <button class="like-button" onclick="location.href='{% url 'like_post' post.id %}'">Like</button>
+            <p class="likes-symbol">💙 {{ post.likes_count }}</p>
+        </div>
     </div>
 
 <form method="post" id="comment-form" style="display: none;">
@@ -366,9 +374,6 @@
     }
         document.querySelector('.like-button').addEventListener('click', function() {
             // Handle like button click
-        });
-        document.querySelector('.dislike-button').addEventListener('click', function() {
-            // Handle dislike button click
         });
         function toggleSidebar(event) {
         event.stopPropagation();
