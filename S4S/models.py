@@ -63,8 +63,8 @@ class Post2(models.Model):
     candidate = models.ForeignKey('Candidate', on_delete=models.CASCADE, null=True, blank=True)
     student = models.ForeignKey('Student', on_delete=models.CASCADE, null=True, blank=True)
     graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
-    likes_count = models.IntegerField(default=0)
     comment_count = models.IntegerField(default=0)
+    likes_count = models.IntegerField(default=0)
 
 
     def __str__(self):
@@ -84,3 +84,8 @@ class Notification(models.Model):
     seen = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+class Like(models.Model):
+    user_candidate = models.ForeignKey('Candidate', on_delete=models.CASCADE, null=True, blank=True)
+    user_student = models.ForeignKey('Student', on_delete=models.CASCADE, null=True, blank=True)
+    user_graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey('Post2', on_delete=models.CASCADE)

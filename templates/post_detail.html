@@ -325,8 +325,8 @@
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
         <button class="comment-button" id="toggle-comment-form">תגובה</button>
-
-        <button class="like-button">אהבתי</button>
+        <button class="like-button" onclick="location.href='{% url 'like_post' post.id %}'">Like</button>
+        <p>Likes: {{ post.likes_count }}</p>
         <button class="dislike-button">לא אהבתי</button>
     </div>
 

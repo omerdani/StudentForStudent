@@ -289,6 +289,7 @@
                         <h3>{{ post2.title }}</h3>
                         <p>{{ post2.content }}</p>
                         <span class="comment-count">&#9993; {{ post2.comment_count }}</span>
+                        <p>💙 : {{ post2.likes_count }}</p>
                         {% if post2.user_name == current_user %}
                         <div class="post-actions">
                             <form action="{% url 'edit_post' post2.id %}" method="get" style="display: inline;">
