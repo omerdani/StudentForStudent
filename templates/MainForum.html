@@ -122,6 +122,12 @@
             padding: 5px 10px;
             border-radius: 4px;
         }
+        #notification-container {
+    position: absolute;
+    top: 28px;
+    left: 350px;
+            font-size: 24px;
+}
         .logout-link a:hover {
             background-color: #ddd;
         }
@@ -140,6 +146,11 @@
             text-align: center;
             font-size: 2em; /* Make the text bigger */
             font-weight: bold; /* Make the text bolder */
+        }
+        .top-left {
+            position: absolute;
+            top: 0px;
+            right: 0;
         }
         .sidebar a {
             display: block;
@@ -183,6 +194,14 @@
 
 <div class="container">
     <header>
+        <a href="{% url '' %}" class="top-left">
+            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
+        </a>
+
+     <div id="notification-container">
+    <span>&#x1F514;</span> <!-- This is a Unicode bell symbol -->
+    <span id="notification-counter"></span>
+</div>
         <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
         <h2>{{ user.first_name }} {{ user.last_name }}, welcome to S4S Forum</h2>
     </header>
@@ -255,8 +274,9 @@
         <a href="/About_us/">About us</a>
         <a href="{% url 'logout' %}">Sign Out</a>
     </div>
-</div>
 
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     if ("{{ request.session.dark_mode }}" === "True") {
         document.body.classList.add('dark-mode');
@@ -277,6 +297,13 @@
             sidebar.style.left = "-250px";
         }
     });
+    function updateNotificationCounter() {
+        $.get('/notifications/unseen_count/', function(data) {
+            $('#notification-counter').text(data.unseen_count);
+        });
+    }
+    updateNotificationCounter();
+    setInterval(updateNotificationCounter, 5000);
 </script>
 
 
