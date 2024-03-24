@@ -67,6 +67,7 @@
             justify-content: center; /* Center items horizontally */
             align-items: center;
             position: relative; /* Make header a relative container */
+            height: 65px;
         }
         .post h3 {
             margin-top: 0;
@@ -118,6 +119,12 @@
     top: 23px;
     left: 350px;
 }
+           h2 {
+        direction: rtl;
+        font-size: 2em;
+        line-height: 1.5;
+margin: 0;
+    }
              .top-left {
             position: absolute;
             top: 0px;
@@ -151,7 +158,7 @@ button:hover {
     <span id="notification-counter"></span>
 </div>
      <a href="{% url '' %}" class="top-left">
-            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
+            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="61" class="invert-color">
         </a>
 </header>
 <body>
@@ -166,7 +173,7 @@ button:hover {
         <input type="email" id="email" name="email" value="{{ user.email }}" readonly style="background-color: #ada7a7;"><br>
         {% if user_type == 'student' %}
         <label for="select_year">שנת לימוד:</label><br>
-        <input type="text" id="select_year" name="select_year" value="{{ user.select_year }}">
+        <input type="text" id="select_year" name="select_year" value="{{ user.select_year }}"readonly style="background-color: #ada7a7;">
         <select id="select_year" name="select_year">
             <option value="1" {% if user.select_year == '1' %}selected{% endif %}>1</option>
             <option value="2" {% if user.select_year == '2' %}selected{% endif %}>2</option>
