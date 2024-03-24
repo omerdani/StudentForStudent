@@ -90,6 +90,7 @@
             margin-bottom: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 5);
             position: relative;
+            word-wrap: break-word;
         }
         .post h3 {
             margin-top: 0;
@@ -215,8 +216,27 @@
     position: absolute;
     top: 23px;
     left: 350px;
+}  /* This will apply to all text box forms */
+    input[type="text"], textarea {
+        width: 50%;
+        box-sizing: border-box;
+        border: 2px solid #7a7272;
+        background: rgba(224, 223, 223, 0.35);
+        border-radius: 4px;
+        resize: none; /* Add this line */
+        vertical-align: top;
+    }
+.resize-textbox {
+    width: 100%;
+    height: 200px; /* Adjust as needed */
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #7a7272;
+    background: rgba(224, 223, 223, 0.35);
+    border-radius: 4px;
+    resize: none;
+    vertical-align: top;
 }
-
     </style>
 
 </head>
@@ -245,11 +265,11 @@
 
         <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none;">
             {% csrf_token %}
-            <label for="title">Title:</label><br>
+            <label for="title">כותרת :</label><br>
             <input type="text" id="title" name="title"><br>
-            <label for="content">Content:</label><br>
-            <textarea id="content" name="content"></textarea><br>
-            <button type="submit">Create Post</button>
+            <label for="content">תוכן :</label><br>
+            <textarea id="content" name="content" class="resize-textbox"></textarea><br>
+            <button class="create-post-button" type="submit">Create Post</button>
         </form>
 
         <div class="posts">

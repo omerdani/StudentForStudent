@@ -21,6 +21,7 @@
             justify-content: center; /* Center items horizontally */
             align-items: center;
             position: relative; /* Make header a relative container */
+            height: 65px;
         }
         .menu-icon {
             cursor: pointer;
@@ -86,9 +87,26 @@
             cursor: pointer;
             position: relative;
         }
+
+    h2 {
+        direction: rtl;
+        font-size: 2em;
+        line-height: 1.5;
+        margin: 0px;
+    }
         body.dark-mode {
         background: linear-gradient(to bottom, rgb(164, 164, 164), rgb(91, 91, 91));
         }
+            .top-left {
+            position: absolute;
+            top: 0px;
+            right: 0;
+        }
+                #notification-container {
+    position: absolute;
+    top: 23px;
+    left: 350px;
+}
 
     </style>
 </head>
@@ -96,7 +114,15 @@
     <header>
         <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
         <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
+        <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
+             <div id="notification-container">
+    <span>&#x1F514;</span>
+    <span id="notification-counter"></span>
+</div>
     </header>
+     <a href="{% url '' %}" class="top-left">
+            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="61" class="invert-color">
+        </a>
 <div class="container">
 <form action="{% url 'settings' %}" method="post">
     {% csrf_token %}
@@ -115,6 +141,7 @@
         <a href="{% url 'logout' %}">Sign Out</a>
     </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     function toggleDarkMode(checkbox) {
         // Update the dark mode class on the body element
@@ -152,6 +179,14 @@
             sidebar.style.left = "-250px";
         }
     });
+      function updateNotificationCounter() {
+        $.get('/notifications/unseen_count/', function(data) {
+            $('#notification-counter').text(data.unseen_count);
+        });
+    }
+    updateNotificationCounter();
+    setInterval(updateNotificationCounter, 5000);
+</script>
 </script>
 </body>
 </html>
