@@ -13,41 +13,28 @@ from django.core.exceptions import ObjectDoesNotExist
 def send_email(to_email):
     # Generate a unique code
     reset_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
-
-    # set up the SMTP server
     smtp_server = smtplib.SMTP(host='smtp.gmail.com', port=587)
     smtp_server.starttls()
-
-    # Login to the email server
     smtp_server.login("omerdaniel00@gmail.com", "prur xdcz dycw qypl")
-
-    # create a message
     msg = MIMEMultipart()
 
     msg['From'] = "omerdaniel00@gmail.com"
     msg['To'] = to_email
     msg['Subject'] = "Reset your password"
 
-    # add in the message body
     msg.attach(MIMEText(f'Your reset code is: {reset_code}', 'plain'))
-
-    # send the message via the server
     smtp_server.send_message(msg)
-
-    # close the connection
     smtp_server.quit()
-
     return reset_code
 
 
-@csrf_exempt
 @csrf_exempt
 def send_test_email(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         if email:
             try:
-                # Check if the email exists in any of the user models
+
                 if Candidate.objects.filter(email=email).exists():
                     user = Candidate.objects.get(email=email)
                 elif Student.objects.filter(email=email).exists():
@@ -98,6 +85,7 @@ def enter_code(request):
 
         if code == user.reset_code:
             user.password = new_password
+            user.reset_code = None
             user.save()
             return render(request, 'Login.html')
         else:
