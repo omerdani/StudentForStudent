@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from S4S import views, DataVisuals,blogim, options,notifcations, user_profile
+from S4S import views, DataVisuals,blogim, options,notifcations, user_profile,email
 
 urlpatterns = [
     path('', views.home, name=''),
@@ -45,5 +45,7 @@ urlpatterns = [
     path('About_us/', blogim.about_us, name='about_us'),
     path('My_Profile/', user_profile.my_profile, name='My_Profile'),
     path('like_post/<int:post_id>/', views.like_post, name='like_post'),
+    path('sent_test_email/', email.send_test_email, name='send_test_email'),
+    path('enter_code/', email.enter_code, name='enter_code'),
 
 ]
