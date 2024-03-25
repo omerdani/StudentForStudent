@@ -44,5 +44,6 @@ urlpatterns = [
     path('notifications/', notifcations.notifications, name='notifications'),
     path('About_us/', blogim.about_us, name='about_us'),
     path('My_Profile/', user_profile.my_profile, name='My_Profile'),
+    path('like_post/<int:post_id>/', views.like_post, name='like_post'),
 
 ]
