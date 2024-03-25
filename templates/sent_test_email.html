@@ -1,15 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html dir="rtl">
 <head>
     <title>Send Test Email</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #b4beac;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-size: 28px; /* Adjust this value to your liking */
+        }
+        label, input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box; /* Add this line */
+        }
+        input {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            color: #333;
+        }
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .login-button {
+            display: inline-block;
+            padding: 22px 55px;
+            background-color: #4caf50;
+            color: white;
+            text-decoration: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            border-radius: 4px;
+        }
+        .login-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>Send Test Email</h1>
     <form method="POST" action="{% url 'send_test_email' %}">
-    {% csrf_token %}
-    <label for="email">Email:</label><br>
-    <input type="email" id="email" name="email" required><br>
-    <input type="submit" value="Send Test Email">
-</form>
+        <h1>אנא הזן את המייל שלך למטה. במידה והמייל משוייך למשתמש רשום ישלח אליך קוד שישמש אותך בתהליך איפוס הסיסמה.</h1>
+        {% csrf_token %}
+        <label for="email">אימייל:</label>
+        <input type="email" id="email" name="email" required>
+        <input type="submit" value="שלח מייל" class="small-button">
+        <a href="/" class="login-button">חזרה לדף הבית</a>
+    </form>
 </body>
 </html>

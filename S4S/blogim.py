@@ -5,6 +5,8 @@ from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from .forms import CommentForm
 
+from django.contrib.auth.models import User
+
 def blog_detail(request, blog_id):
     blog = Blog.objects.get(pk=blog_id)
     posts2 = Post2.objects.filter(blog=blog)
@@ -18,6 +20,9 @@ def blog_detail(request, blog_id):
             user = Student.objects.get(id=user_id)
         elif user_type == 'graduate':
             user = Graduate.objects.get(id=user_id)
+        elif user_type == 'superuser':
+            user = User.objects.get(id=user_id)
+            return render(request, 'blog.detail.html', {'blog': blog, 'posts2': posts2, 'user': user})
         current_user = user.first_name + ' ' + user.last_name
     return render(request, 'blog.detail.html', {'blog': blog, 'posts2': posts2, 'current_user': current_user})
 def create_post(request, blog_id):
@@ -97,6 +102,10 @@ def post_detail(request, post_id):
             user = Student.objects.get(id=user_id)
         elif user_type == 'graduate':
             user = Graduate.objects.get(id=user_id)
+        elif user_type == 'superuser':
+            user = User.objects.get(id=user_id)
+
+
         first_name = user.first_name
         last_name = user.last_name
 
@@ -119,6 +128,7 @@ def post_detail(request, post_id):
                 post_owner_username = post.student.first_name + ' ' + post.student.last_name
             elif post.graduate:
                 post_owner_username = post.graduate.first_name + ' ' + post.graduate.last_name
+
 
             if comment.author != post_owner_username:
                 if post.candidate:

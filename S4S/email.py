@@ -9,6 +9,8 @@ import string
 from .models import Candidate, Student, Graduate
 from django.shortcuts import redirect
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib import messages
+
 
 def send_email(to_email):
     # Generate a unique code
@@ -89,5 +91,6 @@ def enter_code(request):
             user.save()
             return render(request, 'Login.html')
         else:
-            return HttpResponseBadRequest("Invalid code")
+            messages.error(request, 'הקוד שהוזן לא תואם את הקוד שנשלח למייל שלך, אנא נסה שוב.')
+            return render(request, 'enter_code.html')
     return render(request, 'enter_code.html')

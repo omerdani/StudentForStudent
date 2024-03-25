@@ -89,6 +89,8 @@ def home(request):
             user = Student.objects.get(id=user_id)
         elif user_type == 'graduate':
             user = Graduate.objects.get(id=user_id)
+        elif user_type == 'superuser':
+            user = User.objects.get(id=user_id)
         return render(request, 'MainForum.html', {'user': user})
     else:
         return render(request, 'Home.html')
