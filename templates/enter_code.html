@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enter Code</title>
+</head>
+<body>
+    <h1>Enter Code</h1>
+    <form method="POST" action="{% url 'enter_code' %}">
+        {% csrf_token %}
+        <label for="code">Code:</label><br>
+        <input type="text" id="code" name="code" required><br>
+        <label for="new_password">New Password:</label><br>
+        <input type="password" id="new_password" name="new_password" required><br>
+        <input type="submit" value="Change Password">
+    </form>
+</body>
+</html>

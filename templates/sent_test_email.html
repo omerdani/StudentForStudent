@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send Test Email</title>
+</head>
+<body>
+    <h1>Send Test Email</h1>
+    <form method="POST" action="{% url 'send_test_email' %}">
+    {% csrf_token %}
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required><br>
+    <input type="submit" value="Send Test Email">
+</form>
+</body>
+</html>
