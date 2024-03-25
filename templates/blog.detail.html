@@ -200,15 +200,17 @@
     align-items: flex-start;
     position: relative;
 }
-        .comment-count {
- position: absolute;
-    bottom: 10px; /* Adjust as needed */
-    left: 10px; /* Adjust as needed */
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 100%;
-    }
+.post-interactions {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.comment-count, .like-count {
+    margin-right: 10px;
+}
      .invert-color::before, .invert-color::after {
         content: none; /* Remove content */
     }
@@ -288,8 +290,11 @@
                         <br>
                         <h3>{{ post2.title }}</h3>
                         <p>{{ post2.content }}</p>
-                        <span class="comment-count">&#9993; {{ post2.comment_count }}</span>
-                        <p>💙 : {{ post2.likes_count }}</p>
+     <div class="post-interactions" style="position: absolute; bottom: 10px; left: 10px; display: flex; flex-direction: row;">
+    <span class="comment-count">&#9993; {{ post2.comment_count }}</span>
+    <span class="like-count">💙 {{post2.likes_count }}</span>
+</div>
+
                         {% if post2.user_name == current_user %}
                         <div class="post-actions">
                             <form action="{% url 'edit_post' post2.id %}" method="get" style="display: inline;">
