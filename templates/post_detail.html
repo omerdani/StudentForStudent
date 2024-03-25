@@ -307,6 +307,11 @@
     .like-button-clicked {
     background-color: #ff0000; /* Change to the color you want */
 }
+    .likes {
+    position: absolute;
+    left: 3em;
+    bottom: 0;
+}
 
     </style>
 </head>
@@ -336,12 +341,13 @@
         <br>
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
-        <button class="comment-button" id="toggle-comment-form">תגובה</button>
-        <div class="like-section">
-            <button class="like-button" onclick="location.href='{% url 'like_post' post.id %}'">אהבתי</button>
-            <p class="likes-symbol">💙 {{ post.likes_count }}</p>
-        </div>
-    </div>
+       <button class="comment-button" id="toggle-comment-form">תגובה</button>
+<button class="like-button" onclick="location.href='{% url 'like_post' post.id %}'">&#128077; לייק</button>
+
+<div class="likes">
+    <p class="likes-symbol">💙 {{ post.likes_count }}</p>
+</div>
+</div>
 
 <form method="post" id="comment-form" style="display: none;">
     {% csrf_token %}
