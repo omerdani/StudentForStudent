@@ -367,10 +367,18 @@
         <p>Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
         </div>
               {% if comment.author == current_user %}
-            <form method="POST" action="{% url 'delete_comment' comment.id %}">
-                {% csrf_token %}
-                <button class="delete1">מחק</button>
-            </form>
+            <div style="display: flex;">
+        <form method="POST" action="{% url 'delete_comment' comment.id %}">
+            {% csrf_token %}
+            <button class="delete1">מחק</button>
+        </form>
+        <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
+    </div>
+   <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
+    {% csrf_token %}
+    <input type="text" name="text" value="{{ comment.text }}">
+    <button type="submit" class="delete1">שמור שינויים</button>
+</form>
         {% endif %}
     </div>
 {% endfor %}
@@ -412,6 +420,15 @@ document.querySelector('.like-button').addEventListener('click', function(event)
         commentForm.style.display = "none";
     }
 });
+
+        function toggleEditForm(commentId) {
+    var editForm = document.getElementById('edit-form-' + commentId);
+    if (editForm.style.display === "none") {
+        editForm.style.display = "block";
+    } else {
+        editForm.style.display = "none";
+    }
+}
     </script>
 
 </body>
