@@ -196,9 +196,9 @@
         #create-post-form {
             display: none;
         }
-        .comment-button, .like-button {
+        .comment-button  {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 7px 15px;
             margin: 1px;
             background-color: #107ef3; /* Green */
             border: none;
@@ -213,6 +213,22 @@
             position: relative;
             right: 0px; /* Adjust as needed */
         }
+        .like-button {
+    padding: 7px 15px; /* Decrease padding */
+    font-size: 14px; /* Decrease font size */
+    /* rest of the properties remain the same */
+    display: inline-block;
+    margin: 1px;
+    background-color: #107ef3; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    position: relative;
+}
         .post-details p {
             padding-left: 10px; /* Adjust as needed */
         }
@@ -277,7 +293,28 @@
             padding-right: 10px;
             padding-top: 8px; /* Adjust as needed */
         }
-
+.button-group {
+    display: flex;
+}
+.delete-button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 1px;
+    background-color: #107ef3; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    position: relative;
+}
+.button-group button {
+    margin: 0 6px;
+}
            /* This will apply to all text box forms */
     input[type="text"], textarea {
         width: 100%;
@@ -341,9 +378,17 @@
         <br>
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
-       <button class="comment-button" id="toggle-comment-form">תגובה</button>
-<button class="like-button" onclick="location.href='{% url 'like_post' post.id %}'">&#128077; לייק</button>
+    <div class="button-group">
+    <button class="comment-button" id="toggle-comment-form">תגובה</button>
 
+    {% if post.user_name == current_user %}
+    <form method="POST" action="{% url 'delete_post' post.id %}">
+        {% csrf_token %}
+        <button class="delete-button">מחק</button>
+    </form>
+{% endif %}
+    <button class="like-button" onclick="location.href='{% url 'like_post' post.id %}'">&#128077; לייק</button>
+</div>
 <div class="likes">
     <p class="likes-symbol">💙 {{ post.likes_count }}</p>
 </div>
