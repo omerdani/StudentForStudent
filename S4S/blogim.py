@@ -1,9 +1,11 @@
 
 from django.shortcuts import render
-from .models import Blog, Post2, Candidate, Student, Graduate,Comment, Notification
+from .models import Blog, Post2, Candidate, Student,Like, Graduate,Comment, Notification
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from .forms import CommentForm
+
+from django.contrib.auth.models import User
 
 def blog_detail(request, blog_id):
     blog = Blog.objects.get(pk=blog_id)
@@ -18,6 +20,9 @@ def blog_detail(request, blog_id):
             user = Student.objects.get(id=user_id)
         elif user_type == 'graduate':
             user = Graduate.objects.get(id=user_id)
+        elif user_type == 'superuser':
+            user = User.objects.get(id=user_id)
+            return render(request, 'blog.detail.html', {'blog': blog, 'posts2': posts2, 'user': user})
         current_user = user.first_name + ' ' + user.last_name
     return render(request, 'blog.detail.html', {'blog': blog, 'posts2': posts2, 'current_user': current_user})
 def create_post(request, blog_id):
@@ -97,12 +102,17 @@ def post_detail(request, post_id):
             user = Student.objects.get(id=user_id)
         elif user_type == 'graduate':
             user = Graduate.objects.get(id=user_id)
+        elif user_type == 'superuser':
+            user = User.objects.get(id=user_id)
+
         first_name = user.first_name
         last_name = user.last_name
 
     post = get_object_or_404(Post2, pk=post_id)
     blog = post.blog
     current_user = first_name + ' ' + last_name
+    has_liked = Like.objects.filter(**{f'user_{user_type}': user, 'post': post}).exists()
+
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -130,7 +140,7 @@ def post_detail(request, post_id):
             return redirect('post_detail', post_id=post.id)
     else:
         form = CommentForm()
-    context = {'post': post, 'blog': blog, 'form': form, 'current_user': current_user}
+    context = {'post': post, 'blog': blog, 'form': form, 'current_user': current_user, 'has_liked': has_liked}
     return render(request, 'post_detail.html', context)
 
 def add_like(request, post_id):

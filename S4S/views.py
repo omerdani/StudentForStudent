@@ -5,6 +5,8 @@ from .models import Candidate, Student, Graduate, Post, Post2, Like
 from django.http import HttpResponse
 from django.contrib.sessions.models import Session
 from datetime import datetime, timezone
+from django.contrib.auth.models import User
+
 
 def signup(request):
     if request.method == 'POST':
@@ -35,23 +37,18 @@ def signup(request):
     return render(request, 'SignUp.html')
 
 
-from django.shortcuts import redirect
-
 def login(request):
-    user_id = request.session.get('user_id')
-    user_type = request.session.get('user_type')
-
-    # If user is already logged in, redirect to home page
-    if user_id and user_type:
-        return redirect('')
-
     if request.method == 'POST':
         email = request.POST.get('username')
         password = request.POST.get('password')
 
+        print(f"Email: {email}, Password: {password}")
+
         candidate = Candidate.objects.filter(email=email).first()
         student = Student.objects.filter(email=email).first()
         graduate = Graduate.objects.filter(email=email).first()
+
+        print(f"Candidate: {candidate}, Student: {student}, Graduate: {graduate}")
 
         if candidate and candidate.password == password:
             request.session['user_id'] = candidate.id
@@ -63,7 +60,15 @@ def login(request):
             request.session['user_id'] = graduate.id
             request.session['user_type'] = 'graduate'
         else:
-            return render(request, 'Login.html')
+            user = User.objects.filter(email=email).first()
+            if user and user.check_password(password) and user.is_superuser:  # Check if the user is a superuser and if the password is correct
+                request.session['user_id'] = user.id
+                request.session['user_type'] = 'superuser'
+                return redirect('superuser_home')
+            else:
+                return render(request, 'Login.html')
+
+        print(f"User ID: {request.session.get('user_id')}, User Type: {request.session.get('user_type')}")  # Print the user's ID and type
 
         return redirect('')
     else:
@@ -71,44 +76,8 @@ def login(request):
 def logout(request):
     request.session.flush()
     return redirect('login')
-def delete_post_Admin(request, post_id):           #the admin can delete every post
-    if request.method == 'POST':
-        post = Post2.objects.get(pk=post_id)
-        post.delete()
-        posts = Post2.objects.all()
-    return render(request, 'after_login_forum.html',{'posts': posts})
 
 
-def check_session(request):
-    user_id = request.session.get('user_id', 'No user logged in')
-    user_type = request.session.get('user_type', 'No user type')
-    session_key = request.session.session_key
-    first_name = 'No first name'
-    last_name = 'No last name'
-
-    if user_id and user_type:
-        if user_type == 'candidate':
-            user = Candidate.objects.get(id=user_id)
-        elif user_type == 'student':
-            user = Student.objects.get(id=user_id)
-        elif user_type == 'graduate':
-            user = Graduate.objects.get(id=user_id)
-        first_name = user.first_name
-        last_name = user.last_name
-
-    try:
-        session = Session.objects.get(session_key=session_key)
-        session_length = session.expire_date - datetime.now(timezone.utc)
-    except Session.DoesNotExist:
-        session_length = 'Session does not exist'
-
-    return HttpResponse(f"User ID: {user_id}, User Type: {user_type}, First Name: {first_name}, Last Name: {last_name}, Session Length: {session_length}")
-def active_sessions(request):
-    session_key_list = []
-    for session in Session.objects.all():
-        if '_auth_user_id' in session.get_decoded():  # check if user is logged in
-            session_key_list.append(session.session_key)
-    return HttpResponse(f"Active sessions: {session_key_list}")
 def home(request):
     user_id = request.session.get('user_id')
     user_type = request.session.get('user_type')
@@ -120,6 +89,8 @@ def home(request):
             user = Student.objects.get(id=user_id)
         elif user_type == 'graduate':
             user = Graduate.objects.get(id=user_id)
+        elif user_type == 'superuser':
+            user = User.objects.get(id=user_id)
         return render(request, 'MainForum.html', {'user': user})
     else:
         return render(request, 'Home.html')
@@ -131,29 +102,5 @@ def mainforum2(request):
     return render(request, 'after_login_forum.html')
 def mainforum(request):
     return render(request, 'MainForum.html')
-from django.urls import reverse
 
-def like_post(request, post_id):
-    post = Post2.objects.get(pk=post_id)
-    user_id = request.session.get('user_id')
-    user_type = request.session.get('user_type')
 
-    if user_type == 'candidate':
-        user = Candidate.objects.get(id=user_id)
-        like = Like.objects.filter(user_candidate=user, post=post)
-    elif user_type == 'student':
-        user = Student.objects.get(id=user_id)
-        like = Like.objects.filter(user_student=user, post=post)
-    elif user_type == 'graduate':
-        user = Graduate.objects.get(id=user_id)
-        like = Like.objects.filter(user_graduate=user, post=post)
-
-    if like:
-        like.delete()
-        post.likes_count -= 1
-    else:
-        Like.objects.create(**{f'user_{user_type}': user, 'post': post})
-        post.likes_count += 1
-
-    post.save()
-    return redirect(reverse('post_detail', args=[post_id]))  # redirect to the post detail page

@@ -203,7 +203,11 @@
     <span id="notification-counter"></span>
 </div>
         <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
-        <h2>{{ user.first_name }} {{ user.last_name }}, welcome to S4S Forum</h2>
+      {% if user.is_authenticated %}
+    <h2>{{ user.username }}, welcome to S4S Forum</h2>
+{% else %}
+    <h2>{{ user.first_name }} {{ user.last_name }},Welcome to S4S Forum</h2>
+{% endif %}
     </header>
     <button style="position: absolute;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 5); /* Add this line */
@@ -219,7 +223,7 @@
                 <h3> 'סמסטר א </br>
                     <button class="button-shadow" onclick="location.href='/blog/29'">חישוביות וסיבוכיות</button> <br>
                     <button class="button-shadow" onclick="location.href='/blog/30'">בטיחות תוכנה</button> <br>
-                    </br>סמסטר ב <br><button onclick="location.href='/blog/31'">פרויקט גמר</button></h3>
+                    </br>סמסטר ב <br><button class="button-shadow" onclick="location.href='/blog/31'">פרויקט גמר</button></h3>
                 <br><br><br><br>
                    <button class="button-shadow" onclick="location.href='/blog/33'">	מחפשי עבודה </button> <br>
 
