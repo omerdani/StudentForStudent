@@ -1,4 +1,4 @@
-```<!-- templates/home.html -->
+<!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +9,10 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #b4beac;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
         }
         .container {
             max-width: 400px;
@@ -21,19 +25,18 @@
         h2 {
             text-align: center;
         }
-        .login-button {
-            display: inline-block;
-            padding: 22px 55px;
-            background-color: #4caf50;
-            color: white;
-            text-decoration: none;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            border-radius: 4px;
+        header {
+            background-color: rgba(126, 126, 126, 0.26);
+            color: rgb(0, 0, 0);
+            display: flex;
+            justify-content: center; /* Center items horizontally */
+            align-items: center;
+            position: relative; /* Make header a relative container */
         }
-        .login-button:hover {
-            background-color: #45a049;
+        .top-left {
+            position: absolute;
+            top: 1px;
+            right: 0;
         }
         input[type="text"],
         input[type="password"],
@@ -72,8 +75,13 @@
     </style>
 </head>
 <body>
-            <a href="/" class="login-button">חזרה לדף הבית</a>
-
+<header>
+     <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
+    <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
+        <a href="{% url '' %}" class="top-left">
+            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
+        </a>
+</header>
 <div class="container">
     <h2>Login</h2>
     <form action="/login/" method="post">
@@ -90,4 +98,3 @@
 
 </body>
 </html>
-```
