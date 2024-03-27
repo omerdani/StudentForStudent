@@ -295,17 +295,17 @@
     <span class="like-count">💙 {{post2.likes_count }}</span>
 </div>
 
-                        {% if post2.user_name == current_user or user.is_superuser %}
-                        <div class="post-actions">
-                            <form action="{% url 'edit_post' post2.id %}" method="get" style="display: inline;">
-                                <button type="submit" class="edit-button">ערוך</button>
-                            </form>
-                            <form method="post" action="{% url 'delete_post' post2.id %}" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="delete-button">מחק</button>
-                            </form>
-                        </div>
-                        {% endif %}
+    {% if post2.user_name == current_user or user.is_superuser %}
+    <div class="post-actions">
+        <form action="{% url 'edit_post' post2.id %}" method="get" style="display: inline;">
+            <button type="submit" class="edit-button">ערוך</button>
+        </form>
+        <form method="post" action="{% url 'delete_post' post2.id %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="delete-button">מחק</button>
+        </form>
+    </div>
+{% endif %}
                     </a>
                 </div>
             {% endfor %}
