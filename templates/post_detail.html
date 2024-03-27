@@ -4,17 +4,29 @@
     <meta charset="UTF-8">
     <title>Post Detail</title>
     <style>
-        body {
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            direction: rtl;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }});
-        }
+
+
+
+           html {
+        background: linear-gradient(to bottom, rgba(115, 126, 126, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }}) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
+
+     body {
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        direction: rtl;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }});
+    }
         body.dark-mode {
            background: linear-gradient(to bottom, rgb(164, 164, 164), rgb(91, 91, 91));
         }
@@ -93,8 +105,11 @@
        background-color: rgba(162, 153, 145, 0.08);
        box-shadow: 0 2px 4px rgba(8, 114, 108, 0.88);
         border-radius: 5px;
+
         margin-bottom: 30px; /* adjust as needed */
-        word-wrap: break-word
+        word-wrap: break-word;
+           margin-top: 20px; /* Adjust this value as needed */
+
     }
           .created_date {
             top: 0;
@@ -102,7 +117,8 @@
             display: flex;
             justify-content: space-between;
             width: auto;
-        } {
+        }
+        {
             position: absolute;
             top: 0;
             left: 0;
@@ -187,11 +203,12 @@
         }
         .post-date {
             position: relative;
-            top: -50px;
-            right: 520px;
-            display: flex;
-            justify-content: space-between;
-            width: auto;
+            position: relative;
+    top: -65px; /* Adjust as needed */
+    right: 480px; /* Adjust as needed */
+    display: flex;
+    justify-content: space-between;
+    width: auto;
         }
         #create-post-form {
             display: none;
@@ -232,7 +249,7 @@
         .post-details p {
             padding-left: 10px; /* Adjust as needed */
         }
-        .comment-button:hover, .like-button:hover:hover, .go_back:hover{
+        .comment-button:hover, .like-button:hover, .go_back:hover{
             background-color: rgba(16, 126, 243, 0.80);
         }
         .go_back {
@@ -270,7 +287,7 @@
         .delete1 {
             display: inline-block;
             padding: 10px 20px;
-            margin: 10px;
+            margin: 5px;
             background-color: #107ef3; /* Green */
             border: none;
             color: white;
@@ -295,6 +312,7 @@
         }
 .button-group {
     display: flex;
+
 }
 .delete-button {
     display: inline-block;
@@ -313,7 +331,7 @@
     position: relative;
 }
 .button-group button {
-    margin: 0 6px;
+    margin: 0 5px;
 }
            /* This will apply to all text box forms */
     input[type="text"], textarea {
@@ -338,11 +356,15 @@
     }
 
     .likes-symbol {
-        margin-left: -500px;
-
+        position: absolute;
+        left: 15px;
+        top:110px;
     }
     .like-button-clicked {
     background-color: #ff0000; /* Change to the color you want */
+}
+    .like-button-clicked:hover {
+    background-color: #8a0606; /* Change to the color you want */
 }
     .likes {
     position: absolute;
@@ -353,14 +375,18 @@
     </style>
 </head>
 <body>
+
 <header>
     <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
     <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
 </header>
+
 <div class="container">
+
         <button class="go_back" onclick="window.location='{% url 'blog-detail' blog.id %}'">{{ blog.title }}</button>
     <br><br><br>
         <div class="sidebar" id="sidebar">
+
             <div class="close-icon" onclick="toggleSidebar(event)">×</div>
             <a href="/My_Profile/">My Profile</a>
             <a href="/Settings/">Settings</a>
@@ -368,6 +394,8 @@
             <a href="{% url 'logout' %}">Sign Out</a>
         </div>
     <div class="post">
+                <p class="likes-symbol">💙 {{ post.likes_count }}</p>
+
         <div class="post-info">
             <span class="post-author">פורסם על ידי: {{ post.user_name }}</span>
         </div>
@@ -387,10 +415,9 @@
         <button class="delete-button">מחק</button>
     </form>
 {% endif %}
-    <button class="like-button" onclick="location.href='{% url 'like_post' post.id %}'">&#128077; לייק</button>
-</div>
-<div class="likes">
-    <p class="likes-symbol">💙 {{ post.likes_count }}</p>
+<button class="like-button {% if has_liked %}like-button-clicked{% endif %}" onclick="location.href='{% url 'like_post' post.id %}'">{% if has_liked %}הסר לייק
+&#128078 {% else %}לייק
+    &#128077{% endif %}</button><div class="likes">
 </div>
 </div>
 
