@@ -58,6 +58,11 @@
             transition: left 0.3s ease;
             padding-top: 60px; /* Adjust to accommodate header */
         }
+            #notification-container {
+    position: absolute;
+    top: 23px;
+    left: 350px;
+}  /* This will apply to all text box forms */
         .sidebar a {
             display: block;
             color: white;
@@ -126,6 +131,7 @@
             justify-content: space-between;
             width: auto;
         }
+
         .post h3 {
             margin-top: 0;
             color: #333;
@@ -380,11 +386,16 @@
     </style>
 </head>
 <body>
-
 <header>
     <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
     <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
+     <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
+     <div id="notification-container">
+    <span>&#x1F514;</span> <!-- This is a Unicode bell symbol -->
+    <span id="notification-counter"></span>
+    </div>
 </header>
+
 
 <div class="container">
 
@@ -398,6 +409,9 @@
             <a href="/About_us/">About us</a>
             <a href="{% url 'logout' %}">Sign Out</a>
         </div>
+         <a href="{% url '' %}" class="top-left">
+            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="61" class="invert-color">
+        </a>
     <div class="post">
                 <p class="likes-symbol">💙 {{ post.likes_count }}</p>
 
@@ -463,6 +477,8 @@
 {% endfor %}
     </div>
 </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <script>
     if ("{{ request.session.dark_mode }}" === "True") {
         document.body.classList.add('dark-mode');
@@ -508,6 +524,13 @@ document.querySelector('.like-button').addEventListener('click', function(event)
         editForm.style.display = "none";
     }
 }
+        function updateNotificationCounter() {
+    $.get('/notifications/unseen_count/', function(data) {
+        $('#notification-counter').text(data.unseen_count);
+    });
+}
+updateNotificationCounter();
+setInterval(updateNotificationCounter, 5000);
     </script>
 
 </body>

@@ -4,7 +4,7 @@ def superuser_home(request):
 
     user_id = request.session.get('user_id')
     user_type = request.session.get('user_type')
-    if user_id and user_type == 'superuser':
+    if user_id and user_type == 'admin':
 
         return render(request, 'superuser_home.html')
     else:
