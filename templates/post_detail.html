@@ -162,6 +162,7 @@
         .invert-color {
             filter: invert(0);
         }
+
         .create-post-button {
             background-color: rgba(16, 126, 243, 0.88);
             color: #fff;
@@ -203,8 +204,7 @@
         }
         .post-date {
             position: relative;
-            position: relative;
-    top: -65px; /* Adjust as needed */
+    top: -50px; /* Adjust as needed */
     right: 480px; /* Adjust as needed */
     display: flex;
     justify-content: space-between;
@@ -335,20 +335,21 @@
 }
            /* This will apply to all text box forms */
     input[type="text"], textarea {
-        width: 100%;
+        width: 90%;
+        height: 150px; /* Adjust this value as needed */
         padding: 12px 20px;
-        margin: 8px 0;
+        margin: 20px 0;
         box-sizing: border-box;
         border: 2px solid #7a7272;
         background: rgba(224, 223, 223, 0.35);
         border-radius: 4px;
         resize: none; /* Add this line */
+
     }
 
   .author {
         font-size: 18px;
         font-weight: bold;
-      text-decoration: underline;
     }
     .like-section {
         display: flex;
@@ -370,6 +371,10 @@
     position: absolute;
     left: 3em;
     bottom: 0;
+}
+      .author-name {
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(89, 89, 89, 0.58);
 }
 
     </style>
@@ -397,7 +402,7 @@
                 <p class="likes-symbol">💙 {{ post.likes_count }}</p>
 
         <div class="post-info">
-            <span class="post-author">פורסם על ידי: {{ post.user_name }}</span>
+           <span class="post-author"> פורסם על ידי: <span class="author-name">{{ post.user_name }}</span><br></span>
         </div>
         <div class="post-details">
            {% load tz %}
@@ -409,7 +414,7 @@
     <div class="button-group">
     <button class="comment-button" id="toggle-comment-form">תגובה</button>
 
-    {% if post.user_name == current_user %}
+    {% if post.user_name == current_user or user_type == 'admin' %}
     <form method="POST" action="{% url 'delete_post' post.id %}">
         {% csrf_token %}
         <button class="delete-button">מחק</button>
@@ -429,26 +434,28 @@
 </form>
 
      <div class="comments">
-        {% for comment in post.comments.all %}
-            <div class="comment">
-                <span class="author"> הוגב ע"י: {{ comment.author}}  <br></span>
-                <br>
-                <div class="text">{{ comment.text }}</div>
-                 {% load tz %}
-                <div class = "post-date">
-        <p>Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+{% for comment in post.comments.all %}
+    <div class="comment">
+        <span class="author"> הוגב ע"י: <span class="author-name">{{ comment.author }}</span><br></span>
+        <br>
+        <div class="text">{{ comment.text }}</div>
+        {% load tz %}
+        <div class = "post-date">
+            <p>Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
         </div>
-              {% if comment.author == current_user %}
+        {% if comment.author == current_user or user_type == 'admin' %}
             <div style="display: flex;">
-        <form method="POST" action="{% url 'delete_comment' comment.id %}">
-            {% csrf_token %}
-            <button class="delete1">מחק</button>
-        </form>
-        <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
-    </div>
-   <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
+                <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                    {% csrf_token %}
+                    <button class="delete1">מחק</button>
+                </form>
+                <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
+            </div>
+          <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
     {% csrf_token %}
-    <input type="text" name="text" value="{{ comment.text }}">
+    <div class="textarea-container">
+    <textarea name="text" class="resize-textbox">{{ comment.text }}</textarea>
+</div>
     <button type="submit" class="delete1">שמור שינויים</button>
 </form>
         {% endif %}

@@ -1,7 +1,7 @@
 # Create your views here.
 import datetime
 from django.shortcuts import render, redirect
-from .models import Candidate, Student, Graduate, Post, Post2, Like
+from .models import Candidate, Student, Graduate, Post, Post2, Like,Admin
 from django.http import HttpResponse
 from django.contrib.sessions.models import Session
 from datetime import datetime, timezone
@@ -47,6 +47,8 @@ def login(request):
         candidate = Candidate.objects.filter(email=email).first()
         student = Student.objects.filter(email=email).first()
         graduate = Graduate.objects.filter(email=email).first()
+        admin = Admin.objects.filter(email=email).first()
+
 
         print(f"Candidate: {candidate}, Student: {student}, Graduate: {graduate}")
 
@@ -59,6 +61,9 @@ def login(request):
         elif graduate and graduate.password == password:
             request.session['user_id'] = graduate.id
             request.session['user_type'] = 'graduate'
+        elif admin and admin.password == password:
+            request.session['user_id'] = admin.id
+            request.session['user_type'] = 'admin'
         else:
             user = User.objects.filter(email=email).first()
             if user and user.check_password(password) and user.is_superuser:  # Check if the user is a superuser and if the password is correct
@@ -89,8 +94,11 @@ def home(request):
             user = Student.objects.get(id=user_id)
         elif user_type == 'graduate':
             user = Graduate.objects.get(id=user_id)
-        elif user_type == 'superuser':
-            user = User.objects.get(id=user_id)
+        elif user_type == 'admin':
+            user = Admin.objects.get(id=user_id)
+        else:
+
+         return HttpResponse('Unexpected user type', status=400)
         return render(request, 'MainForum.html', {'user': user})
     else:
         return render(request, 'Home.html')

@@ -1,7 +1,7 @@
 
 from django.shortcuts import redirect
 from django.urls import reverse
-from  S4S.models import Post2, Like, Candidate, Student, Graduate
+from  S4S.models import Post2, Like, Candidate, Student, Graduate,Admin
 def like_post(request, post_id):
     post = Post2.objects.get(pk=post_id)
     user_id = request.session.get('user_id')
@@ -16,6 +16,9 @@ def like_post(request, post_id):
     elif user_type == 'graduate':
         user = Graduate.objects.get(id=user_id)
         like = Like.objects.filter(user_graduate=user, post=post)
+    elif user_type == 'admin':
+        user = Admin.objects.get(id=user_id)
+        like = Like.objects.filter(user_admin=user, post=post)
 
     if like:
         like.delete()
@@ -25,4 +28,4 @@ def like_post(request, post_id):
         post.likes_count += 1
 
     post.save()
-    return redirect(reverse('post_detail', args=[post_id]))  # redirect to the post detail page
+    return redirect(reverse('post_detail', args=[post_id]))
