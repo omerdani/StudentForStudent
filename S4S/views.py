@@ -1,7 +1,7 @@
 # Create your views here.
 import datetime
 from django.shortcuts import render, redirect
-from .models import Candidate, Student, Graduate, Post, Post2, Like
+from .models import Candidate, Student, Graduate, Post, Post2, Like,Admin
 from django.http import HttpResponse
 from django.contrib.sessions.models import Session
 from datetime import datetime, timezone
@@ -42,35 +42,36 @@ def login(request):
         email = request.POST.get('username')
         password = request.POST.get('password')
 
-        print(f"Email: {email}, Password: {password}")
-
         candidate = Candidate.objects.filter(email=email).first()
         student = Student.objects.filter(email=email).first()
         graduate = Graduate.objects.filter(email=email).first()
-
-        print(f"Candidate: {candidate}, Student: {student}, Graduate: {graduate}")
+        admin = Admin.objects.filter(email=email).first()
 
         if candidate and candidate.password == password:
             request.session['user_id'] = candidate.id
             request.session['user_type'] = 'candidate'
+            return redirect('mainforum')
         elif student and student.password == password:
             request.session['user_id'] = student.id
             request.session['user_type'] = 'student'
+            return redirect('mainforum')
         elif graduate and graduate.password == password:
             request.session['user_id'] = graduate.id
             request.session['user_type'] = 'graduate'
+            return redirect('mainforum')
+        elif admin and admin.password == password:
+            request.session['user_id'] = admin.id
+            request.session['user_type'] = 'admin'
+            return redirect('superuser_home')
         else:
             user = User.objects.filter(email=email).first()
-            if user and user.check_password(password) and user.is_superuser:  # Check if the user is a superuser and if the password is correct
+            if user and user.check_password(password) and user.is_superuser:
                 request.session['user_id'] = user.id
                 request.session['user_type'] = 'superuser'
                 return redirect('superuser_home')
             else:
                 return render(request, 'Login.html')
 
-        print(f"User ID: {request.session.get('user_id')}, User Type: {request.session.get('user_type')}")  # Print the user's ID and type
-
-        return redirect('')
     else:
         return render(request, 'Login.html')
 def logout(request):
@@ -89,8 +90,11 @@ def home(request):
             user = Student.objects.get(id=user_id)
         elif user_type == 'graduate':
             user = Graduate.objects.get(id=user_id)
-        elif user_type == 'superuser':
-            user = User.objects.get(id=user_id)
+        elif user_type == 'admin':
+            user = Admin.objects.get(id=user_id)
+        else:
+
+         return HttpResponse('Unexpected user type', status=400)
         return render(request, 'MainForum.html', {'user': user})
     else:
         return render(request, 'Home.html')

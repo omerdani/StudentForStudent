@@ -122,12 +122,11 @@
             padding: 5px 10px;
             border-radius: 4px;
         }
-        #notification-container {
+    #notification-container {
     position: absolute;
-    top: 28px;
+    top: 23px;
     left: 350px;
-            font-size: 24px;
-}
+}  /* This will apply to all text box forms */
         .logout-link a:hover {
             background-color: #ddd;
         }
@@ -144,7 +143,7 @@
         }
         h2 {
             text-align: center;
-            font-size: 2em; /* Make the text bigger */
+            font-size: 1.5em; /* Make the text bigger */
             font-weight: bold; /* Make the text bolder */
         }
         .top-left {
@@ -198,9 +197,10 @@
             <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
         </a>
 
+     <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
      <div id="notification-container">
-    <span>&#x1F514;</span> <!-- This is a Unicode bell symbol -->
     <span id="notification-counter"></span>
+    <span>&#x1F514;</span> <!-- This is a Unicode bell symbol -->
 </div>
         <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
       {% if user.is_authenticated %}
