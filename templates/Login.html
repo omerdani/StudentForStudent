@@ -1,4 +1,4 @@
-<!-- templates/home.html -->
+```<!-- templates/home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +20,20 @@
         }
         h2 {
             text-align: center;
+        }
+        .login-button {
+            display: inline-block;
+            padding: 22px 55px;
+            background-color: #4caf50;
+            color: white;
+            text-decoration: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            border-radius: 4px;
+        }
+        .login-button:hover {
+            background-color: #45a049;
         }
         input[type="text"],
         input[type="password"],
@@ -58,6 +72,7 @@
     </style>
 </head>
 <body>
+            <a href="/" class="login-button">חזרה לדף הבית</a>
 
 <div class="container">
     <h2>Login</h2>
@@ -68,10 +83,11 @@
         <input type="submit" value="Login">
     </form>
     <div class="signup-link">
-        <p><a href="/forgotpass">Forgot password?</a></p>
+        <p><a href="/sent_test_email/">Forgot password?</a></p>
         <p>Don't have an account? <a href="/signup">Sign up</a></p>
     </div>
 </div>
 
 </body>
 </html>
+```

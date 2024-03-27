@@ -1,17 +1,102 @@
-<!DOCTYPE html>
-<html>
+```<!DOCTYPE html>
+<html dir="rtl">
 <head>
     <title>Enter Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #b4beac;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            font-size: 28px; /* Adjust this value to your liking */
+        }
+        .message {
+            color: red;
+            font-weight: bold;
+            font-size: 2em; /* Adjust this value to your liking */
+            text-align: center;
+            background-color: white;
+            padding: 10px;
+            margin-top: 20px; /* Adjust this value to create space between the form and the message */
+        }
+        label, input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box; /* Add this line */
+        }
+        input {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            color: #333;
+        }
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .login-button {
+            display: inline-block;
+            padding: 22px 55px;
+            background-color: #4caf50;
+            color: white;
+            text-decoration: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            border-radius: 4px;
+        }
+        .login-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>Enter Code</h1>
-    <form method="POST" action="{% url 'enter_code' %}">
-        {% csrf_token %}
-        <label for="code">Code:</label><br>
-        <input type="text" id="code" name="code" required><br>
-        <label for="new_password">New Password:</label><br>
-        <input type="password" id="new_password" name="new_password" required><br>
-        <input type="submit" value="Change Password">
-    </form>
+    <div class="container">
+        <form method="POST" action="{% url 'enter_code' %}">
+            {% csrf_token %}
+            <h1>אנא הזן את הקוד שנשלח אליך במייל. במידה והקוד תקני, תוכל להזין סיסמה חדשה.</h1>
+            {% csrf_token %}
+            <label for="code">קוד:</label>
+            <input type="text" id="code" name="code" required>
+            <label for="new_password">סיסמה חדשה:</label>
+            <input type="password" id="new_password" name="new_password" required>
+            <input type="submit" value="שנה סיסמה" class="small-button">
+            <a href="/" class="login-button">חזרה לדף הבית</a>
+        </form>
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
 </body>
-</html>
+</html>```
