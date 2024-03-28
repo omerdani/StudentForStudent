@@ -107,8 +107,8 @@
              word-wrap: break-word;
         }
    .comment {
-       background-color: rgba(162, 153, 145, 0.08);
-       box-shadow: 0 2px 4px rgba(8, 114, 108, 0.88);
+       background-color: rgba(108, 103, 99, 0.08);
+       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.88);
         border-radius: 5px;
 
         margin-bottom: 30px; /* adjust as needed */
@@ -322,21 +322,7 @@
             cursor: pointer;
             position: relative;
         }
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 5px;
-            background-color: #107ef3; /* Green */
-            border: none;
-            color: white;
-            text-align: center;
-            border-radius: 5px;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            transition-duration: 0.4s;
-            cursor: pointer;
-            position: relative;
-        }
+
         .post-actions {
         position: relative;
         }
@@ -491,7 +477,7 @@
         <div class = "post-date">
             <p>Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
         </div>
-        {% if comment.author == current_user or user_type == 'admin' %}
+        {% if post.user_email == email or user_type == 'admin' %}
             <div style="display: flex;">
                 <form method="POST" action="{% url 'delete_comment' comment.id %}">
                     {% csrf_token %}
