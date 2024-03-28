@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from .forms import CommentForm
 
-from django.contrib.auth.models import User
 
 def blog_detail(request, blog_id):
     blog = Blog.objects.get(pk=blog_id)
@@ -174,3 +173,4 @@ def about_us(request):
 
 def about_us1(request):
     return render(request, 'About_us1.html')
+

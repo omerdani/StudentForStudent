@@ -50,5 +50,4 @@ urlpatterns = [
     path('enter_code/', email.enter_code, name='enter_code'),
     path('superuser_home/', superusers.superuser_home, name='superuser_home'),
     path('edit_comment/<int:comment_id>/', comments.edit_comment, name='edit_comment'),
-
 ]
