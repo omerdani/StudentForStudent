@@ -39,6 +39,13 @@ class Graduate(models.Model):
     password = models.CharField(max_length=100)
     reset_code = models.CharField(max_length=10, null=True, blank=True)
 
+class Admin(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=254)
+    password = models.CharField(max_length=100)
+
+
 
 class Forum(models.Model):
     title = models.CharField(max_length=100)
@@ -51,10 +58,10 @@ class ForgotPassword(models.Model):
     email = models.EmailField(max_length=254)
 
 class Post(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
+    title = models.CharField(max_length=100, default='')
+    content = models.TextField(default='')
     date_posted = models.DateTimeField(default=timezone.now)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     blog = models.ForeignKey('Blog', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
@@ -69,6 +76,7 @@ class Post2(models.Model):
     candidate = models.ForeignKey('Candidate', on_delete=models.CASCADE, null=True, blank=True)
     student = models.ForeignKey('Student', on_delete=models.CASCADE, null=True, blank=True)
     graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
+    admin = models.ForeignKey('Admin', on_delete=models.CASCADE, null=True, blank=True)
     comment_count = models.IntegerField(default=0)
     likes_count = models.IntegerField(default=0)
 
@@ -86,6 +94,7 @@ class Notification(models.Model):
     candidate = models.ForeignKey('Candidate', on_delete=models.CASCADE, null=True, blank=True)
     student = models.ForeignKey('Student', on_delete=models.CASCADE, null=True, blank=True)
     graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
+    admin = models.ForeignKey('Admin', on_delete=models.CASCADE, null=True, blank=True)
     post = models.ForeignKey(Post2, on_delete=models.CASCADE)
     seen = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -94,4 +103,5 @@ class Like(models.Model):
     user_candidate = models.ForeignKey('Candidate', on_delete=models.CASCADE, null=True, blank=True)
     user_student = models.ForeignKey('Student', on_delete=models.CASCADE, null=True, blank=True)
     user_graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
+    user_admin = models.ForeignKey('Admin', on_delete=models.CASCADE, null=True, blank=True)
     post = models.ForeignKey('Post2', on_delete=models.CASCADE)

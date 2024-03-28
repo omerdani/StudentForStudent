@@ -1,58 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>S4S</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-    }
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
-      text-align: center;
-    }
-    .title {
-      font-size: 48px;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 20px;
-    }
-    .subtitle {
-      font-size: 36px;
-      font-weight: bold;
-      color: #666;
-      margin-bottom: 20px;
-    }
-    .labels {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-    }
-    .labels a {
-      margin-left: 20px;
-      text-decoration: none;
-      color: #555;
-      font-weight: bold;
-      font-size: 18px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Superuser Home</title>
+    <style>
+        /* Add your CSS here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://static.vecteezy.com/system/resources/thumbnails/026/767/238/original/handsome-college-boy-on-laptop-2d-character-animation-black-male-working-at-computer-flat-cartoon-4k-transparent-alpha-channel-young-man-studying-library-animated-person-on-white-background-video.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .header {
+            text-align: center;
+            color: #4b4b4b;
+            text-shadow: 1px 1px 1px #000000;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 9999;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #333;
+            color: white;
+            padding: 15px 0;
+        }
+        .nav a {
+            color: white;
+            text-decoration: none;
+        }
+        .content {
+            padding: 50px;
+            text-align: center;
+        }
+        .center-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="title">S4S</div>
-    <div class="subtitle">Main Forum</div>
-    <div class="labels">
-      <a href="/login/" style="color: #28a745;">Login</a>
-      <a href="/signup/" style="color: #007bff;">Sign Up</a>
+    <div class="header">
     </div>
-  </div>
-<!-- posts.html -->
-
-
+    <div class="center-image">
+      <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
+    </div>
+    <div class="nav">
+        <a href="/login">Login</a>
+        <a href="/About_us">About Us</a>
+        <a href="/signup">Sign Up</a>
+    </div>
+    <div class="content">
+        <h2>Join our community</h2>
+    </div>
 </body>
 </html>
