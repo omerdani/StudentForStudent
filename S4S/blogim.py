@@ -46,7 +46,8 @@ def create_post(request, blog_id):
 
     if request.method == 'POST':
         title = request.POST.get('title')
-        user_name = 'Admin' if user_type == 'admin' else first_name + ' ' + last_name
+        anonymous = request.POST.get('anonymous', False)
+        user_name = 'Anonymous' if anonymous else ('Admin' if user_type == 'admin' else first_name + ' ' + last_name)
         content = request.POST.get('content')
 
         post = Post2(title=title, content=content, user_name=user_name, blog_id=blog_id)
