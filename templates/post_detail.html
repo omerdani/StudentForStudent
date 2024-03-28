@@ -457,12 +457,12 @@
         <h3>{{ post.title }}</h3>
         <p>{{ post.content }}</p>
     <div class="button-group">
-        {% if post.user_name == current_user or user_type == 'admin' %}
+        {% if post.user_email == email or user_type == 'admin' %}
     <button class="edit-button" onclick="location.href='{% url 'edit_post' post.id %}'">ערוך</button>
 {% endif %}
     <button class="comment-button" id="toggle-comment-form">תגובה</button>
 
-    {% if post.user_name == current_user or user_type == 'admin' %}
+    {% if post.user_email == email or user_type == 'admin' %}
     <form method="POST" action="{% url 'delete_post' post.id %}">
         {% csrf_token %}
         <button class="delete-button">מחק</button>
@@ -481,7 +481,7 @@
     <button class="comment1">הוסף תגובה</button>
 </form>
 
-     <div class="comments">
+<div class="comments">
 {% for comment in post.comments.all %}
     <div class="comment">
         <span class="author"> הוגב ע"י: <span class="author-name">{{ comment.author }}</span><br></span>
@@ -491,20 +491,20 @@
         <div class = "post-date">
             <p>Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
         </div>
-        {% if comment.author == current_user or user_type == 'admin' %}
+        {% if post.user_email == email or user_type == 'admin' %}
             <div style="display: flex;">
                 <form method="POST" action="{% url 'delete_comment' comment.id %}">
                     {% csrf_token %}
                     <button class="delete1">מחק</button>
                 </form>
             </div>
-          <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
-    {% csrf_token %}
-    <div class="textarea-container">
-    <textarea name="text" class="resize-textbox">{{ comment.text }}</textarea>
-</div>
-    <button type="submit" class="delete1">שמור שינויים</button>
-</form>
+                      <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
+                {% csrf_token %}
+                <div class="textarea-container">
+                <textarea name="text" class="resize-textbox">{{ comment.text }}</textarea>
+                </div>
+                <button type="submit" class="delete1">שמור שינויים</button>
+                </form>
         {% endif %}
     </div>
 {% endfor %}

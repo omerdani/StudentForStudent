@@ -270,14 +270,16 @@
         </a>
 
 
-        <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none;">
-            {% csrf_token %}
-            <label for="title">כותרת :</label><br>
-            <input type="text" id="title" name="title"><br>
-            <label for="content">תוכן :</label><br>
-            <textarea id="content" name="content" class="resize-textbox"></textarea><br>
-            <button class="create-post-button" type="submit">Create Post</button>
-        </form>
+    <form id="create-post-form" method="post" action="{% url 'create_post' blog.id %}" style="display: none;">
+        {% csrf_token %}
+        <label for="title">כותרת :</label><br>
+        <input type="text" id="title" name="title"><br>
+        <label for="content">תוכן :</label><br>
+        <textarea id="content" name="content" class="resize-textbox"></textarea><br>
+        <label for="anonymous">Anonymous:</label>
+        <input type="checkbox" id="anonymous" name="anonymous"><br>
+        <button class="create-post-button" type="submit">Create Post</button>
+    </form>
 
         <div class="posts">
             <h2>פוסטים:</h2>
@@ -300,7 +302,7 @@
     <span class="like-count">💙 {{post2.likes_count }}</span>
 </div>
 
-{% if post2.user_name == current_user or user_type == 'admin' %}
+{% if post2.user_email == email or user_type == 'admin' %}
     <div class="post-actions">
         <form action="{% url 'edit_post' post2.id %}" method="get" style="display: inline;">
             <button type="submit" class="edit-button">ערוך</button>
