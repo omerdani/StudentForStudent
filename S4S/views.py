@@ -50,25 +50,25 @@ def login(request):
         if candidate and candidate.password == password:
             request.session['user_id'] = candidate.id
             request.session['user_type'] = 'candidate'
-            return redirect('mainforum')
+            return render(request, 'MainForum.html', {'user': candidate})
         elif student and student.password == password:
             request.session['user_id'] = student.id
             request.session['user_type'] = 'student'
-            return redirect('mainforum')
+            return render(request, 'MainForum.html', {'user': student})
         elif graduate and graduate.password == password:
             request.session['user_id'] = graduate.id
             request.session['user_type'] = 'graduate'
-            return redirect('mainforum')
+            return render(request, 'MainForum.html', {'user': graduate})
         elif admin and admin.password == password:
             request.session['user_id'] = admin.id
             request.session['user_type'] = 'admin'
-            return redirect('superuser_home')
+            return render(request, 'superuser_home.html', {'user': admin})
         else:
             user = User.objects.filter(email=email).first()
             if user and user.check_password(password) and user.is_superuser:
                 request.session['user_id'] = user.id
                 request.session['user_type'] = 'superuser'
-                return redirect('superuser_home')
+                return render(request, 'superuser_home.html', {'user': user})
             else:
                 return render(request, 'Login.html')
 
