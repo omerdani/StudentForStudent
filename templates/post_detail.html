@@ -478,6 +478,9 @@
     {% csrf_token %}
     {{ form.text }}
     <br>
+    <input type="checkbox" id="anonymous-checkbox" name="anonymous" value="anonymous">
+    <label for="anonymous-checkbox">Post as Anonymous</label>
+    <br>
     <button class="comment1">הוסף תגובה</button>
 </form>
 

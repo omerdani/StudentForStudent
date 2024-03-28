@@ -126,13 +126,14 @@ def post_detail(request, post_id):
     current_user = first_name + ' ' + last_name
     has_liked = Like.objects.filter(**{f'user_{user_type}': user, 'post': post}).exists()
 
-
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
-            if user_type == 'admin':
+            if 'anonymous' in request.POST:  # Check if the anonymous checkbox was checked
+                comment.author = 'Anonymous'
+            elif user_type == 'admin':
                 comment.author = 'Admin'
             else:
                 comment.author = first_name + ' ' + last_name
