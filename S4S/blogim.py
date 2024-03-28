@@ -137,6 +137,7 @@ def post_detail(request, post_id):
                 comment.author = 'Admin'
             else:
                 comment.author = first_name + ' ' + last_name
+            comment.user_email = user.email  # Add the email to the comment
             comment.save()
             post.comment_count += 1
             post.save()

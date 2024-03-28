@@ -4,15 +4,12 @@
     <meta charset="UTF-8">
     <title>Post Detail</title>
     <style>
-
-
-
-           html {
-        background: linear-gradient(to bottom, rgba(115, 126, 126, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }}) no-repeat center center fixed;
+        html {
         -webkit-background-size: cover;
         -moz-background-size: cover;
         -o-background-size: cover;
         background-size: cover;
+        background: linear-gradient(to bottom, rgba(115, 126, 126, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }}) no-repeat center center fixed;
     }
 
      body {
@@ -322,21 +319,6 @@
             cursor: pointer;
             position: relative;
         }
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 5px;
-            background-color: #107ef3; /* Green */
-            border: none;
-            color: white;
-            text-align: center;
-            border-radius: 5px;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            transition-duration: 0.4s;
-            cursor: pointer;
-            position: relative;
-        }
         .post-actions {
         position: relative;
         }
@@ -428,90 +410,91 @@
 </header>
 
 
-<div class="container">
+    <div class="container">
 
-        <button class="go_back" onclick="window.location='{% url 'blog-detail' blog.id %}'">{{ blog.title }}</button>
-    <br><br><br>
-        <div class="sidebar" id="sidebar">
+            <button class="go_back" onclick="window.location='{% url 'blog-detail' blog.id %}'">{{ blog.title }}</button>
+        <br><br><br>
+            <div class="sidebar" id="sidebar">
 
-            <div class="close-icon" onclick="toggleSidebar(event)">×</div>
-            <a href="/My_Profile/">My Profile</a>
-            <a href="/Settings/">Settings</a>
-            <a href="/About_us/">About us</a>
-            <a href="{% url 'logout' %}">Sign Out</a>
-        </div>
-         <a href="{% url '' %}" class="top-left">
-            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="61" class="invert-color">
-        </a>
-    <div class="post">
-                <p class="likes-symbol">💙 {{ post.likes_count }}</p>
-
-        <div class="post-info">
-           <span class="post-author"> פורסם על ידי: <span class="author-name">{{ post.user_name }}</span><br></span>
-        </div>
-        <div class="post-details">
-           {% load tz %}
-        <p>Posted on: {{ post.date_posted|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
-        </div>
-        <br>
-        <h3>{{ post.title }}</h3>
-        <p>{{ post.content }}</p>
-    <div class="button-group">
-        {% if post.user_email == email or user_type == 'admin' %}
-    <button class="edit-button" onclick="location.href='{% url 'edit_post' post.id %}'">ערוך</button>
-{% endif %}
-    <button class="comment-button" id="toggle-comment-form">תגובה</button>
-
-    {% if post.user_email == email or user_type == 'admin' %}
-    <form method="POST" action="{% url 'delete_post' post.id %}">
-        {% csrf_token %}
-        <button class="delete-button">מחק</button>
-    </form>
-{% endif %}
-<button class="like-button {% if has_liked %}like-button-clicked{% endif %}" onclick="location.href='{% url 'like_post' post.id %}'">{% if has_liked %}הסר לייק
-&#128078 {% else %}לייק
-    &#128077{% endif %}</button><div class="likes">
-</div>
-</div>
-
-<form method="post" id="comment-form" style="display: none;">
-    {% csrf_token %}
-    {{ form.text }}
-    <br>
-    <input type="checkbox" id="anonymous-checkbox" name="anonymous" value="anonymous">
-    <label for="anonymous-checkbox">Post as Anonymous</label>
-    <br>
-    <button class="comment1">הוסף תגובה</button>
-</form>
-
-     <div class="comments">
-{% for comment in post.comments.all %}
-    <div class="comment">
-        <span class="author"> הוגב ע"י: <span class="author-name">{{ comment.author }}</span><br></span>
-        <br>
-        <div class="text">{{ comment.text }}</div>
-        {% load tz %}
-        <div class = "post-date">
-            <p>Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
-        </div>
-        {% if comment.author == current_user or user_type == 'admin' %}
-            <div style="display: flex;">
-                <form method="POST" action="{% url 'delete_comment' comment.id %}">
-                    {% csrf_token %}
-                    <button class="delete1">מחק</button>
-                </form>
-                <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
+                <div class="close-icon" onclick="toggleSidebar(event)">×</div>
+                <a href="/My_Profile/">My Profile</a>
+                <a href="/Settings/">Settings</a>
+                <a href="/About_us/">About us</a>
+                <a href="{% url 'logout' %}">Sign Out</a>
             </div>
-          <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
-    {% csrf_token %}
-    <div class="textarea-container">
-    <textarea name="text" class="resize-textbox">{{ comment.text }}</textarea>
-</div>
-    <button type="submit" class="delete1">שמור שינויים</button>
-</form>
-        {% endif %}
+             <a href="{% url '' %}" class="top-left">
+                <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="61" class="invert-color">
+            </a>
+        <div class="post">
+                    <p class="likes-symbol">💙 {{ post.likes_count }}</p>
+
+            <div class="post-info">
+               <span class="post-author"> פורסם על ידי: <span class="author-name">{{ post.user_name }}</span><br></span>
+            </div>
+            <div class="post-details">
+               {% load tz %}
+            <p>Posted on: {{ post.date_posted|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+            </div>
+            <br>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.content }}</p>
+        <div class="button-group">
+            {% if post.user_email == email or user_type == 'admin' %}
+        <button class="edit-button" onclick="location.href='{% url 'edit_post' post.id %}'">ערוך</button>
+    {% endif %}
+        <button class="comment-button" id="toggle-comment-form">תגובה</button>
+
+        {% if post.user_email == email or user_type == 'admin' %}
+        <form method="POST" action="{% url 'delete_post' post.id %}">
+            {% csrf_token %}
+            <button class="delete-button">מחק</button>
+        </form>
+    {% endif %}
+    <button class="like-button {% if has_liked %}like-button-clicked{% endif %}" onclick="location.href='{% url 'like_post' post.id %}'">{% if has_liked %}הסר לייק
+    &#128078 {% else %}לייק
+        &#128077{% endif %}</button><div class="likes">
     </div>
-{% endfor %}
+    </div>
+
+    <form method="post" id="comment-form" style="display: none;">
+        {% csrf_token %}
+        {{ form.text }}
+        <br>
+        <input type="checkbox" id="anonymous-checkbox" name="anonymous" value="anonymous">
+        <label for="anonymous-checkbox">Post as Anonymous</label>
+        <br>
+        <button class="comment1">הוסף תגובה</button>
+    </form>
+
+         <div class="comments">
+    {% for comment in post.comments.all %}
+        <div class="comment">
+            <span class="author"> הוגב ע"י: <span class="author-name">{{ comment.author }}</span><br></span>
+            <br>
+            <div class="text">{{ comment.text }}</div>
+            {% load tz %}
+            <div class = "post-date">
+                <p>{{current_user_email}}Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+            </div>
+            {% if comment.user_email == email or user_type == 'admin' %}
+                <div style="display: flex;">
+                    <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                        {% csrf_token %}
+                        <button class="delete1">מחק</button>
+                    </form>
+                    <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
+                </div>
+                <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
+                    {% csrf_token %}
+                    <div class="textarea-container">
+                        <textarea name="text" class="resize-textbox">{{ comment.text }}</textarea>
+                    </div>
+                    <button type="submit" class="delete1">שמור שינויים</button>
+                </form>
+            {% endif %}
+        </div>
+    {% endfor %}
+        </div>
     </div>
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
