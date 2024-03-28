@@ -17,10 +17,10 @@ def send_email(to_email):
     reset_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
     smtp_server = smtplib.SMTP(host='smtp.gmail.com', port=587)
     smtp_server.starttls()
-    smtp_server.login("omerdaniel00@gmail.com", "prur xdcz dycw qypl")
+    smtp_server.login("s4s.sami.forum@gmail.com", "wpkw qfjd xxyg pwhe")
     msg = MIMEMultipart()
 
-    msg['From'] = "omerdaniel00@gmail.com"
+    msg['From'] = "s4s.sami.forum@gmail.com"
     msg['To'] = to_email
     msg['Subject'] = "Reset your password"
 
