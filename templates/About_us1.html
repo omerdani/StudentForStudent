@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About us</title>
+       <style>
+        p, h2 {
+            direction: rtl;
+            margin-right: 40px;
+            font-size: 1.6em;
+            line-height: 1.5;
+        }
+        h4{
+             direction: rtl;
+            font-size: 2em;
+            line-height: 1.5;
+            margin: 0;
+        }
+        h1 {
+            direction: rtl;
+            font-size: 3em; /* 1.5 times larger than other subtitles */
+            font-weight: bold; /* make the text bold */
+            text-align: center; /* center the text */
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+            position: absolute; /* Position menu icon absolutely */
+            left: 10px; /* Position menu icon at the left */
+            top: 50%; /* Center menu icon vertically */
+            transform: translateY(-50%); /* Center menu icon vertically */
+        }
+        button:hover {
+            background-color: #237ccc; /* Change to the desired color */
+        }
+        #notification-container {
+            position: absolute;
+            top: 23px;
+            left: 350px;
+        }
+        .top-left {
+            position: absolute;
+            top: 0px;
+            right: 0;
+            margin: 0px;
+
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        body {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(59, 155, 215,0.3)' }});
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            direction: rtl;
+        }
+        header {
+        background-color: rgba(59, 155, 215,0.35);
+        color: rgb(0, 0, 0);
+        display: flex;
+        justify-content: center; /* Center items horizontally */
+        align-items: center;
+        position: relative; /* Make header a relative container */
+        height: 65px; /* Adjust the height of the header */
+    }
+    </style>
+</head>
+<header>
+    <a href="/" style="text-decoration: none; color: inherit;"><h4>S4S Forum page</h4></a>
+     <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
+</div>
+     <a href="{% url '' %}" class="top-left">
+            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="61" class="invert-color">
+        </a>
+</header>
+<body>
+
+    <div class="container">
+    <h1>אודות</h1>
+    <h2>הקדמה:</h2>
+    <p>
+    הפורום S4S נוצר על מנת להקל על חיי הסטודנטים הלומדים בסמי שמעון במגמת הנדסת תוכנה.<br>
+    בפורום זה תוכלו להיעזר בסטודנטים ובוגרי המכללה.<br>
+    סטודנטים יוכלו לפרסם פוסטים ולהתייעץ עם שאר הסטודנטים ובוגרי המכללה בנוגע לקורסים ולגבי עבודות עתידיות.<br>
+    מועמדים יוכלו להתייעץ עם סטודנטים ובוגרי המכללה.<br>
+    בוגרי המכללה יוכלו לפרסם פוסטים חדשים בהם הם מחפשים לגייס סטודנטים למקום עבודה.<br>
+    </p>
+    <h2>ניהול:</h2>
+    <p>
+    לפורום ארבעה מנהלים :<br>
+    <b>רון כהן –  ronco5@ac.sce.ac.il<br>
+    ירין איבגי - yarinev@ac.sce.ac.il<br>
+    עומר דניאל - omerda3@ac.sce.ac.il<br>
+    ישראל יעקובוב - israeya@ac.sce.ac.il</b><br><br><br>
+        אמייל ליצירת קשר :<br>
+        <b>  s4s.sami.forum@gmail.com</b>
+    </p>
+
+    </div>
+</body>
+</html>
+
+<script>
+
+
+</script>
