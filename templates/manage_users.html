@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Users</title>
+    <style>
+        /* Add your custom styles here */
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
+        .user {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+
+        }
+        .candidate-container {
+            background-color: #d6b42e;
+        }
+        .student-container {
+            background-color: #6983d7;
+        }
+        .graduate-container {
+            background-color: #78b972;
+        }
+        .delete-button {
+            background-color: #f44336;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container candidate-container">
+        <h1>Manage Candidates</h1>
+        {% for candidate in candidates %}
+            <div class="user">
+                {% if candidate.id %}
+                    <p>{{ candidate.first_name }} {{ candidate.last_name }} - Email: {{ candidate.email }}
+            - Password: {{ candidate.password }} id: {{ candidate.id }}</p>
+                    <form action="{% url 'delete_user' candidate.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="status" value="candidate">
+                        <input type="submit" value="Delete" class="delete-button">
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="container student-container">
+        <h1>Manage Students</h1>
+        {% for student in students %}
+            <div class="user">
+                {% if student.id %}
+                    <p>{{ student.first_name }} {{ student.last_name }} - Year: {{ student.select_year }} - Email: {{ student.email }}
+            - Password: {{ student.password }} id: {{ student.id }}</p>
+                    <form action="{% url 'delete_user' student.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="status" value="student">
+                        <input type="submit" value="Delete" class="delete-button">
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="container graduate-container">
+        <h1>Manage Graduates</h1>
+        {% for graduate in graduates %}
+            <div class="user">
+                {% if graduate.id %}
+                    <p>{{ graduate.first_name }} {{ graduate.last_name }} - Workplace: {{ graduate.work_place }}
+            - Email: {{ graduate.email }} - Password: {{ graduate.password }} id: {{ graduate.id }}</p>
+                    <form action="{% url 'delete_user' graduate.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="status" value="graduate">
+                        <input type="submit" value="Delete" class="delete-button">
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
