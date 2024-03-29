@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from .forms import CommentForm
 
-from django.contrib.auth.models import User
 
 def blog_detail(request, blog_id):
     blog = Blog.objects.get(pk=blog_id)
@@ -24,7 +23,8 @@ def blog_detail(request, blog_id):
         elif user_type == 'admin':  # Check if the user is an Admin
             user = Admin.objects.get(id=user_id)
         current_user = user.first_name + ' ' + user.last_name
-    return render(request, 'blog.detail.html', {'blog': blog, 'posts2': posts2, 'current_user': current_user, 'user_type': user_type})
+        email = user.email
+    return render(request, 'blog.detail.html', {'blog': blog, 'posts2': posts2, 'current_user': current_user, 'user_type': user_type,'email': email})
 def create_post(request, blog_id):
     user_id = request.session.get('user_id', 'No user logged in')
     user_type = request.session.get('user_type', 'No user type')
@@ -46,10 +46,11 @@ def create_post(request, blog_id):
 
     if request.method == 'POST':
         title = request.POST.get('title')
-        user_name = 'Admin' if user_type == 'admin' else first_name + ' ' + last_name
+        anonymous = request.POST.get('anonymous', False)
+        user_name = 'Anonymous' if anonymous else ('Admin' if user_type == 'admin' else first_name + ' ' + last_name)
         content = request.POST.get('content')
 
-        post = Post2(title=title, content=content, user_name=user_name, blog_id=blog_id)
+        post = Post2(title=title, content=content, user_name=user_name, blog_id=blog_id, user_email=user.email)
 
         if user_type == 'candidate':
             post.candidate = user
@@ -98,6 +99,9 @@ def post_detail(request, post_id):
     first_name = 'No first name'
     last_name = 'No last name'
     user = None
+
+    print(f"user_id: {user_id}, user_type: {user_type}")
+
     if user_id and user_type:
         if user_type == 'candidate':
             user = Candidate.objects.get(id=user_id)
@@ -108,23 +112,33 @@ def post_detail(request, post_id):
         elif user_type == 'admin':
             user = Admin.objects.get(id=user_id)
 
+        print(f"user: {user}")
+
+        email = user.email
         first_name = user.first_name
         last_name = user.last_name
 
     post = get_object_or_404(Post2, pk=post_id)
+
+    print(f"post: {post}")
+
     blog = post.blog
     current_user = first_name + ' ' + last_name
     has_liked = Like.objects.filter(**{f'user_{user_type}': user, 'post': post}).exists()
+
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
-            if user_type == 'admin':
+            if 'anonymous' in request.POST:  # Check if the anonymous checkbox was checked
+                comment.author = 'Anonymous'
+            elif user_type == 'admin':
                 comment.author = 'Admin'
             else:
                 comment.author = first_name + ' ' + last_name
+            comment.user_email = user.email  # Add the email to the comment
             comment.save()
             post.comment_count += 1
             post.save()
@@ -150,7 +164,7 @@ def post_detail(request, post_id):
             return redirect('post_detail', post_id=post.id)
     else:
         form = CommentForm()
-    context = {'post': post, 'blog': blog, 'form': form, 'current_user': current_user, 'has_liked': has_liked,'user_type': user_type}
+    context = {'post': post, 'blog': blog, 'form': form, 'current_user': current_user, 'has_liked': has_liked,'user_type': user_type,'email': email}
     return render(request, 'post_detail.html', context)
 
 def add_like(request, post_id):
@@ -169,5 +183,8 @@ def delete_comment(request, comment_id):
     return redirect('post_detail', post_id=post_id)
 
 def about_us(request):
-    return render(request, 'about_us.html')
+    return render(request, 'About_us.html')
+
+def about_us1(request):
+    return render(request, 'About_us1.html')
 

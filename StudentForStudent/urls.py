@@ -43,11 +43,11 @@ urlpatterns = [
     path('notifications/mark_seen/<int:notification_id>/', notifcations.mark_notification_seen, name='mark_notification_seen'),
     path('notifications/', notifcations.notifications, name='notifications'),
     path('About_us/', blogim.about_us, name='about_us'),
+    path('About_us1/', blogim.about_us1, name='about_us1'),
     path('My_Profile/', user_profile.my_profile, name='My_Profile'),
     path('like_post/<int:post_id>/', likes.like_post, name='like_post'),
     path('sent_test_email/', email.send_test_email, name='send_test_email'),
     path('enter_code/', email.enter_code, name='enter_code'),
     path('superuser_home/', superusers.superuser_home, name='superuser_home'),
     path('edit_comment/<int:comment_id>/', comments.edit_comment, name='edit_comment'),
-
 ]

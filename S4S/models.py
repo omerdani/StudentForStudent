@@ -70,6 +70,7 @@ class Post(models.Model):
 class Post2(models.Model):
     title = models.CharField(max_length=100)
     user_name = models.CharField(default="none", max_length=100)
+    user_email = models.EmailField(null=True)
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     blog = models.ForeignKey('Blog', on_delete=models.CASCADE, null=True)
@@ -88,6 +89,7 @@ class Comment(models.Model):
     author = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
+    user_email = models.EmailField(null=True)
 
 
 class Notification(models.Model):

@@ -8,7 +8,19 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #b4beac;
+            background-color: rgba(59, 155, 215,0.35);
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: rgba(59, 155, 215,0.35);
+            color: rgb(0, 0, 0);
+            display: flex;
+            justify-content: center; /* Center items horizontally */
+            align-items: center;
+            position: relative; /* Make header a relative container */
         }
         .container {
             max-width: 400px;
@@ -69,11 +81,21 @@
         .workplace-input {
             display: none;
         }
+        .top-left {
+            position: absolute;
+            top: 1px;
+            right: 0;
+        }
     </style>
 </head>
 <body>
-            <a href="/" class="login-button">חזרה לדף הבית</a>
-
+<header>
+     <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
+    <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
+        <a href="{% url '' %}" class="top-left">
+            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
+        </a>
+</header>
 <div class="container">
     <h2>Sign Up</h2>
     <form action="/signup/" method="post">

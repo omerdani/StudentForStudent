@@ -29,7 +29,7 @@ def check_session(request):
     except Session.DoesNotExist:
         session_length = 'Session does not exist'
 
-    return HttpResponse(f"User ID: {user_id}, User Type: {user_type}, First Name: {first_name}, Last Name: {last_name}, Session Length: {session_length}")
+    return HttpResponse(f"User ID: {user_id}, User Type: {user_type}, First Name: {first_name}, Last Name: {last_name} , Email : {user.email}, Session Length: {session_length}")
 def active_sessions(request):
     session_key_list = []
     for session in Session.objects.all():
