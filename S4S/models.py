@@ -90,6 +90,9 @@ class Comment(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     user_email = models.EmailField(null=True)
+    likes_count = models.IntegerField(default=0)
+    has_liked_comment = models.BooleanField(default=False)
+
 
 
 class Notification(models.Model):
@@ -107,3 +110,10 @@ class Like(models.Model):
     user_graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
     user_admin = models.ForeignKey('Admin', on_delete=models.CASCADE, null=True, blank=True)
     post = models.ForeignKey('Post2', on_delete=models.CASCADE)
+
+class CommentLike(models.Model):
+    user_candidate = models.ForeignKey('Candidate', on_delete=models.CASCADE, null=True, blank=True)
+    user_student = models.ForeignKey('Student', on_delete=models.CASCADE, null=True, blank=True)
+    user_graduate = models.ForeignKey('Graduate', on_delete=models.CASCADE, null=True, blank=True)
+    user_admin = models.ForeignKey('Admin', on_delete=models.CASCADE, null=True, blank=True)
+    comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
