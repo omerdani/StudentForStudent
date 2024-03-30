@@ -1,6 +1,6 @@
 
 from django.shortcuts import render
-from .models import Blog, Post2, Candidate, Student,Like, Graduate,Comment, Notification,Admin
+from .models import Blog, Post2, Candidate, Student,Like, Graduate,Comment, Notification,Admin,CommentLike
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
 from .forms import CommentForm
@@ -100,8 +100,6 @@ def post_detail(request, post_id):
     last_name = 'No last name'
     user = None
 
-    print(f"user_id: {user_id}, user_type: {user_type}")
-
     if user_id and user_type:
         if user_type == 'candidate':
             user = Candidate.objects.get(id=user_id)
@@ -112,19 +110,17 @@ def post_detail(request, post_id):
         elif user_type == 'admin':
             user = Admin.objects.get(id=user_id)
 
-        print(f"user: {user}")
-
         email = user.email
         first_name = user.first_name
         last_name = user.last_name
 
     post = get_object_or_404(Post2, pk=post_id)
-
-    print(f"post: {post}")
-
     blog = post.blog
     current_user = first_name + ' ' + last_name
     has_liked = Like.objects.filter(**{f'user_{user_type}': user, 'post': post}).exists()
+
+    for comment in post.comments.all():
+        comment.has_liked = CommentLike.objects.filter(**{f'user_{user_type}': user, 'comment': comment}).exists()
 
     if request.method == 'POST':
         form = CommentForm(request.POST)

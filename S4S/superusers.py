@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
-from S4S.models import Post2
+from S4S.models import Post2, Candidate, Student, Graduate
+from django.contrib.auth.models import User
+
 def superuser_home(request):
 
     user_id = request.session.get('user_id')
@@ -17,3 +19,26 @@ def delete_post_Admin(request, post_id):
             post.delete()
             posts = Post2.objects.all()
         return render(request, 'after_login_forum.html', {'posts': posts})
+
+
+def manage_users(request):
+    candidates = Candidate.objects.all()
+    students = Student.objects.all()
+    graduates = Graduate.objects.all()
+
+    return render(request, 'manage_users.html', {'candidates': candidates, 'students': students,
+                                                 'graduates': graduates})
+
+def delete_user(request, user_id):
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        if status == 'candidate':
+            candidate = Candidate.objects.get(pk=user_id)
+            candidate.delete()
+        elif status == 'student':
+            student = Student.objects.get(pk=user_id)
+            student.delete()
+        elif status == 'graduate':
+            graduate = Graduate.objects.get(pk=user_id)
+            graduate.delete()
+        return redirect('manage_users')
