@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Post Detail</title>
-    <style>
+   <style>
         html {
         -webkit-background-size: cover;
         -moz-background-size: cover;
@@ -87,6 +87,7 @@
             background-color: rgba(255, 255, 255, 0.15);
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
         }
 
         .header {
@@ -95,6 +96,7 @@
         }
 
         .post {
+
             background-color: rgba(126, 126, 126, 0.15);
             border-radius: 5px;
             padding: 20px;
@@ -102,15 +104,24 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 5);
             position: relative;
              word-wrap: break-word;
+                overflow: auto; /* Add this line */
+
         }
    .comment {
-       background-color: rgba(162, 153, 145, 0.08);
+
+
+     max-width: 800px; /* Adjust this value as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
        box-shadow: 0 2px 4px rgba(8, 114, 108, 0.88);
         border-radius: 5px;
 
         margin-bottom: 30px; /* adjust as needed */
         word-wrap: break-word;
            margin-top: 20px; /* Adjust this value as needed */
+           margin-left: auto;
+    margin-right: auto;
 
     }
           .created_date {
@@ -286,6 +297,7 @@
             cursor: pointer;
             position: relative;
         }
+
           .comment1 {
             display: inline-block;
             padding: 10px 20px;
@@ -353,6 +365,7 @@
     display: flex;
 
 }
+
 .delete-button {
     display: inline-block;
     padding: 10px 20px;
@@ -501,19 +514,18 @@
     </form>
 
          <div class="comments">
- {% for comment in post.comments.all %}
-    <div class="comment">
-        <span class="author"> הוגב ע"י: <span class="author-name">{{ comment.author }}</span><br></span>
-        <br>
-        <p class="likes-symbol2">💙 {{ comment.likes_count }}</p>
-        <div class="text">{{ comment.text }}</div>
-        {% load tz %}
-        <div class="post-date">
-            <p>{{current_user_email}}Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
-        </div>
-        {% if comment.user_email == email or user_type == 'admin' %}
-        {% endif %}
-        <div style="display: flex;">
+     {% for comment in post.comments.all %}
+        <div class="comment">
+            <span class="author"> הוגב ע"י: <span class="author-name">{{ comment.author }}</span><br></span>
+            <br>
+            <p class="likes-symbol2">💙 {{ comment.likes_count }}</p>
+            <div class="text">{{ comment.text }}</div>
+            {% load tz %}
+            <div class="post-date">
+                <p>{{current_user_email}}Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+            </div>
+            {% if comment.user_email == email or user_type == 'admin' %}
+<div style="display: flex;">
             <form method="POST" action="{% url 'delete_comment' comment.id %}">
                 {% csrf_token %}
                 <button class="delete1">מחק</button>
@@ -521,9 +533,9 @@
             <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
     <button class="like-button2 {% if comment.has_liked_comment %}like-button2-clicked{% endif %}" id="like-button-{{ comment.id }}" onclick="location.href='{% url 'has_liked_comment' comment.id %}'">
     {% if comment.has_liked_comment %}
-        Unlike &#128078
+        הסר לייק &#128078
     {% else %}
-        Like &#128077
+        לייק &#128077
     {% endif %}
 </button>
     </div>
@@ -534,10 +546,10 @@
                 </div>
                 <button type="submit" class="delete1">שמור שינויים</button>
             </form>
+            {% endif %}
         </div>
-    </div>
-{% endfor %}
-</div>
+    {% endfor %}
+        </div>
     </div>
 </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -594,9 +606,6 @@ document.querySelector('.like-button').addEventListener('click', function(event)
 }
 updateNotificationCounter();
 setInterval(updateNotificationCounter, 5000);
-
-
-
     </script>
 
 </body>
