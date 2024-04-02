@@ -119,8 +119,10 @@ def post_detail(request, post_id):
     current_user = first_name + ' ' + last_name
     has_liked = Like.objects.filter(**{f'user_{user_type}': user, 'post': post}).exists()
 
+    has_liked_comment = {}
     for comment in post.comments.all():
-        comment.has_liked = CommentLike.objects.filter(**{f'user_{user_type}': user, 'comment': comment}).exists()
+        has_liked_comment[comment.id] = CommentLike.objects.filter(**{f'user_{user_type}': user, 'comment': comment}).exists()
+
 
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -159,7 +161,8 @@ def post_detail(request, post_id):
             return redirect('post_detail', post_id=post.id)
     else:
         form = CommentForm()
-    context = {'post': post, 'blog': blog, 'form': form, 'current_user': current_user, 'has_liked': has_liked,'user_type': user_type,'email': email}
+    context = {'post': post, 'blog': blog, 'form': form, 'current_user': current_user, 'has_liked': has_liked,
+               'user_type': user_type, 'email': email, 'has_liked_comment': has_liked_comment}
     return render(request, 'post_detail.html', context)
 
 def add_like(request, post_id):
@@ -182,4 +185,3 @@ def about_us(request):
 
 def about_us1(request):
     return render(request, 'About_us1.html')
-
