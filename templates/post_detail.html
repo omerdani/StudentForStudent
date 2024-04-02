@@ -525,20 +525,20 @@
                 <p>{{current_user_email}}Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
             </div>
             {% if comment.user_email == email or user_type == 'admin' %}
-<div style="display: flex;">
-            <form method="POST" action="{% url 'delete_comment' comment.id %}">
-                {% csrf_token %}
-                <button class="delete1">מחק</button>
-            </form>
-            <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
-    <button class="like-button2 {% if comment.has_liked_comment %}like-button2-clicked{% endif %}" id="like-button-{{ comment.id }}" onclick="location.href='{% url 'has_liked_comment' comment.id %}'">
-    {% if comment.has_liked_comment %}
-        הסר לייק &#128078
-    {% else %}
-        לייק &#128077
-    {% endif %}
-</button>
-    </div>
+                <div style="display: flex;">
+                            <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                                {% csrf_token %}
+                                <button class="delete1">מחק</button>
+                            </form>
+                            <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
+                    <button class="like-button2 {% if comment.has_liked_comment %}like-button2-clicked{% endif %}" id="like-button-{{ comment.id }}" onclick="location.href='{% url 'has_liked_comment' comment.id %}'">
+                    {% if comment.has_liked_comment %}
+                        הסר לייק &#128078
+                    {% else %}
+                        לייק &#128077
+                    {% endif %}
+                </button>
+                    </div>
             <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
                 {% csrf_token %}
                 <div class="textarea-container">
