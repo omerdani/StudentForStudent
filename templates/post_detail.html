@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Post Detail</title>
-   <style>
+    <style>
         html {
         -webkit-background-size: cover;
         -moz-background-size: cover;
@@ -87,7 +87,6 @@
             background-color: rgba(255, 255, 255, 0.15);
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
         }
 
         .header {
@@ -96,7 +95,6 @@
         }
 
         .post {
-
             background-color: rgba(126, 126, 126, 0.15);
             border-radius: 5px;
             padding: 20px;
@@ -104,24 +102,17 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 5);
             position: relative;
              word-wrap: break-word;
-                overflow: auto; /* Add this line */
-
         }
    .comment {
+           position: relative;
 
-
-     max-width: 800px; /* Adjust this value as needed */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+       background-color: rgba(162, 153, 145, 0.08);
        box-shadow: 0 2px 4px rgba(8, 114, 108, 0.88);
         border-radius: 5px;
 
         margin-bottom: 30px; /* adjust as needed */
         word-wrap: break-word;
            margin-top: 20px; /* Adjust this value as needed */
-           margin-left: auto;
-    margin-right: auto;
 
     }
           .created_date {
@@ -170,8 +161,11 @@
             width: auto;
         }
 
-        .post-author, .post-date {
-            margin-right: 7px;
+
+        .post-date {
+    position: relative;
+    top: 40px;
+    left: 0;
         }
         .invert-color {
             filter: invert(0);
@@ -260,21 +254,6 @@
     cursor: pointer;
     position: relative;
 }
-           .like-button2 {
-    padding: 10px 20px; /* Match padding of .edit-button */
-    font-size: 16px; /* Match font size of .edit-button */
-    display: inline-block;
-    margin: 5px; /* Match margin of .edit-button */
-    background-color: #107ef3; /* Green */
-    border: none;
-    color: white;
-    text-align: center;
-    border-radius: 5px;
-    text-decoration: none;
-    transition-duration: 0.4s;
-    cursor: pointer;
-    position: relative;
-}
         .post-details p {
             padding-left: 10px; /* Adjust as needed */
         }
@@ -297,7 +276,6 @@
             cursor: pointer;
             position: relative;
         }
-
           .comment1 {
             display: inline-block;
             padding: 10px 20px;
@@ -330,11 +308,6 @@
             cursor: pointer;
             position: relative;
         }
-        .post-date {
-
-    top: -115px; /* Adjust as needed */
-    left: 10px; /* Adjust as needed */
-}
         .edit-button {
             display: inline-block;
             padding: 10px 20px;
@@ -365,7 +338,6 @@
     display: flex;
 
 }
-
 .delete-button {
     display: inline-block;
     padding: 10px 20px;
@@ -413,30 +385,38 @@
         left: 15px;
         top:110px;
     }
-    .likes-symbol2 {
-        position: relative;
-        right: 710px;
-        top: 113px;
-    }
-    .like-button-clicked {
+     .likes-symbol2 {
+    position: absolute;
+    left: 10px; /* Adjust this value as needed */
+    bottom: -7px; /* Adjust this value as needed */
+}
+    .like-button-clicked, .like-button2-clicked{
     background-color: #ff0000; /* Change to the color you want */
 }
-    .liked {
-    background-color: red;
-}
-    .like-button-clicked:hover {
-    background-color: #8a0606; /* Change to the color you want */
-}
-.like-button2-clicked {
-    background-color: red;
-}
-    .liked:hover {
+    .like-button-clicked:hover, .like-button2-clicked:hover{
     background-color: #8a0606; /* Change to the color you want */
 }
     .likes {
     position: absolute;
     left: 3em;
     bottom: 0;
+}
+
+    .like-button2 {
+    padding: 7px 15px; /* Decrease padding */
+    font-size: 14px; /* Decrease font size */
+    /* rest of the properties remain the same */
+    display: inline-block;
+    margin: 1px;
+    background-color: #107ef3; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    position: relative;
 }
       .author-name {
     font-weight: bold;
@@ -514,40 +494,41 @@
     </form>
 
          <div class="comments">
-     {% for comment in post.comments.all %}
+    {% for comment in post.comments.all %}
         <div class="comment">
+            <p class="likes-symbol2">💙 {{ comment.likes_count }}</p>
+
             <span class="author"> הוגב ע"י: <span class="author-name">{{ comment.author }}</span><br></span>
             <br>
-            <p class="likes-symbol2">💙 {{ comment.likes_count }}</p>
             <div class="text">{{ comment.text }}</div>
+            {% load templatetags %}
+
+            <button class="like-button2 {% if has_liked_comment|get_item:comment.id %}like-button2-clicked{% endif %}" onclick="location.href='{% url 'like_comment' comment.id %}'">
+    {% if has_liked_comment|get_item:comment.id %}הסר לייק{% else %}לייק{% endif %}
+</button>
             {% load tz %}
             <div class="post-date">
-                <p>{{current_user_email}}Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
-            </div>
+    <p>Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+</div>
             {% if comment.user_email == email or user_type == 'admin' %}
                 <div style="display: flex;">
-                            <form method="POST" action="{% url 'delete_comment' comment.id %}">
-                                {% csrf_token %}
-                                <button class="delete1">מחק</button>
-                            </form>
-                            <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
-                    <button class="like-button2 {% if comment.has_liked_comment %}like-button2-clicked{% endif %}" id="like-button-{{ comment.id }}" onclick="location.href='{% url 'has_liked_comment' comment.id %}'">
-                    {% if comment.has_liked_comment %}
-                        הסר לייק &#128078
-                    {% else %}
-                        לייק &#128077
-                    {% endif %}
-                </button>
-                    </div>
-            <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
-                {% csrf_token %}
-                <div class="textarea-container">
-                    <textarea name="text" class="resize-textbox">{{ comment.text }}</textarea>
+                    <form method="POST" action="{% url 'delete_comment' comment.id %}">
+                        {% csrf_token %}
+                        <button class="delete1">מחק</button>
+                    </form>
+                    <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
+
                 </div>
-                <button type="submit" class="delete1">שמור שינויים</button>
-            </form>
+                <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
+                    {% csrf_token %}
+                    <div class="textarea-container">
+                        <textarea name="text" class="resize-textbox">{{ comment.text }}</textarea>
+                    </div>
+                    <button type="submit" class="delete1">שמור שינויים</button>
+                </form>
             {% endif %}
         </div>
+
     {% endfor %}
         </div>
     </div>
@@ -570,6 +551,7 @@ document.querySelector('.like-button').addEventListener('click', function(event)
     event.preventDefault();
     this.classList.add('like-button-clicked');
 });
+
         function toggleSidebar(event) {
         event.stopPropagation();
         const sidebar = document.getElementById('sidebar');
@@ -606,6 +588,10 @@ document.querySelector('.like-button').addEventListener('click', function(event)
 }
 updateNotificationCounter();
 setInterval(updateNotificationCounter, 5000);
+document.querySelector('.like-button2').addEventListener('click', function(event) {
+    event.preventDefault();
+    this.classList.toggle('like-button2-clicked');
+});
     </script>
 
 </body>
