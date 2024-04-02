@@ -104,6 +104,8 @@
              word-wrap: break-word;
         }
    .comment {
+           position: relative;
+
        background-color: rgba(162, 153, 145, 0.08);
        box-shadow: 0 2px 4px rgba(8, 114, 108, 0.88);
         border-radius: 5px;
@@ -159,8 +161,11 @@
             width: auto;
         }
 
-        .post-author, .post-date {
-            margin-right: 7px;
+
+        .post-date {
+    position: relative;
+    top: 40px;
+    left: 0;
         }
         .invert-color {
             filter: invert(0);
@@ -380,16 +385,38 @@
         left: 15px;
         top:110px;
     }
-    .like-button-clicked {
+     .likes-symbol2 {
+    position: absolute;
+    left: 10px; /* Adjust this value as needed */
+    bottom: -7px; /* Adjust this value as needed */
+}
+    .like-button-clicked, .like-button2-clicked{
     background-color: #ff0000; /* Change to the color you want */
 }
-    .like-button-clicked:hover {
+    .like-button-clicked:hover, .like-button2-clicked:hover{
     background-color: #8a0606; /* Change to the color you want */
 }
     .likes {
     position: absolute;
     left: 3em;
     bottom: 0;
+}
+
+    .like-button2 {
+    padding: 7px 15px; /* Decrease padding */
+    font-size: 14px; /* Decrease font size */
+    /* rest of the properties remain the same */
+    display: inline-block;
+    margin: 1px;
+    background-color: #107ef3; /* Green */
+    border: none;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    position: relative;
 }
       .author-name {
     font-weight: bold;
@@ -469,13 +496,20 @@
          <div class="comments">
     {% for comment in post.comments.all %}
         <div class="comment">
+            <p class="likes-symbol2">💙 {{ comment.likes_count }}</p>
+
             <span class="author"> הוגב ע"י: <span class="author-name">{{ comment.author }}</span><br></span>
             <br>
             <div class="text">{{ comment.text }}</div>
+            {% load templatetags %}
+
+            <button class="like-button2 {% if has_liked_comment|get_item:comment.id %}like-button2-clicked{% endif %}" onclick="location.href='{% url 'like_comment' comment.id %}'">
+    {% if has_liked_comment|get_item:comment.id %}הסר לייק{% else %}לייק{% endif %}
+</button>
             {% load tz %}
-            <div class = "post-date">
-                <p>{{current_user_email}}Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
-            </div>
+            <div class="post-date">
+    <p>Posted on: {{ comment.created_date|timezone:"Asia/Jerusalem"|date:"F j, Y, P"|slice:":-1" }}</p>
+</div>
             {% if comment.user_email == email or user_type == 'admin' %}
                 <div style="display: flex;">
                     <form method="POST" action="{% url 'delete_comment' comment.id %}">
@@ -483,6 +517,7 @@
                         <button class="delete1">מחק</button>
                     </form>
                     <button class="delete1" onclick="toggleEditForm({{ comment.id }})">ערוך</button>
+
                 </div>
                 <form method="POST" id="edit-form-{{ comment.id }}" style="display: none;" action="{% url 'edit_comment' comment.id %}">
                     {% csrf_token %}
@@ -493,6 +528,7 @@
                 </form>
             {% endif %}
         </div>
+
     {% endfor %}
         </div>
     </div>
@@ -515,6 +551,7 @@ document.querySelector('.like-button').addEventListener('click', function(event)
     event.preventDefault();
     this.classList.add('like-button-clicked');
 });
+
         function toggleSidebar(event) {
         event.stopPropagation();
         const sidebar = document.getElementById('sidebar');
@@ -551,6 +588,10 @@ document.querySelector('.like-button').addEventListener('click', function(event)
 }
 updateNotificationCounter();
 setInterval(updateNotificationCounter, 5000);
+document.querySelector('.like-button2').addEventListener('click', function(event) {
+    event.preventDefault();
+    this.classList.toggle('like-button2-clicked');
+});
     </script>
 
 </body>

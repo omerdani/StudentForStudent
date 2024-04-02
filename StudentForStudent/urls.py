@@ -52,5 +52,5 @@ urlpatterns = [
     path('edit_comment/<int:comment_id>/', comments.edit_comment, name='edit_comment'),
     path('manage_users/', superusers.manage_users, name='manage_users'),
     path('delete_user/<int:user_id>/', superusers.delete_user, name='delete_user'),
-
+    path('like_comment/<int:comment_id>/', comments.like_comment, name='like_comment'),
 ]

@@ -163,7 +163,7 @@ button:hover {
 </header>
 <body>
 <div class="container">
-    <form method="post" action=".">
+    <form method="post" action="">
         {% csrf_token %}
         <label for="first_name">שם פרטי:</label><br>
         <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}"><br>
