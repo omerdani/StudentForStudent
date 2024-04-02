@@ -263,8 +263,11 @@
             <h1>{{ blog.title }}</h1>
             <p>{{ blog.description }}</p>
         </div>
-
+{% if user_type != 'candidate' or blog.id == 32 %}
         <button class="create-post-button" onclick="toggleCreatePostForm()">צור פוסט</button>
+    {% endif %}
+
+
         <a href="{% url '' %}" class="top-left">
             <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
         </a>
