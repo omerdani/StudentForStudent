@@ -91,7 +91,7 @@ class Comment(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     user_email = models.EmailField(null=True)
     likes_count = models.IntegerField(default=0)
-    has_liked_comment = models.BooleanField(default=False)
+
 
 
 
