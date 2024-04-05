@@ -129,13 +129,13 @@ def post_detail(request, post_id):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
-            if 'anonymous' in request.POST:  # Check if the anonymous checkbox was checked
+            if 'anonymous' in request.POST:
                 comment.author = 'Anonymous'
             elif user_type == 'admin':
                 comment.author = 'Admin'
             else:
                 comment.author = first_name + ' ' + last_name
-            comment.user_email = user.email  # Add the email to the comment
+            comment.user_email = user.email
             comment.save()
             post.comment_count += 1
             post.save()
