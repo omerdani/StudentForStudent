@@ -27,8 +27,7 @@ SECRET_KEY = 'django-insecure-5m)l)oo0w(eoixngk_lir$ybv%#adglkn@_k-mx!#!%=l8n(&o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['testserver', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -131,3 +130,4 @@ SESSION_COOKIE_NAME = 'sessionid'  # Name of the cookie
 SESSION_COOKIE_AGE = 14400  # Expiration time in seconds
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Whether to expire session on browser close
 SESSION_COOKIE_SECURE = False  # Whether to use HTTPS for the session cookie
+
