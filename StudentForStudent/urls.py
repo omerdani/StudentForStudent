@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from S4S import views, DataVisuals,blogim, options,notifcations,comments, user_profile,email,likes,sessions,superusers
+from S4S import views, DataVisuals,blogim, options,notifcations,comments, user_profile,my_email,likes,sessions,superusers
 
 urlpatterns = [
     path('', views.home, name=''),
@@ -26,7 +26,7 @@ urlpatterns = [
     path('data/', DataVisuals.display_data, name='data'),
     path('forgotpass/', views.forgotpassword, name='forgotpass'),
     path('admin/', admin.site.urls),
-    path('create_post/', blogim.create_post, name='create_post'),
+    path('create_post/<int:blog_id>', blogim.create_post, name='create_post'),
     path('mainforum/', views.mainforum, name='mainforum'),
     path('check_session/', sessions.check_session, name='check_session'),
     path('active_sessions/', sessions.active_sessions, name='active_sessions'),
@@ -46,11 +46,14 @@ urlpatterns = [
     path('About_us1/', blogim.about_us1, name='about_us1'),
     path('My_Profile/', user_profile.my_profile, name='My_Profile'),
     path('like_post/<int:post_id>/', likes.like_post, name='like_post'),
-    path('sent_test_email/', email.send_test_email, name='send_test_email'),
-    path('enter_code/', email.enter_code, name='enter_code'),
+    path('sent_test_email/', my_email.send_test_email, name='send_test_email'),
+    path('enter_code/', my_email.enter_code, name='enter_code'),
     path('superuser_home/', superusers.superuser_home, name='superuser_home'),
     path('edit_comment/<int:comment_id>/', comments.edit_comment, name='edit_comment'),
     path('manage_users/', superusers.manage_users, name='manage_users'),
     path('delete_user/<int:user_id>/', superusers.delete_user, name='delete_user'),
     path('like_comment/<int:comment_id>/', comments.like_comment, name='like_comment'),
+
+
+
 ]
