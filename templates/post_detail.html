@@ -403,8 +403,8 @@
 }
 
     .like-button2 {
-    padding: 7px 15px; /* Decrease padding */
-    font-size: 14px; /* Decrease font size */
+      padding: 10px 20px; /* Decrease padding */
+    font-size: 16px; /* Decrease font size */
     /* rest of the properties remain the same */
     display: inline-block;
     margin: 1px;
@@ -416,7 +416,9 @@
     text-decoration: none;
     transition-duration: 0.4s;
     cursor: pointer;
-    position: relative;
+    position: absolute;
+    bottom: 4px;
+    right: 162px;
 }
       .author-name {
     font-weight: bold;
@@ -469,8 +471,9 @@
             {% if post.user_email == email or user_type == 'admin' %}
         <button class="edit-button" onclick="location.href='{% url 'edit_post' post.id %}'">ערוך</button>
     {% endif %}
+            {% if user_type != 'candidate' or blog.id == 32%}
         <button class="comment-button" id="toggle-comment-form">תגובה</button>
-
+    {% endif %}
         {% if post.user_email == email or user_type == 'admin' %}
         <form method="POST" action="{% url 'delete_post' post.id %}">
             {% csrf_token %}
@@ -503,8 +506,10 @@
             <div class="text">{{ comment.text }}</div>
             {% load templatetags %}
 
-            <button class="like-button2 {% if has_liked_comment|get_item:comment.id %}like-button2-clicked{% endif %}" onclick="location.href='{% url 'like_comment' comment.id %}'">
-    {% if has_liked_comment|get_item:comment.id %}הסר לייק{% else %}לייק{% endif %}
+                        <button class="like-button2 {% if has_liked_comment|get_item:comment.id %}like-button2-clicked{% endif %}" onclick="location.href='{% url 'like_comment' comment.id %}'">
+    {% if has_liked_comment|get_item:comment.id %} הסר לייק
+                &#128078{% else %}לייק
+                 &#128077{% endif %}
 </button>
             {% load tz %}
             <div class="post-date">
