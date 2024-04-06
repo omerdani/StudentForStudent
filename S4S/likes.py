@@ -6,6 +6,8 @@ def like_post(request, post_id):
     post = Post2.objects.get(pk=post_id)
     user_id = request.session.get('user_id')
     user_type = request.session.get('user_type')
+    like = None
+    user = None
 
     if user_type == 'candidate':
         user = Candidate.objects.get(id=user_id)
@@ -24,7 +26,8 @@ def like_post(request, post_id):
         like.delete()
         post.likes_count -= 1
     else:
-        Like.objects.create(**{f'user_{user_type}': user, 'post': post})
+        if user_type is not None:
+            Like.objects.create(**{f'user_{user_type}': user, 'post': post})
         post.likes_count += 1
 
     post.save()
