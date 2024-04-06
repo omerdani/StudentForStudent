@@ -102,11 +102,6 @@
             top: 0px;
             right: 0;
         }
-                #notification-container {
-    position: absolute;
-    top: 23px;
-    left: 350px;
-}
 
     </style>
 </head>
@@ -115,10 +110,7 @@
         <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
         <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
         <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
-             <div id="notification-container">
-    <span>&#x1F514;</span>
-    <span id="notification-counter"></span>
-</div>
+
     </header>
      <a href="{% url '' %}" class="top-left">
             <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="61" class="invert-color">
@@ -179,13 +171,7 @@
             sidebar.style.left = "-250px";
         }
     });
-      function updateNotificationCounter() {
-        $.get('/notifications/unseen_count/', function(data) {
-            $('#notification-counter').text(data.unseen_count);
-        });
-    }
-    updateNotificationCounter();
-    setInterval(updateNotificationCounter, 5000);
+
 </script>
 </script>
 </body>
