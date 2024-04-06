@@ -114,11 +114,7 @@
         label[for="select_year"], label[for="first_name"], label[for="last_name"], label[for="email"]{
             padding-right: 20px;
         }
-           #notification-container {
-    position: absolute;
-    top: 23px;
-    left: 350px;
-}
+
            h2 {
         direction: rtl;
         font-size: 2em;
@@ -153,10 +149,6 @@ button:hover {
     <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
     <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
      <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
-     <div id="notification-container">
-    <span>&#x1F514;</span> <!-- This is a Unicode bell symbol -->
-    <span id="notification-counter"></span>
-</div>
      <a href="{% url '' %}" class="top-left">
             <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="61" class="invert-color">
         </a>
@@ -238,13 +230,7 @@ button:hover {
         }
     });
 
-    function updateNotificationCounter() {
-        $.get('/notifications/unseen_count/', function(data) {
-            $('#notification-counter').text(data.unseen_count);
-        });
-    }
-    updateNotificationCounter();
-    setInterval(updateNotificationCounter, 5000);
+
     </script>
 </body>
 </html>

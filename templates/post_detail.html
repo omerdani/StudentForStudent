@@ -55,11 +55,7 @@
             transition: left 0.3s ease;
             padding-top: 60px; /* Adjust to accommodate header */
         }
-            #notification-container {
-    position: absolute;
-    top: 23px;
-    left: 350px;
-}  /* This will apply to all text box forms */
+
         .sidebar a {
             display: block;
             color: white;
@@ -432,10 +428,7 @@
     <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
     <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
      <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
-     <div id="notification-container">
-    <span>&#x1F514;</span> <!-- This is a Unicode bell symbol -->
-    <span id="notification-counter"></span>
-    </div>
+
 </header>
 
 
@@ -586,17 +579,7 @@ document.querySelector('.like-button').addEventListener('click', function(event)
         editForm.style.display = "none";
     }
 }
-        function updateNotificationCounter() {
-    $.get('/notifications/unseen_count/', function(data) {
-        $('#notification-counter').text(data.unseen_count);
-    });
-}
-updateNotificationCounter();
-setInterval(updateNotificationCounter, 5000);
-document.querySelector('.like-button2').addEventListener('click', function(event) {
-    event.preventDefault();
-    this.classList.toggle('like-button2-clicked');
-});
+
     </script>
 
 </body>
