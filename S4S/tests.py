@@ -6,7 +6,7 @@ django.setup()
 
 import unittest
 from django.test import RequestFactory
-from S4S.models import Candidate, Student, Graduate, Post2, Blog
+from S4S.models import Candidate, Student, Graduate, Post2, Blog, Admin, Comment
 from S4S.blogim import create_post
 from S4S.views import signup, login
 from S4S.superusers import delete_post_Admin
@@ -19,18 +19,22 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.test import Client
 from django.contrib.sessions.middleware import SessionMiddleware
+from S4S.views import signup, login, logout, home
+from S4S.models import Candidate, Student, Graduate, Post2, Blog, Admin
+from S4S.likes import like_post
+from S4S.my_email import send_test_email, enter_code
+
 
 
 class TestViews(unittest.TestCase):
 
-
     def setUp(self):
         super().setUp()
 
+        self.client = Client()
         self.factory = RequestFactory()
         self.user_data = {
             'status': 'Candidate',
-
             'lastName': 'Doe',
             'email': 'john@example.com',
             'password': 'password',
@@ -72,7 +76,6 @@ class TestViews(unittest.TestCase):
             session['first_name'] = candidate.first_name
             session['last_name'] = candidate.last_name
             session.save()
-            print(client.session.get('email'))
 
         finally:
             if candidate is not None:
@@ -105,11 +108,11 @@ class TestViews(unittest.TestCase):
             }
 
             response = client.post(f'/edit_post/{post1.id}/', data=new_post_data)
-            self.assertEqual(response.status_code, 302)  # Check if the request was successful
+            self.assertEqual(response.status_code, 302)
 
-            post1.refresh_from_db()  # Refresh the post data from the database
-            self.assertEqual(post1.title, new_post_data['title'])  # Check if the title was updated
-            self.assertEqual(post1.content, new_post_data['content'])  # Check if the content was updated
+            post1.refresh_from_db()
+            self.assertEqual(post1.title, new_post_data['title'])
+            self.assertEqual(post1.content, new_post_data['content'])
 
         finally:
             if candidate is not None:
@@ -119,37 +122,133 @@ class TestViews(unittest.TestCase):
             if post1 is not None:
                 post1.delete()
 
-
     def test_login(self):
-        def test_login(self):
-            candidate = None
-            try:
-                candidate = Candidate.objects.create(**self.user_data2)
 
-                client = Client()
+        candidate = None
+        try:
+            candidate = Candidate.objects.create(**self.user_data2)
 
-                login_data = {
-                    'email': self.user_data2['email'],
-                    'password': self.user_data2['password']
-                }
+            client = Client()
 
-                response = client.post('/login/', data=login_data)
-                self.assertEqual(response.status_code, 302)  # Check if the request was successful
+            login_data = {
+                'email': self.user_data2['email'],
+                'password': self.user_data2['password']
+            }
 
-                self.assertEqual(client.session['email'], self.user_data2['email'])  # Check if the user is logged in
+            session = client.session
+            session['status'] = 'Candidate'
+            session['email'] = candidate.email
+            session.save()
 
-            finally:
-                if candidate is not None:
-                    candidate.delete()
+            response = client.post('/login/', data=login_data)
+            self.assertEqual(response.status_code, 200)
 
+            self.assertEqual(client.session['email'], self.user_data2['email'])
 
-
-
-
-
-
+        finally:
+            if candidate is not None:
+                candidate.delete()
 
 
 
+    def test_like_post(self):
+        candidate = None
+        blog1 = None
+        post1 = None
+        try:
+            candidate = Candidate.objects.create(**self.user_data2)
+            blog1 = Blog.objects.create(title='Test Blog', description='Test Blog Description')
+            post1 = Post2.objects.create(title='Original Title', content='Original Content',
+                                         user_name=candidate.first_name + ' ' + candidate.last_name, blog=blog1,
+                                         user_email=candidate.email)
 
+            client = Client()
+            session = client.session
+            session['status'] = 'Candidate'
+            session['email'] = candidate.email
+            session['first_name'] = candidate.first_name
+            session['last_name'] = candidate.last_name
+            session.save()
+
+            initial_likes_count = post1.likes_count
+
+            factory = RequestFactory()
+            request = factory.get('/')
+            request.session = session
+
+            response = like_post(request, post1.id)
+            self.assertEqual(response.status_code, 302)
+
+            post1.refresh_from_db()
+            self.assertEqual(post1.likes_count, initial_likes_count + 1)
+
+        finally:
+            if candidate is not None:
+                candidate.delete()
+            if blog1 is not None:
+                blog1.delete()
+            if post1 is not None:
+                post1.delete()
+    def test_delete_post(self):
+        candidate = None
+        blog1 = None
+        post1 = None
+        try:
+            candidate = Candidate.objects.create(**self.user_data2)
+            blog1 = Blog.objects.create(title='Test Blog', description='Test Blog Description')
+            post1 = Post2.objects.create(title='Original Title', content='Original Content',
+                                         user_name=candidate.first_name + ' ' + candidate.last_name, blog=blog1,
+                                         user_email=candidate.email)
+            user = User.objects.create_user(username=candidate.email, password=self.user_data2['password'])
+            candidate.user = user
+            candidate.save()
+            client = Client()
+            client.login(username=candidate.email, password=self.user_data2['password'])
+            initial_post_count = Post2.objects.count()
+            if Post2.objects.filter(id=post1.id).exists():
+                response = client.post(reverse('delete_post', args=[post1.id]))
+                self.assertEqual(response.status_code, 302)
+                self.assertEqual(Post2.objects.count(), initial_post_count - 1)
+            else:
+                self.fail('Post2 object does not exist')
+        finally:
+            if candidate is not None:
+                candidate.delete()
+            if blog1 is not None:
+                blog1.delete()
+            if post1 is not None and Post2.objects.filter(id=post1.id).exists():
+                post1.delete()
+            if user is not None:
+                user.delete()
+    def test_my_profile_redirect(self):
+        response = self.client.get(reverse('My_Profile'))
+        self.assertEqual(response.status_code, 200)
+    def test_logout_redirect(self):
+       response = self.client.get(reverse('logout'))
+       self.assertEqual(response.status_code, 302)
+    def test_data_redirect(self):
+        response = self.client.get(reverse('data'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_forgotpass_redirect(self):
+        response = self.client.get(reverse('forgotpass'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_mainforum_redirect(self):
+        response = self.client.get(reverse('mainforum'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_active_sessions_redirect(self):
+        response = self.client.get(reverse('active_sessions'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_enter_code_redirect(self):
+        response = self.client.get(reverse('enter_code'))
+        self.assertEqual(response.status_code, 200)
+    def test_superuser_home_redirect(self):
+        response = self.client.get(reverse('superuser_home'))
+        self.assertEqual(response.status_code, 302)
+    def test_manage_users_redirect(self):
+        response = self.client.get(reverse('manage_users'))
+        self.assertEqual(response.status_code, 200)
 

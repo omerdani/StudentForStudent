@@ -173,6 +173,10 @@ button:hover {
             <option value="4" {% if user.select_year == '4' %}selected{% endif %}>4</option>
         </select>
         {% endif %}
+          {% if user_type == 'graduate' %}
+      &nbsp&nbsp&nbsp<label for="id_workplace">    מקום עבודה:</label><br>
+    <input id="id_workplace" type="text" name="workplace" value="{{ form.workplace.value|default_if_none:'' }}">
+{% endif %}
         <br><br>
         <button type="submit">עדכן פרטים</button>
     </form>

@@ -34,7 +34,7 @@ class Student(models.Model):
 class Graduate(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    work_place = models.CharField(max_length=20)
+    workplace = models.CharField(max_length=200, null=True, blank=True)
     email = models.EmailField(max_length=254)
     password = models.CharField(max_length=100)
     reset_code = models.CharField(max_length=10, null=True, blank=True)
