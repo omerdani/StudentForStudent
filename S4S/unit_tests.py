@@ -76,7 +76,6 @@ class TestViews(unittest.TestCase):
             session['first_name'] = candidate.first_name
             session['last_name'] = candidate.last_name
             session.save()
-            print(client.session.get('email'))
 
         finally:
             if candidate is not None:
@@ -181,7 +180,7 @@ class TestViews(unittest.TestCase):
             self.assertEqual(response.status_code, 302)
 
             post1.refresh_from_db()
-            print(post1.likes_count)
+
             self.assertEqual(post1.likes_count, initial_likes_count + 1)
 
         finally:

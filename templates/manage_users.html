@@ -83,7 +83,7 @@
         {% for graduate in graduates %}
             <div class="user">
                 {% if graduate.id %}
-                    <p>{{ graduate.first_name }} {{ graduate.last_name }} - Workplace: {{ graduate.work_place }}
+                    <p>{{ graduate.first_name }} {{ graduate.last_name }} - Workplace: {{ graduate.workplace }}
             - Email: {{ graduate.email }} - Password: {{ graduate.password }} id: {{ graduate.id }}</p>
                     <form action="{% url 'delete_user' graduate.id %}" method="post">
                         {% csrf_token %}
