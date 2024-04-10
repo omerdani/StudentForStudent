@@ -29,8 +29,8 @@ def signup(request):
             select_year = request.POST.get('year')
             Student.objects.create(first_name=first_name, last_name=last_name, select_year=select_year, email=email, password=password)
         elif status == 'Graduate':
-            work_place = request.POST.get('workplace')
-            Graduate.objects.create(first_name=first_name, last_name=last_name, work_place=work_place, email=email, password=password)
+            workplace = request.POST.get('workplace')
+            Graduate.objects.create(first_name=first_name, last_name=last_name, workplace=workplace, email=email, password=password)
 
         return render(request,'Login.html')
 
