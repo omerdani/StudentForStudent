@@ -214,11 +214,7 @@
      .invert-color::before, .invert-color::after {
         content: none; /* Remove content */
     }
-    #notification-container {
-    position: absolute;
-    top: 23px;
-    left: 350px;
-}  /* This will apply to all text box forms */
+
     input[type="text"], textarea {
         width: 50%;
         box-sizing: border-box;
@@ -252,10 +248,7 @@
     <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
     <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
      <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
-     <div id="notification-container">
-    <span>&#x1F514;</span> <!-- This is a Unicode bell symbol -->
-    <span id="notification-counter"></span>
-</div>
+
 </header>
     <div class="container">
 
@@ -353,13 +346,7 @@
             var form = document.getElementById("create-post-form");
             form.style.display = form.style.display === "none" ? "block" : "none";
         }
-        function updateNotificationCounter() {
-    $.get('/notifications/unseen_count/', function(data) {
-        $('#notification-counter').text(data.unseen_count);
-    });
-}
-updateNotificationCounter();
-setInterval(updateNotificationCounter, 5000);
+
     </script>
 </body>
 </html>

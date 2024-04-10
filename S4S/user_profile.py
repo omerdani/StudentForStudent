@@ -14,6 +14,10 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
+class EditGraduateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Graduate
+        fields = ['first_name', 'last_name', 'email', 'workplace']
 
 def my_profile(request):
     user_id = request.session.get('user_id', None)
@@ -34,11 +38,13 @@ def my_profile(request):
         elif user_type == 'graduate':
             user = Graduate.objects.get(id=user_id)
             posts = Post2.objects.filter(graduate=user)
-            form = EditProfileForm(instance=user)
+            form = EditGraduateProfileForm(instance=user)
 
     if request.method == 'POST':
         if user_type == 'student':
             form = EditStudentProfileForm(request.POST, instance=user)
+        elif user_type == 'graduate':
+            form = EditGraduateProfileForm(request.POST, instance=user)
         else:
             form = EditProfileForm(request.POST, instance=user)
         if form.is_valid():

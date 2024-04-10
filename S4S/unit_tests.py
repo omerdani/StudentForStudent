@@ -180,6 +180,7 @@ class TestViews(unittest.TestCase):
             self.assertEqual(response.status_code, 302)
 
             post1.refresh_from_db()
+
             self.assertEqual(post1.likes_count, initial_likes_count + 1)
 
         finally:
@@ -251,4 +252,39 @@ class TestViews(unittest.TestCase):
     def test_manage_users_redirect(self):
         response = self.client.get(reverse('manage_users'))
         self.assertEqual(response.status_code, 200)
+
+
+    def test_send_test_email(self):
+        candidate = None
+        try:
+            candidate = Candidate.objects.create(**self.user_data2)
+
+            response = self.client.post(reverse('send_test_email'), data={'email': candidate.email})
+
+            self.assertEqual(response.status_code, 302)
+            candidate.refresh_from_db()
+            self.assertIsNotNone(candidate.reset_code)
+
+        finally:
+            if candidate is not None:
+                candidate.delete()
+
+    def test_check_session(self):
+        candidate = Candidate.objects.create(**self.user_data2)
+        self.client.login(username=candidate.email, password=self.user_data2['password'])
+        session = self.client.session
+        session['user_id'] = candidate.id
+        session['user_type'] = 'candidate'
+        session.save()
+
+        response = self.client.get(reverse('check_session'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(f"User ID: {candidate.id}", response.content.decode())
+        self.assertIn("User Type: candidate", response.content.decode())
+        self.assertIn(f"First Name: {candidate.first_name}", response.content.decode())
+        self.assertIn(f"Last Name: {candidate.last_name}", response.content.decode())
+        self.assertIn(f"Email : {candidate.email}", response.content.decode())
+
+        candidate.delete()
 
