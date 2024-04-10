@@ -4,6 +4,45 @@
     <meta charset="UTF-8">
     <title>Manage Users</title>
     <style>
+        body {
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 1), {{ request.session.color|default:'rgb(115, 126, 126)' }});
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        height: 10%;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        }
+        .menu-icon {
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+            position: absolute; /* Position menu icon absolutely */
+            left: 10px; /* Position menu icon at the right */
+            top: 50%; /* Center menu icon vertically */
+            transform: translateY(-50%); /* Center menu icon vertically */
+        }
+        .sidebar {
+            width: 250px;
+            background-color: rgba(51, 51, 51, 0.64);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: -250px;
+            transition: left 0.3s ease;
+            padding-top: 60px; /* Adjust to accommodate header */
+        }
+        .sidebar a:hover {
+            background-color: rgba(85, 85, 85, 0);
+        }
+        .close-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
         /* Add your custom styles here */
         .container {
             width: 80%;
@@ -41,9 +80,69 @@
             margin: 4px 2px;
             cursor: pointer;
         }
+        .header {
+            text-align: center;
+            color: #4b4b4b;
+            text-shadow: 1px 1px 1px #ffffff;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 9999;
+        }
+                .course-select select {
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5em; /* Make the text bigger */
+            font-weight: bold; /* Make the text bolder */
+        }
+        .top-left {
+            position: absolute;
+            top: 0px;
+            right: 0;
+        }
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px;
+            padding-top: 50px; /* Add this line */
+            text-decoration: none;
+            direction: ltr;
+            font-weight: bold; /* Make the font bolder */
+            font-size: 16px; /* Increase the font size */
+        }
+                header {
+            background-color: rgba(126, 126, 126, 0.26);
+            color: rgb(0, 0, 0);
+            display: flex;
+            justify-content: center; /* Center items horizontally */
+            align-items: center;
+            position: relative; /* Make header a relative container */
+        }
+        .menu-icon {
+            cursor: pointer;
+            font-size: 24px;
+            padding: 10px;
+            position: absolute; /* Position menu icon absolutely */
+            left: 10px; /* Position menu icon at the right */
+            top: 50%; /* Center menu icon vertically */
+            transform: translateY(-50%); /* Center menu icon vertically */
+        }
     </style>
 </head>
 <body>
+<header>
+      <a href="/" style="text-decoration: none; color: inherit;">&nbsp;🏠</a>
+    <div class="menu-icon" onclick="toggleSidebar(event)">☰</div>
+    <a href="/" style="text-decoration: none; color: inherit;"><h2>S4S Forum page</h2></a>
+        <a href="{% url '' %}" class="top-left">
+            <img src="https://i.imgur.com/YAy1rDP.png" alt="Clickable image" width="250" height="75" class="invert-color">
+        </a>
+</header>
     <div class="container candidate-container">
         <h1>Manage Candidates</h1>
         {% for candidate in candidates %}
@@ -94,5 +193,34 @@
             </div>
         {% endfor %}
     </div>
+    <div class="sidebar" id="sidebar">
+        <div class="close-icon" onclick="toggleSidebar(event)">×</div>
+        <a href="/My_Profile/">My Profile</a>
+        <a href="/Settings/">Settings</a>
+        <a href="/About_us/">About us</a>
+        <a href="{% url 'logout' %}">Sign Out</a>
+    </div>
 </body>
+<script>
+    if ("{{ request.session.dark_mode }}" === "True") {
+        document.body.classList.add('dark-mode');
+        console.log('Dark mode enabled');
+    } else {
+        console.log('Dark mode disabled');
+    }
+    function toggleSidebar(event) {
+        event.stopPropagation();
+        const sidebar = document.getElementById('sidebar');
+        sidebar.style.left = (sidebar.style.left === "0px") ? "-250px" : "0px";
+    }
+
+    // Close the menu when clicking outside of it
+    document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('sidebar');
+        if (!sidebar.contains(event.target)) {
+            sidebar.style.left = "-250px";
+        }
+    });
+
+</script>
 </html>
